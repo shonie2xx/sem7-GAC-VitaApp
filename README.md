@@ -11,4 +11,6 @@ In this repo you can find the
 
 
 # Config
+Install expo go.
 
+npm start
