@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable, Button } from 'react-native';
 
 // state = { active: null };
 // console.log(state);
@@ -10,7 +10,7 @@ import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 //     console.log(state);
 // }
 
-const Footer = () => {
+const Footer = ({navigation}) => {
     return (
         <View style={styles.footer}>
             <Pressable onPress={() => { }} style={styles.pressable}>
@@ -25,12 +25,13 @@ const Footer = () => {
                     <Text style={styles.text}>Home</Text>
                 </View>
             </Pressable>
-            <Pressable onPress={() => { }} style={styles.pressable}>
+            <Pressable onPress={() => { navigation.navigate('Friends') }} style={styles.pressable}>
                 <View style={styles.navigation}>
                     <Image style={styles.icon} source={{uri: 'https://img.icons8.com/material-sharp/24/000000/home.png'}}></Image>
                     <Text style={styles.text}>Friends</Text>
                 </View>
-            </Pressable>  
+            </Pressable>
+            <Button title="Hello" onPress={ () => { navigation.navigate('Friends') }}/>
         </View>
     )
 }
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F4F4F4',
+        backgroundColor: 'green',
     }
   });
 
