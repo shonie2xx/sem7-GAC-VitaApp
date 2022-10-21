@@ -20,12 +20,12 @@ export default function App() {
 
             if (route.name === 'Home') {
               iconName = focused
-                ? 'ios-information-circle'
-                : 'ios-information-circle-outline';
+                ? 'ios-home'
+                : 'ios-home-outline';
             } else if (route.name === 'Feed') {
-              iconName = focused ? 'ios-list-box' : 'ios-list';
+              iconName = focused ? 'ios-wifi' : 'ios-wifi-outline';
             } else if (route.name === 'Friends') {
-              iconName = focused ? 'ios-list-box' : 'ios-list';
+              iconName = focused ? 'ios-person' : 'ios-person-outline';
             }
 
             // You can return any component that you like here!
