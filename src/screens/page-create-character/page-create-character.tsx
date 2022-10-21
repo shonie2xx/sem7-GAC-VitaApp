@@ -3,8 +3,7 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { loginRequest } from "../../../auth.config";
 import { useMsal } from "@azure/msal-react";
-import "@vaadin/login/vaadin-login-form.js";
-import { Flex } from "@react-native-material/core";
+// import "@vaadin/login/vaadin-login-form.js";
 
 const PageCharacter = ({ navigation }) => {
 
@@ -14,9 +13,12 @@ const PageCharacter = ({ navigation }) => {
         <View style = {styles.screen}>
             <Text style = {styles.heading1}>Welcome</Text>
             <Image style={styles.charpic} source={require('../../../assets/smile.png')}/>
-            <TextInput style={styles.nameinput} mode="flat" label="Name" value={name} onChangeText={name => setName(name)} />
+            <View style={styles.nameinput}>
+            <TextInput style={{backgroundColor: '#BBD8F1'}} theme={{ colors: {
+                    text: 'black', primary: 'black', underlineColor:'transparent'
+                    }}} mode="flat" label="Name" value={name} onChangeText={name => setName(name)} /></View>
             <View style={styles.button}>
-                <Button  mode="outlined" onPress={() => navigation.navigate('Home')}>Complete</Button>
+                <Button textColor="black" icon="arrow-forward" mode="outlined" onPress={() => navigation.navigate('Home')}>Complete</Button>
             </View>
         </View>
     )
@@ -24,10 +26,8 @@ const PageCharacter = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     button: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '70%'
+        width: '70%',
+        paddingTop: 90
     },
     charpic: {
         width: 100,
@@ -37,16 +37,18 @@ const styles = StyleSheet.create({
     },
     heading1: {
     fontSize: 40,
-    paddingTop: 120,
-    fontFamily: 'Poppins',
+    paddingTop: 100,
+    paddingBottom: 30,
     fontWeight: 'bold'
     },
     screen: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
     nameinput :{
-        marginTop: 10,
+        width: '80%',
+        marginTop: 30,
         marginBottom: 30
     }
 })
