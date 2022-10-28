@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
-import { loginRequest } from "../../../auth.config";
-import { useMsal } from "@azure/msal-react";
 // import "@vaadin/login/vaadin-login-form.js";
 
 const PageCharacter = ({ navigation }) => {
@@ -18,7 +16,7 @@ const PageCharacter = ({ navigation }) => {
                     text: 'black', primary: 'black', underlineColor:'transparent'
                     }}} mode="flat" label="Name" value={name} onChangeText={name => setName(name)} /></View>
             <View style={styles.button}>
-                <Button textColor="black" icon="arrow-forward" mode="outlined" onPress={() => navigation.navigate('Home')}>Complete</Button>
+                <Button textColor="black" mode="outlined" onPress={() => navigation.navigate('App', {screen: 'Home'})}>Complete</Button>
             </View>
         </View>
     )
