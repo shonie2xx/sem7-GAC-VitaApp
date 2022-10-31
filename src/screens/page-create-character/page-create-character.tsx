@@ -11,12 +11,14 @@ const PageCharacter = ({ navigation }) => {
         <View style = {styles.screen}>
             <Text style = {styles.heading1}>Welcome</Text>
             <Image style={styles.charpic} source={require('../../../assets/smile.png')}/>
-            <View style={styles.nameinput}>
-            <TextInput style={{backgroundColor: '#BBD8F1'}} theme={{ colors: {
-                    text: 'black', primary: 'black', underlineColor:'transparent'
-                    }}} mode="flat" label="Name" value={name} onChangeText={name => setName(name)} /></View>
-            <View style={styles.button}>
+            <View style={styles.container}>
+                <View style={styles.nameinput}>
+                    <TextInput style={{backgroundColor: '#BBD8F1'}} theme={{ colors: {
+                            text: 'black', primary: 'black', underlineColor:'transparent'
+                            }}} mode="outlined" label="Name" value={name} onChangeText={name => setName(name)} /></View>
+                            <View style={styles.button}>
                 <Button textColor="black" mode="outlined" onPress={() => navigation.navigate('App', {screen: 'Home'})}>Complete</Button>
+                </View>
             </View>
         </View>
     )
@@ -24,8 +26,7 @@ const PageCharacter = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     button: {
-        width: '70%',
-        paddingTop: 90
+        paddingTop: 30
     },
     charpic: {
         width: 100,
@@ -45,9 +46,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     nameinput :{
-        width: '80%',
         marginTop: 30,
         marginBottom: 30
+    },
+    container: {
+        paddingBottom: 250
     }
 })
 export default PageCharacter;
