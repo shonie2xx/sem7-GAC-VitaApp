@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
+import { convertCompilerOptionsFromJson } from "typescript";
 // import "@vaadin/login/vaadin-login-form.js";
 
 const PageCharacter = ({ navigation }) => {
@@ -10,7 +11,8 @@ const PageCharacter = ({ navigation }) => {
     return (
         <View style = {styles.screen}>
             <Text style = {styles.heading1}>Welcome</Text>
-            <Image style={styles.charpic} source={require('../../../assets/smile.png')}/>
+            <Image style={styles.welcome} source={require('../../../assets/welcome.svg')}/>
+            <Image style={styles.charpic} source={require('../../../assets/happy.svg')}/>
             <View style={styles.container}>
                 <View style={styles.nameinput}>
                     <TextInput style={{backgroundColor: '#BBD8F1'}} theme={{ colors: {
@@ -26,18 +28,24 @@ const PageCharacter = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     button: {
-        paddingTop: 30
+        paddingTop: 16
     },
     charpic: {
         width: 100,
         height: 100,
-        marginTop: 30,
-        marginBottom: 30
+        marginTop: 16,
+        marginBottom: 16
+    },
+    welcome: {
+        marginTop: 16,
+        marginBottom: 16,
+        width: 200,
+        height: 100,
     },
     heading1: {
     fontSize: 40,
-    paddingTop: 100,
-    paddingBottom: 30,
+    paddingTop: 16,
+    paddingBottom: 16,
     fontWeight: 'bold'
     },
     screen: {
@@ -46,11 +54,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     nameinput :{
-        marginTop: 30,
-        marginBottom: 30
+        marginTop: 16,
+        marginBottom: 16
     },
     container: {
-        paddingBottom: 250
+        // paddingBottom: 250
     }
 })
 export default PageCharacter;

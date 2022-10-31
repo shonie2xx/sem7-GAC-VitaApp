@@ -1,7 +1,7 @@
 import { View, StyleSheet, Image, Button, ImageBackground } from 'react-native';
 import React, { useState, useEffect } from "react";
 import { Text, Card, Avatar, IconButton } from 'react-native-paper';
-import { green100 } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
+import { green100, white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 
 const PageHome = () => {
@@ -19,11 +19,11 @@ const PageHome = () => {
 
     const changePic = async () => {
         if (mood > 7) {
-            setPicsource(require('../../../assets/smile.png'))
+            setPicsource(require('../../../assets/happy.svg'))
         } else if (mood < 7 && mood > 4) {
-            setPicsource(require('../../../assets/42901.png'))
+            setPicsource(require('../../../assets/neutral.svg'))
         } else if (mood < 4) {
-            setPicsource(require('../../../assets/scared.png'))
+            setPicsource(require('../../../assets/frowney.svg'))
         }
     }
 
@@ -51,8 +51,9 @@ const styles = StyleSheet.create({
 
     screen: {
         flex: 1,
-        //justifyContent: 'center',
-        alignItems: 'center'
+        // justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white'
     },
     title: {
         fontSize: 25,
@@ -60,18 +61,17 @@ const styles = StyleSheet.create({
     },
     pic: {
         marginTop: 16,
-        width: 125,
-        height: 125
+        width: 150,
+        height: 150
     },
     wave: {
-        // flex: 1,
         position: 'absolute',
-        // backgroundColor: '#FFE06A',
         height: '50%',
         width: '100%',
-        // flex: 1,
-        // justifyContent: "center",
-        // zIndex: -1,
+    },
+    Button: {
+        height: 45,
+        width: 45
     }
 })
 export default PageHome;
