@@ -1,7 +1,7 @@
-import { View, StyleSheet, Image, Button, ImageBackground } from 'react-native';
+import { View, StyleSheet, Image, Button, ImageBackground, Pressable } from 'react-native';
 import React, { useState, useEffect } from "react";
 import { Text, Card, Avatar, IconButton } from 'react-native-paper';
-import { green100, white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
+import { blue100, green100, white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 
 const PageHome = () => {
@@ -32,10 +32,10 @@ const PageHome = () => {
         <View style={styles.screen}>
             <ImageBackground source={wave} resizeMode="cover" style={styles.wave}></ImageBackground>
             <Image style={styles.pic} source={picsource} />
-            <Button title='+' onPress={() => setMood(mood + 1)}></Button>
-            <Button title='-' onPress={() => setMood(mood - 1)}></Button>
+            <Pressable style={styles.btn} onPress={() => setMood(mood + 1)}><Text>+</Text></Pressable>
+            <Pressable style={styles.btn} onPress={() => setMood(mood - 1)}><Text>-</Text></Pressable>
             <Text>{mood}</Text>
-            <Text>Moodboosters</Text>
+            <Text style={styles.heading2}>Moodboosters</Text>
             <Card.Title
                 title="Get up and do something"
                 subtitle="Card Subtitle"
@@ -69,9 +69,25 @@ const styles = StyleSheet.create({
         height: '50%',
         width: '100%',
     },
-    Button: {
-        height: 45,
-        width: 45
+    btn: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        height: 25,
+        width: 25,
+        textAlign: 'center',
+        backgroundColor: '#F1F1F1',
+        color: 'white',
+        padding: 16,
+        margin: 16,
+        borderRadius: 4,
+    },
+    heading2: {
+        fontSize: 28,
+        paddingTop: 16,
+        paddingBottom: 16,
+        fontWeight: 'bold'
     }
 })
 export default PageHome;
