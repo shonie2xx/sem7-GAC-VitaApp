@@ -4,7 +4,7 @@ import { Text, Card, Avatar, IconButton } from 'react-native-paper';
 
 const PageHome = () => {
 
-    const [mood, setMood] = useState(0);
+    const [mood, setMood] = useState(10);
     const [picsource, setPicsource] = useState(require('../../../assets/smile.png'));
 
     useEffect(
@@ -31,6 +31,7 @@ const PageHome = () => {
             <Button title='+' onPress={() => setMood(mood + 1)}></Button>
             <Button title='-' onPress={() => setMood(mood - 1)}></Button>
             <Text>{mood}</Text>
+            <Text>Moodboosters</Text>
             <Card.Title
                 title="Get up and do something"
                 subtitle="Card Subtitle"
