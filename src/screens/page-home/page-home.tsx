@@ -17,44 +17,40 @@ import { Icon } from "react-native-paper/lib/typescript/components/Avatar/Avatar
 import Moodbooster from "../../components/moodbooster/moodbooster";
 
 const PageHome = () => {
+  const [mood, setMood] = useState(10);
+  const [picsource, setPicsource] = useState(
+    require("../../../assets/smile.png")
+  );
+  const wave = require("../../../assets/wave.png");
 
-    const [mood, setMood] = useState(10);
-    const [picsource, setPicsource] = useState(require('../../../assets/smile.png'));
+  useEffect(() => {
+    changePic();
+  }, [mood]);
 
-    useEffect(
-        () => {
-            changePic()
-        },
-        [mood]
-    )
-
-    const changePic = async () => {
-        if (mood > 7) {
-            setPicsource(require('../../../assets/smile.png'))
-        } else if (mood < 7 && mood > 4) {
-            setPicsource(require('../../../assets/42901.png'))
-        } else if (mood < 4) {
-            setPicsource(require('../../../assets/scared.png'))
-        }
+  const changePic = async () => {
+    if (mood > 7) {
+      setPicsource(require("../../../assets/smile.png"));
+    } else if (mood < 7 && mood > 4) {
+      setPicsource(require("../../../assets/42901.png"));
+    } else if (mood < 4) {
+      setPicsource(require("../../../assets/scared.png"));
     }
+  };
 
   return (
     <View style={styles.screen}>
-      <View style={styles.homeTop}>
-        {/* <ImageBackground
-          source={wave}
-          resizeMode="cover"
-          style={styles.wave}
-        ></ImageBackground> */}
-        <Image style={styles.pic} source={picsource} />
-        <Pressable style={styles.btn} onPress={() => setMood(mood + 1)}>
-          <Text>+</Text>
-        </Pressable>
-        <Pressable style={styles.btn} onPress={() => setMood(mood - 1)}>
-          <Text>-</Text>
-        </Pressable>
-        <Text>{mood}</Text>
-      </View>
+      <ImageBackground source={wave} style={styles.wave}>
+        <View style={styles.homeTop}>
+          <Image style={styles.pic} source={picsource} />
+          <Pressable style={styles.btn} onPress={() => setMood(mood + 1)}>
+            <Text>+</Text>
+          </Pressable>
+          <Pressable style={styles.btn} onPress={() => setMood(mood - 1)}>
+            <Text>-</Text>
+          </Pressable>
+          <Text>{mood}</Text>
+        </View>
+      </ImageBackground>
       <Text>Moodboosters</Text>
       <Moodbooster />
     </View>
@@ -77,10 +73,8 @@ const styles = StyleSheet.create({
     height: 150,
   },
   wave: {
-    position: "absolute",
-    height: "70%",
-    width: "100%",
-   
+    resizeMode: "cover",
+    height: "55%",   
   },
   btn: {
     display: "flex",
@@ -107,8 +101,8 @@ const styles = StyleSheet.create({
     // alignSelf: 'stretch',
     // flexDirection: "row",
     // width: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 export default PageHome;
