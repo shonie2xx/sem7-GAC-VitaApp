@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "sem7-repo",
-    "slug": "sem7-repo",
+    "name": "Yannick0430",
+    "slug": "gacproject",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yannick0430.gacproject"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +29,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a8c0908d-785b-4a90-aa27-e8557434d504"
+      }
     }
   }
 }
