@@ -62,7 +62,7 @@ const PageHome = () => {
 
 const styles = StyleSheet.create({
   screen: {
-    // flex: 1,
+    flex: 1,
     // alignItems: 'center',
     backgroundColor: "white",
   },
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     height: "70%",
     width: "100%",
+   
   },
   btn: {
     display: "flex",
@@ -101,11 +102,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   homeTop: {
-    flex: 1,
+    // flex: 1,
     // alignSelf: 'stretch',
     // flexDirection: "row",
     // width: 200,
-    // justifyContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
   }
 });

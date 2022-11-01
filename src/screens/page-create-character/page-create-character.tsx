@@ -11,8 +11,8 @@ const PageCharacter = ({ navigation }) => {
     return (
         <View style = {styles.screen}>
             <Text style = {styles.heading1}>Welcome</Text>
-            {/* <Image style={styles.welcome} source={require('../../../assets/welcome.svg')}/>
-            <Image style={styles.charpic} source={require('../../../assets/happy.svg')}/> */}
+            <Image style={styles.welcome} source={require('../../../assets/welcome.svg')}/>
+            <Image style={styles.charpic} source={require('../../../assets/happy.svg')}/> 
             <View style={styles.container}>
                 <View style={styles.nameinput}>
                     <TextInput style={{backgroundColor: '#BBD8F1'}} theme={{ colors: {
@@ -48,17 +48,17 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     fontWeight: 'bold'
     },
-    screen: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    nameinput :{
-        marginTop: 16,
-        marginBottom: 16
-    },
-    container: {
-        // paddingBottom: 250
-    }
+    // screen: {
+    //     flex: 1,
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    // },
+    // nameinput :{
+    //     marginTop: 16,
+    //     marginBottom: 16
+    // },
+    // container: {
+    //     paddingBottom: 250
+    // }
 })
 export default PageCharacter;
