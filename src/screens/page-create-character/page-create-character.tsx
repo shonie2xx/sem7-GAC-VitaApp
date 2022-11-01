@@ -11,8 +11,8 @@ const PageCharacter = ({ navigation }) => {
     return (
         <View style = {styles.screen}>
             <Text style = {styles.heading1}>Welcome</Text>
-            <Image style={styles.welcome} source={require('../../../assets/welcome.svg')}/>
-            <Image style={styles.charpic} source={require('../../../assets/happy.svg')}/>
+            {/* <Image style={styles.welcome} source={require('../../../assets/welcome.svg')}/>
+            <Image style={styles.charpic} source={require('../../../assets/happy.svg')}/> */}
             <View style={styles.container}>
                 <View style={styles.nameinput}>
                     <TextInput style={{backgroundColor: '#BBD8F1'}} theme={{ colors: {
