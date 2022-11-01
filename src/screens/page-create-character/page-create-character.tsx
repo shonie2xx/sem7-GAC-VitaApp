@@ -48,17 +48,17 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     fontWeight: 'bold'
     },
-    // screen: {
-    //     flex: 1,
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    // },
-    // nameinput :{
-    //     marginTop: 16,
-    //     marginBottom: 16
-    // },
-    // container: {
-    //     paddingBottom: 250
-    // }
+    screen: {
+        // flex: 1,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+    },
+    nameinput :{
+        // marginTop: 16,
+        // marginBottom: 16
+    },
+    container: {
+        // paddingBottom: 250
+    }
 })
 export default PageCharacter;

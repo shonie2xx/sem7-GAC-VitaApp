@@ -17,34 +17,35 @@ import { Icon } from "react-native-paper/lib/typescript/components/Avatar/Avatar
 import Moodbooster from "../../components/moodbooster/moodbooster";
 
 const PageHome = () => {
-  const [mood, setMood] = useState(10);
-  const [picsource, setPicsource] = useState(
-    require("../../../assets/smile.png")
-  );
-  const wave = require("../../../assets/wave.svg");
 
-  useEffect(() => {
-    changePic();
-  }, [mood]);
+    const [mood, setMood] = useState(10);
+    const [picsource, setPicsource] = useState(require('../../../assets/smile.png'));
 
-  const changePic = async () => {
-    if (mood > 7) {
-      setPicsource(require("../../../assets/happy.svg"));
-    } else if (mood < 7 && mood > 4) {
-      setPicsource(require("../../../assets/neutral.svg"));
-    } else if (mood < 4) {
-      setPicsource(require("../../../assets/frowney.svg"));
+    useEffect(
+        () => {
+            changePic()
+        },
+        [mood]
+    )
+
+    const changePic = async () => {
+        if (mood > 7) {
+            setPicsource(require('../../../assets/smile.png'))
+        } else if (mood < 7 && mood > 4) {
+            setPicsource(require('../../../assets/42901.png'))
+        } else if (mood < 4) {
+            setPicsource(require('../../../assets/scared.png'))
+        }
     }
-  };
 
   return (
     <View style={styles.screen}>
       <View style={styles.homeTop}>
-        <ImageBackground
+        {/* <ImageBackground
           source={wave}
           resizeMode="cover"
           style={styles.wave}
-        ></ImageBackground>
+        ></ImageBackground> */}
         <Image style={styles.pic} source={picsource} />
         <Pressable style={styles.btn} onPress={() => setMood(mood + 1)}>
           <Text>+</Text>
