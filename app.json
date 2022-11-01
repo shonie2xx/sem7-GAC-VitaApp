@@ -1,7 +1,10 @@
 {
   "expo": {
+
+
     "name": "yannick0430",
-    "slug": "GACProject",
+    "slug": "gacproject",
+
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
