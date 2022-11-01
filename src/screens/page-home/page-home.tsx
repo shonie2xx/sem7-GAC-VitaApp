@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Text, Card, Avatar, IconButton } from 'react-native-paper';
 import { green100, white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
+import Moodbooster from '../../components/moodbooster/moodbooster';
 
 const PageHome = () => {
 
@@ -36,13 +37,13 @@ const PageHome = () => {
             <Button title='-' onPress={() => setMood(mood - 1)}></Button>
             <Text>{mood}</Text>
             <Text>Moodboosters</Text>
-            <Card.Title
+            {/* <Card.Title
                 title="Get up and do something"
                 subtitle="Card Subtitle"
                 left={(props) => <Avatar.Icon {...props} icon="folder" />}
                 right={(props) => <IconButton {...props} icon="more-vert" onPress={() => { }} />}
-            />
-
+            /> */}
+            <Moodbooster/>
         </View>
     )
 }
@@ -51,8 +52,8 @@ const styles = StyleSheet.create({
 
     screen: {
         flex: 1,
-        // justifyContent: 'center',
-        alignItems: 'center',
+        // // justifyContent: 'center',
+        // alignItems: 'center',
         backgroundColor: 'white'
     },
     title: {

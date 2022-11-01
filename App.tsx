@@ -9,6 +9,7 @@ import PageHome from './src/screens/page-home/page-home';
 import PageFeed from './src/screens/page-feed/page-feed';
 import PageFriends from './src/screens/page-friends/page-friends';
 
+
 function App (){
   const Tab = createBottomTabNavigator();
 

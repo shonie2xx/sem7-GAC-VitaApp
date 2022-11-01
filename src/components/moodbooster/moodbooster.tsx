@@ -8,8 +8,8 @@ const Moodbooster = () => {
   return (
       <Surface style={styles.surface} elevation={1}>
         <Card.Title
-          title=""
-          subtitle="Ga morgen eerder opstaan om water te drinken"
+          title="Go for a 5 minute walk or longer"
+          subtitle=""
           // left={(props) => <Avatar.Icon {...props} icon="folder" />}
           right={(props) => (
             <View style={styles.buttons}>
