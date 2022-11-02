@@ -16,6 +16,7 @@ import {
 } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import { Icon } from "react-native-paper/lib/typescript/components/Avatar/Avatar";
 import Moodbooster from "../../components/moodbooster/moodbooster";
+import StartupMood from "../../components/PopUps/StartupMood";
 
 const PageHome = () => {
   const [mood, setMood] = useState(10);
@@ -43,7 +44,11 @@ const PageHome = () => {
   }
 
   return (
+
+
+  
     <View style={styles.screen}>
+      <StartupMood/>
       <ImageBackground source={wave} style={styles.wave}>
         <View style={styles.homeTop}>
           <Image style={styles.pic} source={picsource} />

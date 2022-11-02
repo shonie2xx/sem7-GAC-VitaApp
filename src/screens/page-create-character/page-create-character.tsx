@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
-import { convertCompilerOptionsFromJson } from "typescript";
 // import "@vaadin/login/vaadin-login-form.js";
 
 const PageCharacter = ({ navigation }) => {
