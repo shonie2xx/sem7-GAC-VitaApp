@@ -5,6 +5,7 @@ import {
   Button,
   ImageBackground,
   Pressable,
+  TextInput,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Text, Card, Avatar, IconButton } from "react-native-paper";
@@ -17,6 +18,7 @@ import { Icon } from "react-native-paper/lib/typescript/components/Avatar/Avatar
 import Moodbooster from "../../components/moodbooster/moodbooster";
 
 const PageHome = () => {
+  const [name, setName] = useState("John Doe");
   const [mood, setMood] = useState(10);
   const [picsource, setPicsource] = useState(
     require("../../../assets/smile.png")
@@ -55,6 +57,21 @@ const PageHome = () => {
         <Text>{mood}</Text>
       </View>
       <Text>Moodboosters</Text>
+      <Text style={styles.name}>{name}</Text>
+      <TextInput
+        style={{ backgroundColor: "#BBD8F1" }}
+        theme={{
+          colors: {
+            text: "black",
+            primary: "black",
+            underlineColor: "transparent",
+          },
+        }}
+        mode="outlined"
+        label="Name"
+        value={name}
+        onChangeText={(name) => setName(name)}
+      />
       <Moodbooster />
     </View>
   );
@@ -106,7 +123,12 @@ const styles = StyleSheet.create({
     // flexDirection: "row",
     // width: 200,
     // justifyContent: 'center',
-    alignItems: 'center',
-  }
+    alignItems: "center",
+  },
+  name: {
+    fontSize: 24,
+    fontWeight: "bold",
+    padding: 8,
+  },
 });
 export default PageHome;
