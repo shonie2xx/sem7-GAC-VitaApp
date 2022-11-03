@@ -2,10 +2,13 @@ import React, { useContext, useState } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { convertCompilerOptionsFromJson } from "typescript";
+
 // import "@vaadin/login/vaadin-login-form.js";
+export const nameContext = React.createContext('John Doe');
 
 const PageCharacter = ({ navigation }) => {
-  const [name, setName] = React.useState("");
+    
+    const [name, setName] = React.useState("");
 
   return (
     <View style={styles.screen}>
@@ -14,20 +17,22 @@ const PageCharacter = ({ navigation }) => {
             <Image style={styles.charpic} source={require('../../../assets/happy.svg')}/> */}
       <View style={styles.container}>
         <View style={styles.nameinput}>
-          <TextInput
-            style={{ backgroundColor: "#BBD8F1" }}
-            theme={{
-              colors: {
-                text: "black",
-                primary: "black",
-                underlineColor: "transparent",
-              },
-            }}
-            mode="outlined"
-            label="Name"
-            value={name}
-            onChangeText={(name) => setName(name)}
-          />
+            <nameContext.Provider value={name}>
+                <TextInput
+                style={{ backgroundColor: "#BBD8F1" }}
+                theme={{
+                    colors: {
+                    text: "black",
+                    primary: "black",
+                    underlineColor: "transparent",
+                    },
+                }}
+                mode="outlined"
+                label="Name"
+                value={name}
+                onChangeText={(name) => setName(name)}
+                />
+            </nameContext.Provider>
         </View>
         <View style={styles.button}>
           <Button

@@ -7,7 +7,7 @@ import {
   Pressable,
   TextInput,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Text, Card, Avatar, IconButton } from "react-native-paper";
 import {
   blue100,
@@ -16,9 +16,11 @@ import {
 } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import { Icon } from "react-native-paper/lib/typescript/components/Avatar/Avatar";
 import Moodbooster from "../../components/moodbooster/moodbooster";
+import { nameContext } from '../page-create-character/page-create-character';
 
 const PageHome = () => {
-  const [name, setName] = useState("John Doe");
+  // const [name, setName] = useState("John Doe");
+  const name = useContext(nameContext);
   const [mood, setMood] = useState(10);
   const [picsource, setPicsource] = useState(
     require("../../../assets/smile.png")
@@ -58,7 +60,12 @@ const PageHome = () => {
       </View>
       <Text>Moodboosters</Text>
       <Text style={styles.name}>{name}</Text>
-      <TextInput
+      {/* <nameContext.Consumer>
+        {name => {
+          return <Text style={styles.name}>{name}</Text>
+        }}
+      </nameContext.Consumer> */}
+      {/* <TextInput
         style={{ backgroundColor: "#BBD8F1" }}
         theme={{
           colors: {
@@ -71,7 +78,7 @@ const PageHome = () => {
         label="Name"
         value={name}
         onChangeText={(name) => setName(name)}
-      />
+      /> */}
       <Moodbooster />
     </View>
   );
