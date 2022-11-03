@@ -14,26 +14,26 @@ import {
 
 const Moodbooster = (props) => {
 
-
   const [todos, setTodos] = useState([
     {
       text: "Code a website!",
       complete: true,
-      id: 1,
+      points: 1,
     },
     {
       text: "Make videos!",
       complete: false,
-      id: 2,
+      points: 2,
     },
     {
       text: "Make a todo list!",
       complete: false,
-      id: 3,
+      points: 3,
     },
   ]);
   function handleTodoClick(index) {
     let itemsCopy = [...todos];
+    props.onComplete(itemsCopy[index].points);
     itemsCopy.splice(index, 1);
     setTodos(itemsCopy);
   }
@@ -46,7 +46,6 @@ const Moodbooster = (props) => {
           <Surface style={styles.surface} elevation={1} key={index}>
             <Card.Title
               title={item.text}
-              subtitle=""
               // left={(props) => <Avatar.Icon {...props} icon="folder" />}
               right={(props) => (
                 <View style={styles.buttons}>

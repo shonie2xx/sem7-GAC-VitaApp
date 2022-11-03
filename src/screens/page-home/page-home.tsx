@@ -37,6 +37,10 @@ const PageHome = () => {
       setPicsource(require("../../../assets/scared.png"));
     }
   };
+  function changeMood(moodValue) {
+    console.log(moodValue)
+    setMood(mood + moodValue);
+  }
 
   return (
     <View style={styles.screen}>
@@ -52,11 +56,7 @@ const PageHome = () => {
           <Text>{mood}</Text>
         </View>
       </ImageBackground>
-      {/* <Text>Moodboosters</Text> */}
-          {/* <TouchableOpacity key={index}> */}
-            {/* <Moodbooster text={item}/> */}
-           {/* </TouchableOpacity> */}
-           <Moodbooster/>
+      <Moodbooster onComplete={changeMood}/>
     </View>
   );
 };
