@@ -5,6 +5,7 @@ import {
   Button,
   ImageBackground,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Text, Card, Avatar, IconButton } from "react-native-paper";
@@ -51,8 +52,11 @@ const PageHome = () => {
           <Text>{mood}</Text>
         </View>
       </ImageBackground>
-      <Text>Moodboosters</Text>
-      <Moodbooster />
+      {/* <Text>Moodboosters</Text> */}
+          {/* <TouchableOpacity key={index}> */}
+            {/* <Moodbooster text={item}/> */}
+           {/* </TouchableOpacity> */}
+           <Moodbooster/>
     </View>
   );
 };
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
   },
   wave: {
     resizeMode: "cover",
-    height: "55%",   
+    height: "55%",
   },
   btn: {
     display: "flex",
