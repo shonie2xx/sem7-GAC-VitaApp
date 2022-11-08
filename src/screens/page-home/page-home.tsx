@@ -21,20 +21,17 @@ import { useMoodPoints, useMoodPointsUpdate } from "../../components/PopUps/Mood
 
 // const mo = useMoodPoints()
 
-
-
-// const mo = useMoodPoints()
-
 const PageHome = () => {
-  // const [mood, setMood] = useState(10);
   // const [mood, setMood] = useState(10);
   const [picsource, setPicsource] = useState(
     require("../../../assets/smile.png")
   );
   const wave = require("../../../assets/wave.png");
 
-  const mood = useMoodPoints()
-  const updateMood = useMoodPointsUpdate()
+// const points = useMood
+
+const mood = useMoodPoints()
+const updateMood = useMoodPointsUpdate()
 
   useEffect(() => {
     changePic();
@@ -64,10 +61,8 @@ const PageHome = () => {
         <View style={styles.homeTop}>
           <Image style={styles.pic} source={picsource} />
           <Pressable style={styles.btn} onPress={() => updateMood(mood + 1)}>
-          <Pressable style={styles.btn} onPress={() => updateMood(mood + 1)}>
             <Text>+</Text>
           </Pressable>
-          <Pressable style={styles.btn} onPress={() => updateMood(mood - 1)}>
           <Pressable style={styles.btn} onPress={() => updateMood(mood - 1)}>
             <Text>-</Text>
           </Pressable>
