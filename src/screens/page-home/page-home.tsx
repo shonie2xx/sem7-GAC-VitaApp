@@ -17,13 +17,21 @@ import {
 import { Icon } from "react-native-paper/lib/typescript/components/Avatar/Avatar";
 import Moodbooster from "../../components/moodbooster/moodbooster";
 import StartupMood from "../../components/PopUps/StartupMood";
+import { useMoodPoints, useMoodPointsUpdate } from "../../components/PopUps/MoodPointsContext";
+
+// const mo = useMoodPoints()
 
 const PageHome = () => {
-  const [mood, setMood] = useState(10);
+  // const [mood, setMood] = useState(10);
   const [picsource, setPicsource] = useState(
     require("../../../assets/smile.png")
   );
   const wave = require("../../../assets/wave.png");
+
+// const points = useMood
+
+const mood = useMoodPoints()
+const updateMood = useMoodPointsUpdate()
 
   useEffect(() => {
     changePic();
@@ -46,19 +54,20 @@ const PageHome = () => {
   return (
 
 
-  
+
     <View style={styles.screen}>
-      <StartupMood/>
+      <StartupMood />
       <ImageBackground source={wave} style={styles.wave}>
         <View style={styles.homeTop}>
           <Image style={styles.pic} source={picsource} />
-          <Pressable style={styles.btn} onPress={() => setMood(mood + 1)}>
+          <Pressable style={styles.btn} onPress={() => updateMood(mood + 1)}>
             <Text>+</Text>
           </Pressable>
-          <Pressable style={styles.btn} onPress={() => setMood(mood - 1)}>
+          <Pressable style={styles.btn} onPress={() => updateMood(mood - 1)}>
             <Text>-</Text>
           </Pressable>
           <Text>{mood}</Text>
+          {/* <Text>{points}</Text> */}
         </View>
       </ImageBackground>
       <Moodbooster onComplete={changeMood}/>
