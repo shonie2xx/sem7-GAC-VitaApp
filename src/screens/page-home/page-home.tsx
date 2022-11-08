@@ -5,6 +5,7 @@ import {
   Button,
   ImageBackground,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Text, Card, Avatar, IconButton } from "react-native-paper";
@@ -45,6 +46,10 @@ const updateMood = useMoodPointsUpdate()
       setPicsource(require("../../../assets/scared.png"));
     }
   };
+  function changeMood(moodValue) {
+    console.log(moodValue)
+    setMood(mood + moodValue);
+  }
 
   return (
 
@@ -65,8 +70,7 @@ const updateMood = useMoodPointsUpdate()
           {/* <Text>{points}</Text> */}
         </View>
       </ImageBackground>
-      <Text>Moodboosters</Text>
-      <Moodbooster />
+      <Moodbooster onComplete={changeMood}/>
     </View>
   );
 };
