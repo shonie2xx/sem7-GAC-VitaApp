@@ -1,10 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import { Avatar, Card, IconButton, Button, Title, Paragraph } from "react-native-paper";
+import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
+
+
 
 const StartupMood = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
+  const mood = useMoodPoints()
+  const updateMood = useMoodPointsUpdate()
+
+
+  function updateMoodPopUp(points) {
+    setModalVisible(!modalVisible);
+    updateMood(points)
+    console.log(points)
+};
+
+
+  // const PointsSet = async (points) => {
+  //   SetPoints(points);
+  //   setModalVisible(!modalVisible);
+  //   console.log(points);
+  //   console.log(startupMood);
+
+  // };
+
+
   return (
-    <View style={styles.centeredView}>
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -16,23 +40,41 @@ const StartupMood = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
+            <Text style={styles.modalText}>How are you feeling today?</Text>
+            <Text>{mood}</Text>
+            <View style={{ flexDirection: "row" }}>
+              <View >
+                <Button mode="outlined" onPress={() => updateMoodPopUp(1)}>
+                  Bad
+                </Button>
+              </View>
+              <View >
+                <Button mode="outlined" onPress={() => updateMoodPopUp(5)}>
+                  Neutral
+                </Button>
+              </View>
+              <Button mode="outlined" onPress={() => updateMoodPopUp(10)}>
+                Awesome!
+              </Button>
+            </View>
           </View>
+
+
+
+
+
         </View>
-      </Modal>
-      <Pressable
+
+        {/* <Pressable
         style={[styles.button, styles.buttonOpen]}
         onPress={() => setModalVisible(true)}
       >
         <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable>
-    </View>
+      </Pressable> */}
+      </Modal>
+
+
+
   );
 };
 
