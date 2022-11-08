@@ -16,11 +16,11 @@ import {
 } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import { Icon } from "react-native-paper/lib/typescript/components/Avatar/Avatar";
 import Moodbooster from "../../components/moodbooster/moodbooster";
-import { nameContext } from '../page-create-character/page-create-character';
+import { NameContext } from "../../../context/NameContext";
 
 const PageHome = () => {
   // const [name, setName] = useState("John Doe");
-  const name = useContext(nameContext);
+  const name = React.useContext(NameContext);
   const [mood, setMood] = useState(10);
   const [picsource, setPicsource] = useState(
     require("../../../assets/smile.png")
@@ -57,9 +57,10 @@ const PageHome = () => {
           <Text>-</Text>
         </Pressable>
         <Text>{mood}</Text>
+        <Text>{name}</Text>
       </View>
       <Text>Moodboosters</Text>
-      <Text style={styles.name}>{name}</Text>
+
       {/* <nameContext.Consumer>
         {name => {
           return <Text style={styles.name}>{name}</Text>

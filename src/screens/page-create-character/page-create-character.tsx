@@ -2,13 +2,12 @@ import React, { useContext, useState } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { convertCompilerOptionsFromJson } from "typescript";
+import { NameContext } from "../../../context/NameContext";
 
 // import "@vaadin/login/vaadin-login-form.js";
-export const nameContext = React.createContext('John Doe');
 
 const PageCharacter = ({ navigation }) => {
-    
-    const [name, setName] = React.useState("");
+  const name = React.useContext(NameContext);
 
   return (
     <View style={styles.screen}>
@@ -17,7 +16,6 @@ const PageCharacter = ({ navigation }) => {
             <Image style={styles.charpic} source={require('../../../assets/happy.svg')}/> */}
       <View style={styles.container}>
         <View style={styles.nameinput}>
-            <nameContext.Provider value={name}>
                 <TextInput
                 style={{ backgroundColor: "#BBD8F1" }}
                 theme={{
@@ -32,7 +30,6 @@ const PageCharacter = ({ navigation }) => {
                 value={name}
                 onChangeText={(name) => setName(name)}
                 />
-            </nameContext.Provider>
         </View>
         <View style={styles.button}>
           <Button

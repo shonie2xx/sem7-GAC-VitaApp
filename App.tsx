@@ -8,12 +8,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import PageHome from './src/screens/page-home/page-home';
 import PageFeed from './src/screens/page-feed/page-feed';
 import PageFriends from './src/screens/page-friends/page-friends';
+import React from "react";
+import {NameProvider } from "./context/NameContext";
 
-
-function App (){
+function App () {
   const Tab = createBottomTabNavigator();
 
   return (
+    
     <Tab.Navigator
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
@@ -36,10 +38,13 @@ function App (){
       tabBarInactiveTintColor: 'gray',
     })}
     >
+      
       <Tab.Screen name="Feed" component={PageFeed} options={{ headerShown: true }}/>
       <Tab.Screen name="Home" component={PageHome} options={{ headerShown: true }}/>
       <Tab.Screen name="Friends" component={PageFriends} options={{ headerShown: true }}/>
-    </Tab.Navigator>
+  
+   </Tab.Navigator>
+    
   )
 }
 
@@ -47,6 +52,7 @@ function App (){
 function Register() {
   const Stack = createNativeStackNavigator();
   return (
+  <NameProvider>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={PageLogin} options={{ headerShown: false }} />
@@ -54,7 +60,8 @@ function Register() {
         <Stack.Screen name="App" component={App} options={{ headerShown: false }} /> 
         
       </Stack.Navigator>
-    </NavigationContainer>
+    </NavigationContainer> 
+    </NameProvider> 
   );
 }
 
