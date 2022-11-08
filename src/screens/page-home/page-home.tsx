@@ -48,7 +48,7 @@ const updateMood = useMoodPointsUpdate()
   };
   function changeMood(moodValue) {
     console.log(moodValue)
-    setMood(mood + moodValue);
+    updateMood(mood + moodValue);
   }
 
   return (
