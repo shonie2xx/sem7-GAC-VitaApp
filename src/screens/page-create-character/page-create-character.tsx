@@ -29,7 +29,6 @@ const PageCharacter = ({navigation}) => {
                             }}} mode="outlined" label="Name" value={name} onChangeText={n => setName(n)} /></View>
                             <View style={styles.button}>
                 <Button textColor="black" mode="outlined" onPress={() => navigation.navigate('App', {screen: 'Home'})}>Complete</Button>
-
                 <Button textColor="black" mode="outlined" onPress={() => {logout()}}>Logout</Button>
                 
                 </View>
