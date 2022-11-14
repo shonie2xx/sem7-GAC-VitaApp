@@ -11,22 +11,14 @@ export function useMoodPointsUpdate() {
     return useContext(MoodUpdateContext)
 }
 
-// export const MoodPointsContext = createContext();
-// export const MoodUpdateContext = createContext();
-
 export function MoodProvider({ children }) {
     const [points, SetPoints] = useState(10);
 
-    function PointsSet(points) {
-        SetPoints(points);
-        console.log(points)
-    };
 
-    // const [points, setPoints] = useState(10);
 
     return (
         <MoodPointsContext.Provider value={points} >
-            <MoodUpdateContext.Provider value={PointsSet}>
+            <MoodUpdateContext.Provider value={SetPoints}>
                 {children}
             </MoodUpdateContext.Provider>
         </MoodPointsContext.Provider>

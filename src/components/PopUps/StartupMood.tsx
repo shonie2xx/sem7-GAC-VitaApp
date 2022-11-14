@@ -17,16 +17,6 @@ const StartupMood = () => {
     console.log(points)
 };
 
-
-  // const PointsSet = async (points) => {
-  //   SetPoints(points);
-  //   setModalVisible(!modalVisible);
-  //   console.log(points);
-  //   console.log(startupMood);
-
-  // };
-
-
   return (
 
       <Modal
@@ -64,12 +54,6 @@ const StartupMood = () => {
 
         </View>
 
-        {/* <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable> */}
       </Modal>
 
 
