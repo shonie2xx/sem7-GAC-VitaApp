@@ -39,9 +39,9 @@ const Moodbooster = (props) => {
   }
 
   return (
-    <div>
-      <p>Moodboosters</p>
-      <div>
+    <View>
+      <Text>Moodboosters</Text>
+      <View>
         {todos.map((item, index) => (
           <Surface style={styles.surface} elevation={1} key={index}>
             <Card.Title
@@ -60,8 +60,8 @@ const Moodbooster = (props) => {
             />
           </Surface>
         ))}
-      </div>
-    </div>
+      </View>
+    </View>
   );
 };
 
