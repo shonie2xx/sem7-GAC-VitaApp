@@ -7,7 +7,7 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Text, Card, Avatar, IconButton } from "react-native-paper";
 import {
   blue100,
@@ -16,16 +16,20 @@ import {
 } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import { Icon } from "react-native-paper/lib/typescript/components/Avatar/Avatar";
 import Moodbooster from "../../components/moodbooster/moodbooster";
+import { AuthContext } from "../../context/AuthContext";
 
-const PageHome = () => {
+const PageHome = ({ navigation }) => {
+  
   const [mood, setMood] = useState(10);
   const [picsource, setPicsource] = useState(
     require("../../../assets/smile.png")
   );
-  const wave = require("../../../assets/wave.png");
+  const wave = require("../../../assets/wave.png");  
+  
 
   useEffect(() => {
-    changePic();
+    changePic()
+    // console.log("name", navigation.getParams('name'))
   }, [mood]);
 
   const changePic = async () => {
@@ -54,6 +58,7 @@ const PageHome = () => {
             <Text>-</Text>
           </Pressable>
           <Text>{mood}</Text>
+          <Text>Passed value : </Text>
         </View>
       </ImageBackground>
       <Moodbooster onComplete={changeMood}/>
