@@ -6,11 +6,13 @@ import { MoodProvider } from "./src/components/PopUps/MoodPointsContext";
 
 
 const App = () => {
-  
+
   return (
-  <AuthProvider >
-    <AppNav />
-  </AuthProvider>
+    <MoodProvider>
+      <AuthProvider >
+        <AppNav />
+      </AuthProvider>
+    </MoodProvider>
   );
 }
 
