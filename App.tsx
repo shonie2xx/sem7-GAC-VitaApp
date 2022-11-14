@@ -9,7 +9,6 @@ import PageHome from './src/screens/page-home/page-home';
 import PageFeed from './src/screens/page-feed/page-feed';
 import PageFriends from './src/screens/page-friends/page-friends';
 import React, { useState, useEffect } from "react";
-import StartupMood from "./src/components/PopUps/StartupMood";
 import { MoodProvider } from "./src/components/PopUps/MoodPointsContext";
 
 function App() {
@@ -59,7 +58,6 @@ function Register() {
         <Stack.Screen name="Login" component={PageLogin} options={{ headerShown: false }} />
         <Stack.Screen name="CreateCharacter" component={PageCharacter} options={{ headerShown: false }} />
         <Stack.Screen name="App" component={App} options={{ headerShown: false }} />
-
       </Stack.Navigator>
     </NavigationContainer>
 

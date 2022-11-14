@@ -18,13 +18,14 @@
     "@vaadin/vaadin": "^23.2.5",
     "expo": "~46.0.16",
     "expo-status-bar": "~1.4.0",
+    "expo-updates": "~0.14.7",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
     "react-native-paper": "^5.0.0-rc.6",
     "react-native-web": "~0.18.7",
-    "typescript": "^4.6.3",
-    "expo-updates": "~0.14.6"
+    "sharp-cli": "^3.0.0",
+    "typescript": "^4.6.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useContext } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
-import { Avatar, Card, IconButton, Button, Title, Paragraph } from "react-native-paper";
+import React, { useState } from "react";
+import { Alert, Modal, StyleSheet, Text, View } from "react-native";
+import {  Button } from "react-native-paper";
 import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
 
 
@@ -40,8 +40,7 @@ const StartupMood = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>How are you feeling today?</Text>
-            <Text>{mood}</Text>
+            <Text style={styles.modalText}>How we feeling today?</Text>
             <View style={{ flexDirection: "row" }}>
               <View >
                 <Button mode="outlined" onPress={() => updateMoodPopUp(1)}>
