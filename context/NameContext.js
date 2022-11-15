@@ -4,10 +4,10 @@ export const NameContext = React.createContext()
 
 export const NameProvider = ({children}) => {
     
-    const [name, setName] = useState('Vincent')
+    const [name, setName] = useState()
 
     return (
-        <NameContext.Provider value={"something"}>
+        <NameContext.Provider value={{name, setName}}>
             {children}
         </NameContext.Provider>
     )

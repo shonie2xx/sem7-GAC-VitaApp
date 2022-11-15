@@ -20,7 +20,7 @@ import { NameContext } from "../../../context/NameContext";
 
 const PageHome = () => {
   // const [name, setName] = useState("John Doe");
-  const name = React.useContext(NameContext);
+  const { name } = React.useContext(NameContext);
   const [mood, setMood] = useState(10);
   const [picsource, setPicsource] = useState(
     require("../../../assets/smile.png")

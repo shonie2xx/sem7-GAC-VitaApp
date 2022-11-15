@@ -7,7 +7,8 @@ import { NameContext } from "../../../context/NameContext";
 // import "@vaadin/login/vaadin-login-form.js";
 
 const PageCharacter = ({ navigation }) => {
-  const name = React.useContext(NameContext);
+  
+  const {setName} = React.useContext(NameContext);
 
   return (
     <View style={styles.screen}>
@@ -27,7 +28,7 @@ const PageCharacter = ({ navigation }) => {
                 }}
                 mode="outlined"
                 label="Name"
-                value={name}
+                // value={name}
                 onChangeText={(name) => setName(name)}
                 />
         </View>
