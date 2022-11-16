@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, View } from "react-native";
-import {  Button } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
 
 
@@ -15,46 +15,55 @@ const StartupMood = () => {
     setModalVisible(!modalVisible);
     updateMood(points)
     console.log(points)
-};
+  };
 
   return (
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>How we feeling today?</Text>
-            <View style={{ flexDirection: "row" }}>
-              <View >
-                <Button mode="outlined" onPress={() => updateMoodPopUp(1)}>
-                  Bad
-                </Button>
-              </View>
-              <View >
-                <Button mode="outlined" onPress={() => updateMoodPopUp(5)}>
-                  Neutral
-                </Button>
-              </View>
-              <Button mode="outlined" onPress={() => updateMoodPopUp(10)}>
-                Awesome!
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        Alert.alert("Modal has been closed.");
+        setModalVisible(!modalVisible);
+      }}
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>How are we feeling today?</Text>
+          <View style={{ flexDirection: "row" }}>
+            <View  >
+              <Button 
+                mode="contained"
+                buttonColor="#419FD9"
+                labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(1)}>
+                Bad
               </Button>
             </View>
+            <View >
+              <Button 
+                mode="contained"
+                buttonColor="#419FD9"
+                labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(5)}>
+                Neutral
+              </Button>
+            </View>
+            <Button 
+              mode="contained"
+              buttonColor="#419FD9"
+              labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(10)}>
+              Awesome!
+            </Button>
           </View>
-
-
-
-
-
         </View>
 
-      </Modal>
+
+
+
+
+      </View>
+
+    </Modal>
 
 
 
@@ -67,6 +76,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22
+  },
+  buttons: {
+    flex: 1,
+    marginHorizontal: 3
   },
   modalView: {
     margin: 20,
