@@ -19,8 +19,11 @@ import Moodbooster from "../../components/moodbooster/moodbooster";
 import { AuthContext } from "../../context/AuthContext";
 import StartupMood from "../../components/PopUps/StartupMood";
 import { useMoodPoints, useMoodPointsUpdate } from "../../components/PopUps/MoodPointsContext";
+import * as Notifications from 'expo-notifications'
 
 const PageHome = ({ navigation }) => {
+
+
 
 
 // const mo = useMoodPoints()
