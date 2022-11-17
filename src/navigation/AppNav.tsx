@@ -6,10 +6,14 @@ import AuthNav from './AuthNav';
 import { AuthContext } from '../context/AuthContext';
 import { ActivityIndicator } from 'react-native-paper';
 import { View } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 
 const AppNav = () => {
   const { isLoading } = useContext(AuthContext);
-  const { userToken } = useContext(AuthContext);
+  
+   const { userToken } = useContext(AuthContext);
+
+  //const userToken = SecureStore.getItemAsync
 
   if (isLoading) {
     return (

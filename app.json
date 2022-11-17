@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "GAC_Devs",
+    "scheme" : "sem7-repo",
     "slug": "gacprojectPopUp",
     "version": "1.0.0",
     "orientation": "portrait",
