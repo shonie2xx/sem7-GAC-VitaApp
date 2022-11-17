@@ -3,13 +3,18 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { AuthContext } from "../../context/AuthContext";
 // import "@vaadin/login/vaadin-login-form.js";
+import * as SecureStore from 'expo-secure-store';
 
 const PageCharacter = ({navigation}) => {
 
     const [name, setName] = React.useState("");
 
-    const {logout} = useContext(AuthContext);
+    // const {logout} = useContext(AuthContext);
 
+    const logout = () => {
+        SecureStore.deleteItemAsync("MY_SECURE_AUTH_STATE_KEY", {})
+        console.log(SecureStore.getItemAsync("MY_SECURE_AUTH_STATE_KEY"))
+    }
    
     
     return (
