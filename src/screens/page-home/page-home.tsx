@@ -20,10 +20,11 @@ import { AuthContext } from "../../context/AuthContext";
 import StartupMood from "../../components/PopUps/StartupMood";
 import { useMoodPoints, useMoodPointsUpdate } from "../../components/PopUps/MoodPointsContext";
 import * as Notifications from 'expo-notifications'
+import { NameContext } from "../../context/NameContext";
 
 const PageHome = ({ navigation }) => {
 
-
+  const {name} = React.useContext(NameContext);
 
 
 // const mo = useMoodPoints()
@@ -76,6 +77,7 @@ const updateMood = useMoodPointsUpdate()
           </Pressable>
           <Text>{mood}</Text>
           <Text>Passed value : </Text>
+          <Text>{name}</Text>
         </View>
       </ImageBackground>
       <Moodbooster onComplete={changeMood}/>
