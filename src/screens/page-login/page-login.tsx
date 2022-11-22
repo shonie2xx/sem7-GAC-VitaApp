@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet, Button } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
-import { makeRedirectUri, useAuthRequest, useAutoDiscovery, ResponseType } from 'expo-auth-session';
+import { makeRedirectUri, useAuthRequest, useAutoDiscovery } from 'expo-auth-session';
 import * as SecureStore from 'expo-secure-store';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -14,7 +14,6 @@ const PageLogin = ({ navigation }) => {
 
   const [request, response, promptAsync] = useAuthRequest(
     {
-      responseType: ResponseType.Token,
       clientId: '50f18b4e-1a58-4004-b6b8-5a15e3a2e863',
       scopes: ['openid', 'profile', 'email', 'offline_access'],
       redirectUri: makeRedirectUri({
@@ -26,14 +25,14 @@ const PageLogin = ({ navigation }) => {
 
   React.useEffect(() => {
     if (response && response.type === 'success') {
-      //const auth = response.params;
-      //const storageValue = JSON.stringify(auth);
-      //SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, storageValue);
+      const auth = response.params;
+      const storageValue = JSON.stringify(auth);
+      SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, storageValue);
+      console.log(storageValue)
+      // const token = response.params.access_token
+      // SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, token);
 
-      const token = response.params.access_token
-      SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, token);
-
-      console.log(token);
+      // console.log(token);
     }
   }, [response]);
 
