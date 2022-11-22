@@ -3,10 +3,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import PageHome from '../screens/page-home/page-home';
 import PageFeed from '../screens/page-feed/page-feed';
 import PageFriends from '../screens/page-friends/page-friends';
+import { NameContext } from '../context/NameContext';
+import React, { useState, useEffect } from "react";
 
 export const TabNav = () => {
     
     const Tab = createBottomTabNavigator();
+    const { name } = React.useContext(NameContext);
   
     return (
       <Tab.Navigator

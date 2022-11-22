@@ -6,6 +6,8 @@ import AuthNav from './AuthNav';
 import { AuthContext } from '../context/AuthContext';
 import { ActivityIndicator } from 'react-native-paper';
 import { View } from 'react-native';
+import { NameContext } from '../context/NameContext';
+
 
 const AppNav = () => {
   const { isLoading } = useContext(AuthContext);
@@ -26,7 +28,6 @@ const AppNav = () => {
         <StackNav /> : <AuthNav />
       }
     </NavigationContainer>
-
   );
 }
 

@@ -49,7 +49,7 @@ const Moodbooster = (props) => {
 
   return (
     <View>
-      <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 20, margin: 10 }}>Moodboosters</Text>
+      <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 18, margin: 8 }}>Today's moodboosters</Text>
       <View>
         {todos.map((item, index) => (
           <Surface style={styles.surface} elevation={1} key={index} >

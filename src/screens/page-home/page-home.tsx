@@ -21,6 +21,8 @@ import StartupMood from "../../components/PopUps/StartupMood";
 import { useMoodPoints, useMoodPointsUpdate } from "../../components/PopUps/MoodPointsContext";
 import * as Notifications from 'expo-notifications'
 import { NameContext } from "../../context/NameContext";
+import { styles } from "./home-style";
+import { useFonts, Poppins_600SemiBold, Poppins_400Regular} from '@expo-google-fonts/poppins';
 
 const PageHome = ({ navigation }) => {
 
@@ -48,11 +50,11 @@ const updateMood = useMoodPointsUpdate()
 
   const changePic = async () => {
     if (mood > 7) {
-      setPicsource(require("../../../assets/smile.png"));
+      setPicsource(require("../../../assets/happy.svg"));
     } else if (mood < 7 && mood > 4) {
-      setPicsource(require("../../../assets/42901.png"));
+      setPicsource(require("../../../assets/neutral.svg"));
     } else if (mood < 4) {
-      setPicsource(require("../../../assets/scared.png"));
+      setPicsource(require("../../../assets/frowney.svg"));
     }
   };
   function changeMood(moodValue) {
@@ -61,23 +63,23 @@ const updateMood = useMoodPointsUpdate()
   }
 
   return (
-
-
-
     <View style={styles.screen}>
       <StartupMood />
       <ImageBackground source={wave} style={styles.wave}>
         <View style={styles.homeTop}>
+        <Text style={styles.heading2}>{name}</Text>
           <Image style={styles.pic} source={picsource} />
-          <Pressable style={styles.btn} onPress={() => updateMood(mood + 1)}>
+          {/* <Pressable style={styles.btn} onPress={() => updateMood(mood + 1)}>
             <Text>+</Text>
           </Pressable>
           <Pressable style={styles.btn} onPress={() => updateMood(mood - 1)}>
             <Text>-</Text>
-          </Pressable>
-          <Text>{mood}</Text>
-          <Text>Passed value : </Text>
-          <Text>{name}</Text>
+          </Pressable> */}
+          <View style={styles.moodcontainer}>
+            <Image style={styles.moodbg} source={require("../../../assets/moodbg.png")} />
+            <Text style={styles.moodnmbr}>{mood}</Text>
+          </View>
+          
         </View>
       </ImageBackground>
       <Moodbooster onComplete={changeMood}/>
@@ -85,52 +87,4 @@ const updateMood = useMoodPointsUpdate()
   );
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    // alignItems: 'center',
-    backgroundColor: "white",
-  },
-  title: {
-    fontSize: 25,
-    fontWeight: "bold",
-  },
-  pic: {
-    marginTop: 16,
-    width: 150,
-    height: 150,
-  },
-  wave: {
-    resizeMode: "cover",
-    height: "55%",
-  },
-  btn: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    height: 25,
-    width: 25,
-    textAlign: "center",
-    backgroundColor: "#F1F1F1",
-    color: "white",
-    padding: 16,
-    margin: 16,
-    borderRadius: 4,
-  },
-  heading2: {
-    fontSize: 28,
-    paddingTop: 16,
-    paddingBottom: 16,
-    fontWeight: "bold",
-  },
-  homeTop: {
-    // flex: 1,
-    // alignSelf: 'stretch',
-    // flexDirection: "row",
-    // width: 200,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 export default PageHome;
