@@ -9,25 +9,23 @@ import { View } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 
 const AppNav = () => {
-  const { isLoading } = useContext(AuthContext);
   
-   const { userToken } = useContext(AuthContext);
-
-  //const userToken = SecureStore.getItemAsync
-
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size={'large'} />
-      </View>
-    )
-
+  const isLogin = async () => {
+    const userToken = await SecureStore.getItemAsync("User");
+    console.log("appnav", userToken)
+    
+    if(userToken == null) {
+      console.log("if its null");
+    } else {
+      console.log("if its not null", userToken)
+    }
   }
+  
 
   return (
     <NavigationContainer>
-      {userToken !== null ?
-        <StackNav /> : <AuthNav />
+      {isLogin !== null ?
+       <AuthNav /> : <StackNav />
       }
     </NavigationContainer>
 

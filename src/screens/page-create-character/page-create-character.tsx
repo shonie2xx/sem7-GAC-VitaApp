@@ -9,11 +9,8 @@ const PageCharacter = ({navigation}) => {
 
     const [name, setName] = React.useState("");
 
-    // const {logout} = useContext(AuthContext);
-
-    const logout = () => {
-        SecureStore.deleteItemAsync("MY_SECURE_AUTH_STATE_KEY", {})
-        console.log(SecureStore.getItemAsync("MY_SECURE_AUTH_STATE_KEY"))
+    const logout = async () => {
+        await SecureStore.deleteItemAsync("User")
     }
    
     
