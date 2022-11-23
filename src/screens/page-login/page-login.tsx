@@ -7,21 +7,18 @@ import * as SecureStore from 'expo-secure-store';
 import { checkUser, getUser } from "../../services/userService";
 import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
+import {AuthContext} from "../../context/AuthContext";
+
 WebBrowser.maybeCompleteAuthSession();
 
-const FIRST_LOGIN = 'FirstLogin';
-const USER = 'User';
 
-async function save(key, value) {
-  await SecureStore.setItemAsync(key, value);
-  // const printss = await SecureStore.getItemAsync(key);
-  // console.log("here", printss)
-}
+
 
 const PageLogin = ({ navigation }) => {
   // Endpoint
   const discovery = useAutoDiscovery('https://login.microsoftonline.com/913b1a98-9696-4db5-b548-9e17b6d3fc68/v2.0');
 
+  // Authentication Request
   const [request, response, promptAsync] = useAuthRequest(
     {
       responseType: ResponseType.Token,
@@ -34,19 +31,23 @@ const PageLogin = ({ navigation }) => {
     discovery
   );
 
-
-  const handleLogin = async (token: any) => {
-    var firstLogin = await checkUser(token);
-    save("FirstLogin", JSON.stringify(firstLogin));
-    //await SecureStore.setItemAsync(FIRST_LOGIN, JSON.stringify(firstLogin)); //stringified because it gives an error message
-
-    var user = await getUser(token);
-    save("User", JSON.stringify(user));
-    //await SecureStore.setItemAsync(USER, "Kur");
-    //console.log(JSON.stringify(user))
-    //console.log(SecureStore.getItemAsync(USER))
-
+  // Save values under keys in SecurStore
+  async function save(key, value) {
+    await SecureStore.setItemAsync(key, value);
+    // const printss = await SecureStore.getItemAsync(key);
+    // console.log("here", printss)
   }
+
+  const {login} = useContext(AuthContext);
+
+  const handleLogin = async (token) => {
+    var firstLogin = await checkUser(token);
+    save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error message
+    var user = await getUser(token);
+    save("User", JSON.stringify(user))
+    login(token)
+
+}
 
   React.useEffect(() => {
     
