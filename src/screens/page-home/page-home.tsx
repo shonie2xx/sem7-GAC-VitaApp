@@ -76,12 +76,6 @@ const updateMood = useMoodPointsUpdate()
         <View style={styles.homeTop}>
         <Text style={styles.heading2}>{name}</Text>
           <Image style={styles.pic} source={picsource} />
-          {/* <Pressable style={styles.btn} onPress={() => updateMood(mood + 1)}>
-            <Text>+</Text>
-          </Pressable>
-          <Pressable style={styles.btn} onPress={() => updateMood(mood - 1)}>
-            <Text>-</Text>
-          </Pressable> */}
           <View style={styles.moodcontainer}>
             <Image style={styles.moodbg} source={require("../../../assets/moodbg.png")} />
             <Text style={styles.moodnmbr}>{mood}</Text>
@@ -100,7 +94,7 @@ const styles = StyleSheet.create({
   // styling here
   screen: {
       // flex: 1,
-      // backgroundColor: "white",
+      backgroundColor: "white",
     },
     title: {
       fontSize: 25,
