@@ -99,9 +99,8 @@ const styles = StyleSheet.create({
 
   // styling here
   screen: {
-      flex: 1,
-      // alignItems: 'center',
-      backgroundColor: "white",
+      // flex: 1,
+      // backgroundColor: "white",
     },
     title: {
       fontSize: 25,
@@ -110,6 +109,7 @@ const styles = StyleSheet.create({
     moodcontainer: {
       justifyContent: "center",
       alignItems: "center",
+      margin: 8,
     },
     moodnmbr: {
       position: "absolute",
@@ -127,47 +127,25 @@ const styles = StyleSheet.create({
       height: 74,
     },
     pic: {
-      marginTop: 16,
-      width: 200,
-      height: 200,
+      margin: 8,
+      width: 150,
+      height: 150,
     },
     wave: {
-      // resizeMode: "cover",
-      // height: "70%",
       height: undefined,
       width: "100%",
       resizeMode: "center"
     },
-    btn: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "row",
-      height: 25,
-      width: 25,
-      textAlign: "center",
-      backgroundColor: "#F1F1F1",
-      color: "white",
-      padding: 16,
-      margin: 16,
-      borderRadius: 4,
-    },
     heading2: {
       fontSize: 24,
-      paddingTop: 16,
-      paddingBottom: 16,
+      margin: 8,
       fontFamily: 'Poppins_600SemiBold',
       color: "#031D29",
     },
     homeTop: {
-      // flex: 1,
-      // alignSelf: 'stretch',
-      // flexDirection: "row",
-      // width: 200,
       justifyContent: "center",
       alignItems: "center",
     },
-  
   });
 
 export default PageHome;
