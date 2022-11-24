@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, View, Image } from "react-native";
 import { Button } from "react-native-paper";
 import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
+import { useFonts, Poppins_500Medium, Poppins_700Bold, Poppins_600SemiBold } from '@expo-google-fonts/poppins'
 
 const StartupMood = () => {
   const [modalVisible, setModalVisible] = useState(true);
@@ -13,6 +14,16 @@ const StartupMood = () => {
     updateMood(points)
     console.log(points)
   };
+
+  let [fontsLoaded] = useFonts({
+    Poppins_500Medium,
+    Poppins_700Bold,
+    Poppins_600SemiBold
+  });
+  
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
 
@@ -62,47 +73,42 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 16
   },
   modalView: {
     width: "95%",
-    // margin: 16,
     backgroundColor: "white",
     borderRadius: 8,
     padding: 32,
     alignItems: "center",
-    shadowColor: "#000",
+    shadowColor: "#000000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 3,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
+    shadowOpacity:  0.17,
+    shadowRadius: 3.05,
+    elevation: 4
   },
   btn: {
-    // borderRadius: 20,
-    // padding: 10,
-    elevation: 2,
     margin: 8,
     borderRadius: 99,
   },
   buttonOpen: {
-    backgroundColor: "#F194FF",
+    backgroundColor: 'rgba(0,0,0,0.5)'
   },
   buttonClose: {
     backgroundColor: "#2196F3",
   },
   modalText: {
-    fontSize: 24,
+    fontSize: 18,
     marginBottom: 16,
-    fontWeight: "bold",
     textAlign: "center",
     color: "#031D29",
+    fontFamily: 'Poppins_700Bold'
   },
   emoji: {
-    width: 48,
-    height: 48,
+    width: 40,
+    height: 40,
   }
 });
 
