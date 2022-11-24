@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, View } from "react-native";
+import { Alert, Modal, StyleSheet, Text, View, Image } from "react-native";
 import { Button } from "react-native-paper";
 import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
-
-
 
 const StartupMood = () => {
   const [modalVisible, setModalVisible] = useState(true);
   const mood = useMoodPoints()
   const updateMood = useMoodPointsUpdate()
-
 
   function updateMoodPopUp(points) {
     setModalVisible(!modalVisible);
@@ -32,41 +29,31 @@ const StartupMood = () => {
         <View style={styles.modalView}>
           <Text style={styles.modalText}>How are we feeling today?</Text>
           <View style={{ flexDirection: "row" }}>
-            <View  >
-              <Button 
-                mode="contained"
-                buttonColor="#419FD9"
-                labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(1)}>
-                Bad
+              <Button
+                  style={styles.btn}
+                  mode="contained"
+                  buttonColor="#419FD9"
+                  labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(1)}>
+                  <Image source={require("../../../assets/modal_frowney.png")} style={styles.emoji}/>
               </Button>
-            </View>
-            <View >
-              <Button 
-                mode="contained"
-                buttonColor="#419FD9"
-                labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(5)}>
-                Neutral
+              <Button
+                  style={styles.btn}
+                  mode="contained"
+                  buttonColor="#419FD9"
+                  labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(5)}>
+                  <Image source={require("../../../assets/modal_neutral.png")} style={styles.emoji}/>
               </Button>
-            </View>
-            <Button 
-              mode="contained"
-              buttonColor="#419FD9"
-              labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(10)}>
-              Awesome!
-            </Button>
+              <Button
+                  style={styles.btn}
+                  mode="contained"
+                  buttonColor="#419FD9"
+                  labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(10)}>
+                  <Image source={require("../../../assets/modal_happy.png")} style={styles.emoji}/>
+              </Button>
           </View>
         </View>
-
-
-
-
-
       </View>
-
     </Modal>
-
-
-
   );
 };
 
@@ -75,17 +62,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
-  },
-  buttons: {
-    flex: 1,
-    marginHorizontal: 3
+    marginTop: 16
   },
   modalView: {
-    margin: 20,
+    width: "95%",
+    // margin: 16,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: 8,
+    padding: 32,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -96,10 +80,12 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
+  btn: {
+    // borderRadius: 20,
+    // padding: 10,
+    elevation: 2,
+    margin: 8,
+    borderRadius: 99,
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
@@ -107,14 +93,16 @@ const styles = StyleSheet.create({
   buttonClose: {
     backgroundColor: "#2196F3",
   },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
   modalText: {
-    marginBottom: 15,
-    textAlign: "center"
+    fontSize: 24,
+    marginBottom: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#031D29",
+  },
+  emoji: {
+    width: 48,
+    height: 48,
   }
 });
 
