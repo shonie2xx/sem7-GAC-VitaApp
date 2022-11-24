@@ -1,3 +1,4 @@
+
 import { Surface } from "react-native-paper";
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
@@ -12,41 +13,44 @@ import {
 } from "react-native-paper";
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular} from '@expo-google-fonts/poppins';
 
-const EventCards = ({navigation} ) => {
-  const [todos, setTodos] = useState([
-    {
-      text: "Code a website!",
-      complete: true,
-      points: 1,
-    },
-    {
-      text: "Make videos!",
-      complete: false,
-      points: 2,
-    },
-    {
-      text: "Make a todo list!",
-      complete: false,
-      points: 3,
-    },
-  ]);
+// import { EventCards } from "../../components/NewsPage/EventCards";
 
-  let [fontsLoaded] = useFonts({
-    Poppins_600SemiBold,
-    Poppins_400Regular
-  });
+const PageEvent = ({ navigation }) => {
 
-  if (!fontsLoaded) {
-    return null;
-  }
-
-  // function handleTodoClick(index) {
-  //   let itemsCopy = [...todos];
-  //   props.onComplete(itemsCopy[index].points);
-  //   itemsCopy.splice(index, 1);
-  //   setTodos(itemsCopy);
-  // }
-
+    const [todos, setTodos] = useState([
+        {
+          text: "Code a website!",
+          complete: true,
+          points: 1,
+        },
+        {
+          text: "Make videos!",
+          complete: false,
+          points: 2,
+        },
+        {
+          text: "Make a todo list!",
+          complete: false,
+          points: 3,
+        },
+      ]);
+    
+      let [fontsLoaded] = useFonts({
+        Poppins_600SemiBold,
+        Poppins_400Regular
+      });
+    
+      if (!fontsLoaded) {
+        return null;
+      }
+    
+      // function handleTodoClick(index) {
+      //   let itemsCopy = [...todos];
+      //   props.onComplete(itemsCopy[index].points);
+      //   itemsCopy.splice(index, 1);
+      //   setTodos(itemsCopy);
+      // }
+      
   return (
     <View>
       <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 20, margin: 10 }}>Recent Events</Text>
@@ -67,7 +71,7 @@ const EventCards = ({navigation} ) => {
                     mode="contained"
                     buttonColor="#419FD9"
                     labelStyle={{ fontFamily: 'Poppins_600SemiBold' }}
-                    onPress={() => navigation.navigate('EventPage')}
+                    onPress={() => navigation.navigate('Event Details')}
                   >
                     See More
                   </Button>
@@ -78,8 +82,12 @@ const EventCards = ({navigation} ) => {
         ))}
       </View>
     </View>
-  );
-};
+  )
+}
+
+export default PageEvent;
+
+
 
 const styles = StyleSheet.create({
   buttons: {
@@ -97,4 +105,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventCards;
