@@ -23,7 +23,7 @@ const PageLogin = ({ navigation }) => {
       scopes: ['openid', 'profile', 'email', 'offline_access', "api://82b5a9e1-eaa2-4ee8-a3a0-7d3c41a4a1b5/User.All"],
       redirectUri: makeRedirectUri({
         // scheme: process.env.NODE_ENV === 'production' ?  'exp://145.93.177.134:19000' : ''
-        scheme : url
+        scheme : 'exp://145.93.85.117:19000'
       }),
     },
     discovery

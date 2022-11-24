@@ -1,7 +1,9 @@
 import { Surface } from "react-native-paper";
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, StyleSheet, FlatList } from "react-native";
+import { getAllActivities } from "../../services/moodboosterService";
 // import { HStack, Banner, Button } from "@react-native-material/core";
+import axios from "axios";
 import {
   Avatar,
   Card,
@@ -15,6 +17,9 @@ import {
   Poppins_600SemiBold,
   Poppins_400Regular,
 } from "@expo-google-fonts/poppins";
+
+import { protectedResources } from "../../../authConfig";
+import { AuthContext } from "../../context/AuthContext";
 
 const Moodbooster = (props) => {
   const [todos, setTodos] = useState([
@@ -34,6 +39,18 @@ const Moodbooster = (props) => {
       points: 3,
     },
   ]);
+  const [data, setData] = useState([]);
+  const handleActivities = async () => {
+    var activities = await getAllActivities(accessToken);
+    console.log(activities[0].title);
+    // setData(activities[0]);
+  };
+  useEffect(() => {
+    handleActivities();
+  });
+  const { accessToken } = useContext(AuthContext);
+
+  //protectedResources.apiActivity.endpoint
 
   const [cardState, setCardState] = useState();
 
@@ -63,11 +80,11 @@ const Moodbooster = (props) => {
       >
         Moodboosters
       </Text>
-      <View>
+      {/* <View>
         {todos.map((item, index) => (
           <Card style={styles.card} mode="outlined" key={index}>
             <Card.Title
-              title={item.text}
+              title={protectedResources.apiActivity.endpoint}
               titleStyle={{ fontFamily: "Poppins_400Regular" }}
               right={(props) => (
                 <View style={styles.buttons}>
@@ -92,8 +109,14 @@ const Moodbooster = (props) => {
               )}
             />
           </Card>
-          
         ))}
+      </View> */}
+      <View style={{ flex: 1, padding: 24 }}>
+        <FlatList
+          data={data}
+          keyExtractor={({ id }, index) => id}
+          renderItem={({ item }) => <Text>{item}</Text>}
+        />
       </View>
     </View>
   );
