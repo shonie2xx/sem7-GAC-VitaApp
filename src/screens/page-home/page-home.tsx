@@ -118,12 +118,13 @@ const styles = StyleSheet.create({
       color: "#FFFFFF",
       zIndex: 3,
       textAlign: "center",
+      marginBottom: 8
     },
     moodbg: {
       zIndex: 2,
       position: "relative",
-      width: 72,
-      height: 64,
+      width: 82,
+      height: 74,
     },
     pic: {
       marginTop: 16,
@@ -131,8 +132,11 @@ const styles = StyleSheet.create({
       height: 200,
     },
     wave: {
-      resizeMode: "cover",
-      height: "70%",
+      // resizeMode: "cover",
+      // height: "70%",
+      height: undefined,
+      width: "100%",
+      resizeMode: "center"
     },
     btn: {
       display: "flex",
