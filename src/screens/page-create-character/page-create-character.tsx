@@ -22,7 +22,7 @@ const PageCharacter = ({navigation}) => {
                             <TextInput style={{backgroundColor: '#BBD8F1'}} theme={{ colors: {
                             text: 'black', primary: 'black', underlineColor:'transparent'
                             }}} mode="outlined" label="Name" onChangeText={name => setName(name)} /></View>
-                <Button style={styles.btn} textColor="black" mode="outlined" onPress={() => navigation.navigate('App', {screen: 'Home'})}>Complete</Button>
+                <Button style={styles.btn} textColor="black" mode="outlined" onPress={() => navigation.navigate('App', {screen: 'Home'})}>Next</Button>
                 <Button style={styles.btn} textColor="black" mode="outlined" onPress={() => {logout()}}>Logout</Button>
         </View>
     )

@@ -92,6 +92,8 @@ const styles = StyleSheet.create({
   btn: {
     margin: 8,
     borderRadius: 99,
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonOpen: {
     backgroundColor: 'rgba(0,0,0,0.5)'
@@ -107,8 +109,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_700Bold'
   },
   emoji: {
-    width: 40,
-    height: 40,
+    width: 42,
+    height: 42,
   }
 });
 
