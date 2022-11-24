@@ -9,7 +9,6 @@ const PageLogin = ({navigation}) => {
 
       return(
             <View style={styles.container}>
-            <Text>Hello world - Azure Login</Text>
             {/* <Button title="Login"
             onPress={() => instance.loginRedirect(loginRequest)}/> */}
             
