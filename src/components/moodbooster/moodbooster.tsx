@@ -40,14 +40,16 @@ const Moodbooster = (props) => {
     },
   ]);
   const [data, setData] = useState([]);
+
   const handleActivities = async () => {
     var activities = await getAllActivities(accessToken);
-    console.log(activities[0].title);
-    // setData(activities[0]);
+    // console.log(activities);
+    setData(await activities);
+    console.log(data);
   };
   useEffect(() => {
     handleActivities();
-  });
+  }, []);
   const { accessToken } = useContext(AuthContext);
 
   //protectedResources.apiActivity.endpoint
@@ -80,11 +82,11 @@ const Moodbooster = (props) => {
       >
         Moodboosters
       </Text>
-      {/* <View>
-        {todos.map((item, index) => (
+      <View>
+        {data.map((item, index) => (
           <Card style={styles.card} mode="outlined" key={index}>
             <Card.Title
-              title={protectedResources.apiActivity.endpoint}
+              title={item.title}
               titleStyle={{ fontFamily: "Poppins_400Regular" }}
               right={(props) => (
                 <View style={styles.buttons}>
@@ -103,21 +105,26 @@ const Moodbooster = (props) => {
                     }}
                     onPress={() => handleTodoClick(index)}
                   >
-                    {todos[index].complete}
+                    Start
                   </Button>
                 </View>
               )}
             />
           </Card>
         ))}
-      </View> */}
-      <View style={{ flex: 1, padding: 24 }}>
+      </View>
+      {/* <View style={{ flex: 1, padding: 24 }}>
         <FlatList
-          data={data}
+          // data={data.id}
           keyExtractor={({ id }, index) => id}
           renderItem={({ item }) => <Text>{item}</Text>}
         />
-      </View>
+      </View> */}
+      {/* <div className="item-container">
+        {data.map((product) => (
+          <div className="card"></div>
+        ))}
+      </div> */}
     </View>
   );
 };
