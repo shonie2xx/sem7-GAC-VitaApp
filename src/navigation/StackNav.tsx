@@ -41,13 +41,13 @@ const AppNav = () => {
   }, [])
 
   return (
-    <NavigationContainer linking={linking}>
+    // <NavigationContainer linking={linking}>
     <Stack.Navigator>
         <Stack.Screen name="CreateCharacter" component={PageCharacter} options={{ headerShown: false }} />
         <Stack.Screen name="App" component={TabNav} options={{ headerShown: false }} /> 
         <Stack.Screen name="page-home" component={PageHome} options={{ headerShown: false }} /> 
     </Stack.Navigator>
-    </NavigationContainer>
+    // </NavigationContainer>
   );
 }
 
