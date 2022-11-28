@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { NameContext } from "../../context/NameContext";
 // import "@vaadin/login/vaadin-login-form.js";
 
-const PageCharacter = ({navigation}) => {
+const PageCharacter = ({ navigation }) => {
 
     const {logout} = useContext(AuthContext);
     const {setName} = React.useContext(NameContext);
@@ -15,10 +15,6 @@ const PageCharacter = ({navigation}) => {
             {/* <Text style = {styles.heading1}>Welcome</Text> */}
             <Image style={styles.welcome} source={require('../../../assets/welcome.svg')}/>
                 <View style={styles.nameinput}>
-                    {/* <TextInput style={{backgroundColor: '#BBD8F1'}} theme={{ colors: {
-                            text: 'black', primary: 'black', underlineColor:'transparent'
-                            }}} mode="outlined" label="Name" value={name} onChangeText={name => setName(name)} /></View>
-                            <View style={styles.button}> */}
                             <TextInput style={{backgroundColor: '#BBD8F1'}} theme={{ colors: {
                             text: 'black', primary: 'black', underlineColor:'transparent'
                             }}} mode="outlined" label="Name" onChangeText={name => setName(name)} /></View>

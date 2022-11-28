@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "yannick0430",
+    "name": "GAC_Devs",
+    "scheme": "gacprjscheme",
     "slug": "gacproject",
     "version": "1.0.0",
     "orientation": "portrait",
