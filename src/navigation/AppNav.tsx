@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import StackNav from './StackNav';
 import AuthNav from './AuthNav';
 import { AuthContext } from '../context/AuthContext';
+import { NameContext } from '../context/NameContext';
+
 import TestPage from '../components/Notifications/TestPage';
 
 const AppNav = () => {
@@ -10,18 +12,11 @@ const AppNav = () => {
   const { accessToken } = useContext(AuthContext);
 
   return (
-    // <NavigationContainer>
-    //   {accessToken !== null ?
-    //     <StackNav /> : <AuthNav /> 
-    //   }
-    // </NavigationContainer>
-
-<NavigationContainer>
-
-  <StackNav />
-
-</NavigationContainer>
-
+    <NavigationContainer>
+      {accessToken !== null ?
+        <StackNav /> : <AuthNav /> 
+      }
+    </NavigationContainer>
   );
 }
 
