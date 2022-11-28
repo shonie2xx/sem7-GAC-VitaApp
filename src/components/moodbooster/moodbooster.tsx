@@ -68,9 +68,9 @@ const Moodbooster = (props) => {
   function handleTodoClick(index) {
     //send stuff to back end and update front end.
     let itemsCopy = [...todos];
-    // props.onComplete(itemsCopy[index].points);
-    // itemsCopy.splice(index, 1);
-    itemsCopy[index].complete = "Complete";
+    props.onComplete(itemsCopy[index].points);
+    itemsCopy.splice(index, 1);
+    // itemsCopy[index].complete = "Complete";
     // console.log(todos[index].complete)
     setTodos(itemsCopy);
   }
@@ -101,7 +101,7 @@ const Moodbooster = (props) => {
                     }}
                     onPress={() => handleTodoClick(index)}
                   >
-                    <Text style={styles.btntext}>DONE</Text>
+                    <Text style={styles.btntext}>Start</Text>
                   </Button>
                 </View>
               )}
