@@ -1,5 +1,5 @@
 import axios from "axios";
-import { protectedResources } from "../authConfig";
+import { protectedResources } from "../../authConfig";
 
 const url = protectedResources.apiUser.endpoint;
 
