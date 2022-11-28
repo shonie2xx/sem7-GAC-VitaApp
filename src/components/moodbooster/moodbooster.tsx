@@ -77,14 +77,10 @@ const Moodbooster = (props) => {
 
   return (
     <View>
-      <Text
-        style={{ fontFamily: "Poppins_600SemiBold", fontSize: 20, margin: 10 }}
-      >
-        Moodboosters
-      </Text>
+      <Text style={styles.moodtitle}>Today's moodboosters</Text>
       <View>
         {data.map((item, index) => (
-          <Card style={styles.card} mode="outlined" key={index}>
+          <Card style={styles.surface} mode="outlined" key={index}>
             <Card.Title
               title={item.title}
               titleStyle={{ fontFamily: "Poppins_400Regular" }}
@@ -105,7 +101,7 @@ const Moodbooster = (props) => {
                     }}
                     onPress={() => handleTodoClick(index)}
                   >
-                    Start
+                    <Text style={styles.btntext}>DONE</Text>
                   </Button>
                 </View>
               )}
@@ -136,12 +132,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingRight: 10,
   },
-  card: {
-    borderRadius: 5,
-    marginHorizontal: 10,
-    marginVertical: 6,
-    fontFamily: "Poppins_600SemiBold",
+  moodtitle: {
+    fontFamily: 'Poppins_600SemiBold', 
+    fontSize: 18, 
+    margin: 8, 
+    color: "#031D29", 
+    paddingLeft: 16,
   },
+  surface: {
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    marginHorizontal: 8,
+    marginVertical: 8,
+    fontFamily: 'Poppins_600SemiBold',
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    backgroundColor: '#FFFFFF',
+  },
+  btntext: {
+    fontSize: 12,
+    fontFamily: 'Poppins_700Bold'
+  }
 });
 
 export default Moodbooster;

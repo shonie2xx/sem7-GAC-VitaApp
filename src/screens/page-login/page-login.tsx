@@ -10,11 +10,12 @@ import * as Linking from "expo-linking";
 WebBrowser.maybeCompleteAuthSession();
 
 
-const PageLogin = ({ navigation }) => {
+const PageLogin = () => {
   // Endpoint
   const discovery = useAutoDiscovery('https://login.microsoftonline.com/913b1a98-9696-4db5-b548-9e17b6d3fc68/v2.0');
 
   const url = Linking.useURL();
+  
   // Authentication Request
   const [request, response, promptAsync] = useAuthRequest(
     {
@@ -32,6 +33,8 @@ const PageLogin = ({ navigation }) => {
   // Save values under keys in SecurStore
   async function save(key, value) {
     await SecureStore.setItemAsync(key, value);
+    console.log("key", key)
+    console.log("value", value)
   }
 
   const {login} = useContext(AuthContext);

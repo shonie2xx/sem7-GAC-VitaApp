@@ -1,11 +1,11 @@
 import { View, Text } from "react-native";
 
-const PageFeed = () => {
+const PageNews = () => {
   return (
     <View>
-      <Text>Feed</Text>
+      <Text>News</Text>
     </View>
   );
 };
 
-export default PageFeed;
+export default PageNews;
