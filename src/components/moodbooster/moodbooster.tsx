@@ -79,10 +79,10 @@ const Moodbooster = (props) => {
     <View>
       <Text style={styles.moodtitle}>Today's moodboosters</Text>
       <View>
-        {data.map((item, index) => (
+        {todos.map((item, index) => (
           <Card style={styles.surface} mode="outlined" key={index}>
             <Card.Title
-              title={item.title}
+              title={item.text}
               titleStyle={{ fontFamily: "Poppins_400Regular" }}
               right={(props) => (
                 <View style={styles.buttons}>
@@ -109,18 +109,6 @@ const Moodbooster = (props) => {
           </Card>
         ))}
       </View>
-      {/* <View style={{ flex: 1, padding: 24 }}>
-        <FlatList
-          // data={data.id}
-          keyExtractor={({ id }, index) => id}
-          renderItem={({ item }) => <Text>{item}</Text>}
-        />
-      </View> */}
-      {/* <div className="item-container">
-        {data.map((product) => (
-          <div className="card"></div>
-        ))}
-      </div> */}
     </View>
   );
 };
@@ -141,11 +129,11 @@ const styles = StyleSheet.create({
   },
   surface: {
     borderRadius: 8,
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
     marginHorizontal: 8,
     marginVertical: 8,
     fontFamily: 'Poppins_600SemiBold',
-    borderWidth: 1,
+
     borderColor: '#CCCCCC',
     backgroundColor: '#FFFFFF',
   },
