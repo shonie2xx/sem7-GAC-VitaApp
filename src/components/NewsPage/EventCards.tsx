@@ -67,7 +67,7 @@ const EventCards = ({navigation} ) => {
                     mode="contained"
                     buttonColor="#419FD9"
                     labelStyle={{ fontFamily: 'Poppins_600SemiBold' }}
-                    onPress={() => navigation.navigate('EventPage')}
+                    onPress={() => navigation.navigate('Event')}
                   >
                     See More
                   </Button>

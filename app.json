@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "gacapp",
     "name": "yannick0430",
     "slug": "gacproject",
     "version": "1.0.0",
@@ -18,7 +19,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yannick0430.gacproject"
     },
     "android": {
       "adaptiveIcon": {
