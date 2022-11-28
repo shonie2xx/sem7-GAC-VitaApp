@@ -4,8 +4,9 @@ import { Button, TextInput } from 'react-native-paper';
 import { AuthContext } from "../../context/AuthContext";
 import { NameContext } from "../../context/NameContext";
 // import "@vaadin/login/vaadin-login-form.js";
+import * as SecureStore from 'expo-secure-store';
 
-const PageCharacter = ({navigation}) => {
+const PageCharacter = ({ navigation }) => {
 
     const {logout} = useContext(AuthContext);
     const {setName} = React.useContext(NameContext);
