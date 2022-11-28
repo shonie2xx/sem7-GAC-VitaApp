@@ -33,6 +33,8 @@ const PageLogin = () => {
   // Save values under keys in SecurStore
   async function save(key, value) {
     await SecureStore.setItemAsync(key, value);
+    console.log("key", key)
+    console.log("value", value)
   }
 
   const {login} = useContext(AuthContext);
