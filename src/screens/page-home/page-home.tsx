@@ -20,17 +20,17 @@ import { AuthContext } from "../../context/AuthContext";
 import StartupMood from "../../components/PopUps/StartupMood";
 import { useMoodPoints, useMoodPointsUpdate } from "../../components/PopUps/MoodPointsContext";
 import * as Notifications from 'expo-notifications'
+import { NameContext } from "../../context/NameContext";
+import { useFonts, Poppins_500Medium, Poppins_700Bold, Poppins_600SemiBold } from '@expo-google-fonts/poppins'
 
 const PageHome = ({ navigation }) => {
-
-
-
+  const {name} = React.useContext(NameContext);
 
 // const mo = useMoodPoints()
 
   // const [mood, setMood] = useState(10);
   const [picsource, setPicsource] = useState(
-    require("../../../assets/smile.png")
+    require("../../../assets/smiley.png")
   );
   const wave = require("../../../assets/wave.png");  
   
@@ -47,35 +47,40 @@ const updateMood = useMoodPointsUpdate()
 
   const changePic = async () => {
     if (mood > 7) {
-      setPicsource(require("../../../assets/smile.png"));
+      setPicsource(require("../../../assets/smiley.png"));
     } else if (mood < 7 && mood > 4) {
-      setPicsource(require("../../../assets/42901.png"));
+      setPicsource(require("../../../assets/neutral.png"));
     } else if (mood < 4) {
-      setPicsource(require("../../../assets/scared.png"));
+      setPicsource(require("../../../assets/frowney.png"));
     }
   };
   function changeMood(moodValue) {
     console.log(moodValue)
     updateMood(mood + moodValue);
   }
+  
+  let [fontsLoaded] = useFonts({
+    Poppins_500Medium,
+    Poppins_700Bold,
+    Poppins_600SemiBold
+  });
+  
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
-
-
-
     <View style={styles.screen}>
       <StartupMood />
       <ImageBackground source={wave} style={styles.wave}>
         <View style={styles.homeTop}>
+        <Text style={styles.heading2}>{name}</Text>
           <Image style={styles.pic} source={picsource} />
-          <Pressable style={styles.btn} onPress={() => updateMood(mood + 1)}>
-            <Text>+</Text>
-          </Pressable>
-          <Pressable style={styles.btn} onPress={() => updateMood(mood - 1)}>
-            <Text>-</Text>
-          </Pressable>
-          <Text>{mood}</Text>
-          <Text>Passed value : </Text>
+          <View style={styles.moodcontainer}>
+            <Image style={styles.moodbg} source={require("../../../assets/moodbg.png")} />
+            <Text style={styles.moodnmbr}>{mood}</Text>
+          </View>
+          
         </View>
       </ImageBackground>
       <Moodbooster onComplete={changeMood}/>
@@ -83,52 +88,58 @@ const updateMood = useMoodPointsUpdate()
   );
 };
 
+
 const styles = StyleSheet.create({
+
+  // styling here
   screen: {
-    flex: 1,
-    // alignItems: 'center',
-    backgroundColor: "white",
-  },
-  title: {
-    fontSize: 25,
-    fontWeight: "bold",
-  },
-  pic: {
-    marginTop: 16,
-    width: 150,
-    height: 150,
-  },
-  wave: {
-    resizeMode: "cover",
-    height: "55%",
-  },
-  btn: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    height: 25,
-    width: 25,
-    textAlign: "center",
-    backgroundColor: "#F1F1F1",
-    color: "white",
-    padding: 16,
-    margin: 16,
-    borderRadius: 4,
-  },
-  heading2: {
-    fontSize: 28,
-    paddingTop: 16,
-    paddingBottom: 16,
-    fontWeight: "bold",
-  },
-  homeTop: {
-    // flex: 1,
-    // alignSelf: 'stretch',
-    // flexDirection: "row",
-    // width: 200,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
+      // flex: 1,
+      backgroundColor: "white",
+    },
+    title: {
+      fontSize: 25,
+      fontWeight: "bold",
+    },
+    moodcontainer: {
+      justifyContent: "center",
+      alignItems: "center",
+      margin: 8,
+    },
+    moodnmbr: {
+      position: "absolute",
+      fontSize: 35,
+      fontWeight: "bold",
+      color: "#FFFFFF",
+      zIndex: 3,
+      textAlign: "center",
+      marginBottom: 8
+    },
+    moodbg: {
+      zIndex: 2,
+      position: "relative",
+      width: 82,
+      height: 74,
+    },
+    pic: {
+      margin: 8,
+      width: 150,
+      height: 150,
+    },
+    wave: {
+      height: undefined,
+      width: "100%",
+      resizeMode: "center"
+    },
+    heading2: {
+      fontSize: 24,
+      margin: 8,
+      fontFamily: 'Poppins_600SemiBold',
+      color: "#031D29",
+    },
+    homeTop: {
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  });
+
 export default PageHome;

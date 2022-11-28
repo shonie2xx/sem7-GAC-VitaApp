@@ -3,6 +3,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import PageHome from '../screens/page-home/page-home';
 import PageFriends from '../screens/page-friends/page-friends';
 import FeedNav from './FeedNav';
+import React from "react";
 
 export const InAppTabNav = () => {
     

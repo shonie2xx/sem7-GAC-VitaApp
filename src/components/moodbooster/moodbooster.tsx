@@ -49,12 +49,12 @@ const Moodbooster = (props) => {
 
   return (
     <View>
-      <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 20, margin: 10 }}>Moodboosters</Text>
+      <Text style={styles.moodtitle}>Today's moodboosters</Text>
       <View>
         {todos.map((item, index) => (
           <Surface style={styles.surface} elevation={1} key={index} >
             <Card.Title
-              title={item.text} titleStyle={{ fontFamily: 'Poppins_400Regular' }}
+              title={item.text} titleStyle={{ fontFamily: 'Poppins_500Medium', fontSize: 14 }}
               // left={(props) => <Avatar.Icon {...props} icon="folder" />}
               right={(props) => (
                 <View style={styles.buttons}>
@@ -69,7 +69,7 @@ const Moodbooster = (props) => {
                     labelStyle={{ fontFamily: 'Poppins_600SemiBold' }}
                     onPress={() => handleTodoClick(index)}
                   >
-                    Done
+                    <Text style={styles.btntext}>DONE</Text>
                   </Button>
                 </View>
               )}
@@ -88,13 +88,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
 
   },
-  surface: {
-    borderRadius: 5,
-    paddingRight: 10,
-    marginHorizontal: 10,
-    marginVertical: 6,
-    fontFamily: 'Poppins_600SemiBold'
+  moodtitle: {
+    fontFamily: 'Poppins_600SemiBold', 
+    fontSize: 18, 
+    margin: 8, 
+    color: "#031D29", 
+    paddingLeft: 16,
   },
+  surface: {
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    marginHorizontal: 8,
+    marginVertical: 8,
+    fontFamily: 'Poppins_600SemiBold',
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    backgroundColor: '#FFFFFF',
+  },
+  btntext: {
+    fontSize: 12,
+    fontFamily: 'Poppins_700Bold'
+  }
 });
 
 export default Moodbooster;
