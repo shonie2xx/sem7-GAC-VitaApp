@@ -13,7 +13,7 @@ const PageCharacter = ({ navigation }) => {
     return (
         <View style = {styles.screen}>
             {/* <Text style = {styles.heading1}>Welcome</Text> */}
-            <Image style={styles.welcome} source={require('../../../assets/welcome.svg')}/>
+            <Image style={styles.welcome} source={require('../../../assets/welcome.png')}/>
                 <View style={styles.nameinput}>
                             <TextInput style={{backgroundColor: '#BBD8F1'}} theme={{ colors: {
                             text: 'black', primary: 'black', underlineColor:'transparent'
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     welcome: {
-        height: "100%",
+        height: "60%",
         resizeMode: "contain",
     },
     nameinput :{

@@ -30,7 +30,7 @@ const PageHome = ({ navigation }) => {
 
   // const [mood, setMood] = useState(10);
   const [picsource, setPicsource] = useState(
-    require("../../../assets/smile.png")
+    require("../../../assets/smiley.png")
   );
   const wave = require("../../../assets/wave.png");  
   
@@ -47,11 +47,11 @@ const updateMood = useMoodPointsUpdate()
 
   const changePic = async () => {
     if (mood > 7) {
-      setPicsource(require("../../../assets/happy.svg"));
+      setPicsource(require("../../../assets/smiley.png"));
     } else if (mood < 7 && mood > 4) {
-      setPicsource(require("../../../assets/neutral.svg"));
+      setPicsource(require("../../../assets/neutral.png"));
     } else if (mood < 4) {
-      setPicsource(require("../../../assets/frowney.svg"));
+      setPicsource(require("../../../assets/frowney.png"));
     }
   };
   function changeMood(moodValue) {
