@@ -6,6 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import { checkUser, getUser } from "../../services/userService";
 import {AuthContext} from "../../context/AuthContext";
 import * as Linking from "expo-linking";
+import { updateShorthandPropertyAssignment } from "typescript";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -24,7 +25,7 @@ const PageLogin = () => {
       scopes: ['openid', 'profile', 'email', 'offline_access', "api://82b5a9e1-eaa2-4ee8-a3a0-7d3c41a4a1b5/User.All"],
       redirectUri: makeRedirectUri({
         // scheme: process.env.NODE_ENV === 'production' ?  'exp://145.93.177.134:19000' : ''
-        scheme : 'exp://145.93.85.117:19000'
+        scheme : url
       }),
     },
     discovery
@@ -41,9 +42,11 @@ const PageLogin = () => {
 
   const handleLogin = async (token) => {
     var firstLogin = await checkUser(token);
+    console.log("firstLogin", JSON.stringify(firstLogin));
     save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error message
     var user = await getUser(token);
-    save("User", JSON.stringify(user))
+    save("User", JSON.stringify(user)) // user= id, nam, ... , mood
+    console.log("user", JSON.stringify(user));
     login(token)
 }
 
@@ -54,10 +57,12 @@ const PageLogin = () => {
       const access_token = response.params.access_token;
 
       if(access_token != null) {
+        console.log("access_token: ", access_token);
         handleLogin(access_token)
       }
       else {
         // handle redirect error
+       alert("Auth not working at the moment. Please try again later")
       }
       
     }
