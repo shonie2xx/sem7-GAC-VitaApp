@@ -1,4 +1,4 @@
-package com.yannick0430.gacproject.newarchitecture.components;
+package com.yannick0430.gacprjscheme.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

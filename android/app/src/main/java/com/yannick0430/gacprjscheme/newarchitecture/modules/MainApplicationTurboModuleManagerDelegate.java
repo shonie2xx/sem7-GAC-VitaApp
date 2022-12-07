@@ -1,4 +1,4 @@
-package com.yannick0430.gacproject.newarchitecture.modules;
+package com.yannick0430.gacprjscheme.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

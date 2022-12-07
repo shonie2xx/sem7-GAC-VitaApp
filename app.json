@@ -20,7 +20,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yannick0430.gacproject",
+      "bundleIdentifier": "com.yannick0430.gacprjscheme",
       "buildNumber": "1.0.0"
     },
     "android": {
@@ -28,7 +28,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.yannick0430.gacproject",
+      "package": "com.yannick0430.gacprjscheme",
       "versionCode": 1
       
     },

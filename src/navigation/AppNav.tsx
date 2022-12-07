@@ -4,18 +4,23 @@ import WelcomeStack from './WelcomeStack';
 import AuthNav from './AuthNav';
 import { AuthContext } from '../context/AuthContext';
 import TestPage from "../components/Notifications/TestPage";
-
+import {
+  SafeAreaView,
+  StyleSheet
+} from 'react-native';
 
 const AppNav = () => {
 
   const { accessToken } = useContext(AuthContext);
 
   return (
+    <SafeAreaView style={styles.container}>
     <NavigationContainer>
       {accessToken !== null ?
         <WelcomeStack /> : <AuthNav /> 
       }
     </NavigationContainer>
+    </SafeAreaView>
     // <NavigationContainer>
     //   <WelcomeStack />
     //   <TestPage />
@@ -27,3 +32,8 @@ const AppNav = () => {
 export default AppNav;
 
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});

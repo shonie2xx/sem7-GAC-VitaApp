@@ -1,4 +1,4 @@
-package com.yannick0430.gacproject;
+package com.yannick0430.gacprjscheme;
 
 import android.os.Build;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.yannick0430.gacproject.newarchitecture;
+package com.yannick0430.gacprjscheme.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -20,9 +20,9 @@ import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.yannick0430.gacproject.BuildConfig;
-import com.yannick0430.gacproject.newarchitecture.components.MainComponentsRegistry;
-import com.yannick0430.gacproject.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.yannick0430.gacprjscheme.BuildConfig;
+import com.yannick0430.gacprjscheme.newarchitecture.components.MainComponentsRegistry;
+import com.yannick0430.gacprjscheme.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
