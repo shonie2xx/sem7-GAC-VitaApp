@@ -28,7 +28,7 @@ const AppNav = () => {
   };
 
   const url = Linking.useURL();
-  console.log(url);
+  // console.log(url);
   
     function handleDeepLink(event) {
     let data = Linking.parse(event.url);
