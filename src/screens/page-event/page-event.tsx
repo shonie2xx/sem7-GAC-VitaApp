@@ -93,7 +93,7 @@ const PageEvent = ({ navigation, props}) => {
         ))}
       </View>
       <Text style={styles.title}>Open events</Text>
-      <ImageBackground source={wave} style={styles.wave} />
+      {/* <ImageBackground source={wave} style={styles.wave} /> */}
       </ImageBackground>
       <View>
         {events.map((item, index) => (
