@@ -19,7 +19,7 @@ export async function getAllActivities(token) {
   }).catch(response => {
     console.log("response " + response);
   });
-  return response.data;
+  // return response.data;
 }
 
 export async function deleteActivity(id, token) {

@@ -11,15 +11,17 @@ const AppNav = () => {
   const { accessToken } = useContext(AuthContext);
 
   return (
-    <NavigationContainer>
-      {accessToken !== null ?
-        <WelcomeStack /> : <AuthNav /> 
-      }
-    </NavigationContainer>
     // <NavigationContainer>
-    //   <WelcomeStack />
-    //   <TestPage />
+    //         <TestPage />
+    //   {accessToken !== null ?
+    //     <WelcomeStack /> : <AuthNav /> 
+        
+    //   }
     // </NavigationContainer>
+    <NavigationContainer>
+      <WelcomeStack />
+
+    </NavigationContainer>
   );
 }
 

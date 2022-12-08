@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet, Button } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
+// import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest, useAutoDiscovery, ResponseType } from 'expo-auth-session';
 import * as SecureStore from 'expo-secure-store';
 import { checkUser, getUser } from "../../services/userService";
@@ -8,7 +8,7 @@ import {AuthContext} from "../../context/AuthContext";
 import * as Linking from "expo-linking";
 import { updateShorthandPropertyAssignment } from "typescript";
 
-WebBrowser.maybeCompleteAuthSession();
+// WebBrowser.maybeCompleteAuthSession();
 
 
 const PageLogin = () => {
@@ -42,11 +42,9 @@ const PageLogin = () => {
 
   const handleLogin = async (token) => {
     var firstLogin = await checkUser(token);
-    console.log("firstLogin", JSON.stringify(firstLogin));
     save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error message
     var user = await getUser(token);
     save("User", JSON.stringify(user)) // user= id, nam, ... , mood
-    console.log("user", JSON.stringify(user));
     login(token)
 }
 

@@ -1,9 +1,14 @@
 import { View, Text } from "react-native";
 
-const PageEventDetails = () => {
+const PageEventDetails = ({route}) => {
+  const {item} = route.params;
+
   return (
     <View>
-      <Text>Details of event</Text>
+      
+      <Text>Title : {item.title}</Text>
+      <Text>Description : {item.description}</Text>
+      <Text>Date: {item.date}</Text>
     </View>
   );
 };
