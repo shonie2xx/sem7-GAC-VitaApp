@@ -56,7 +56,6 @@ const PageEvent = ({ navigation, props}) => {
   }
 
 
-  
   const RightContent = (date: any) => <Text>{date}</Text>
 
   const wave = require("../../../assets/wave.png");  
@@ -69,31 +68,28 @@ const PageEvent = ({ navigation, props}) => {
       <ScrollView style={styles.screen}>
       <ImageBackground source={wave} style={styles.wave}>
         <Text style={styles.title}>Signed Up</Text>
-      <View>
-        {todos.map((item, index) => (
-          <Surface style={styles.surface} elevation={1} key={index} >
-            <Card.Title
-              title={item.text} titleStyle={{ fontFamily: 'Poppins_400Regular' }}
-              // left={(props) => <Avatar.Icon {...props} icon="folder" />}
-              right={(props) => (
-                <View style={styles.buttons}>
-                  <IconButton
-                    {...props}
+        <View>
+        {events.map((item, index) => (
+          // <Surface style={styles.surface} elevation={1} key={index} >
+          
+          <Card style={styles.surface} elevation={1} key={index}>
+            <TouchableOpacity style={styles.touchcard} onPress={() => handleOnPress(item)} >
+             <Card.Title title={item.title} subtitle={item.description} right={() => RightContent(item.date)} />
+             </TouchableOpacity>
+            <Card.Content>
+              <Text>{item.joined}/{item.limit}</Text>
+              <IconButton
+                   {...props}
+                    mode="outlined"
                     icon="account-plus"
                     onPress={() => {}}
                   />
-                  <Button
-                    mode="contained"
-                    buttonColor="#419FD9"
-                    labelStyle={{ fontFamily: 'Poppins_600SemiBold' }}
-                    onPress={() => navigation.navigate('Event Details')}
-                  >
-                    See More
-                  </Button>
-                </View>
-              )}
-            />
-          </Surface>
+              </Card.Content>
+            <Card.Actions>
+              {item.isSigned ? <Button mode="contained" onPress={() => console.log('Pressed')}>SIGN OUT</Button> : <Button>SIGN IN</Button>}
+            </Card.Actions>
+          </Card>
+          
         ))}
       </View>
       <Text style={styles.title}>Open events</Text>
@@ -120,7 +116,6 @@ const PageEvent = ({ navigation, props}) => {
               {item.isSigned ? <Button mode="contained" onPress={() => console.log('Pressed')}>SIGN OUT</Button> : <Button>SIGN IN</Button>}
             </Card.Actions>
           </Card>
-          
         ))}
       </View>
       </ScrollView>
@@ -128,8 +123,6 @@ const PageEvent = ({ navigation, props}) => {
 }
 
 export default PageEvent;
-
-
 
 const styles = StyleSheet.create({
   screen: {
@@ -150,11 +143,6 @@ const styles = StyleSheet.create({
   },
   touchcard: {
 
-  },
-  wave: {
-    height: undefined,
-    width: "100%",
-    resizeMode: "center"
   },
   wave: {
     height: undefined,
