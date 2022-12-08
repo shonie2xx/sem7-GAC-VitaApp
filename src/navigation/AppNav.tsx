@@ -12,13 +12,15 @@ const AppNav = () => {
 
   return (
     <NavigationContainer>
+            <TestPage />
       {accessToken !== null ?
         <WelcomeStack /> : <AuthNav /> 
+        
       }
     </NavigationContainer>
     // <NavigationContainer>
     //   <WelcomeStack />
-    //   <TestPage />
+
     // </NavigationContainer>
   );
 }
