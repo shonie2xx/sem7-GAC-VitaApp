@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet, Button } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
+// import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest, useAutoDiscovery, ResponseType } from 'expo-auth-session';
 import * as SecureStore from 'expo-secure-store';
 import { checkUser, getUser } from "../../services/userService";
@@ -8,7 +8,7 @@ import {AuthContext} from "../../context/AuthContext";
 import * as Linking from "expo-linking";
 import { updateShorthandPropertyAssignment } from "typescript";
 
-WebBrowser.maybeCompleteAuthSession();
+// WebBrowser.maybeCompleteAuthSession();
 
 
 const PageLogin = () => {
