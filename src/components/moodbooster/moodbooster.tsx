@@ -38,11 +38,7 @@ import {
 import { protectedResources } from "../../../authConfig";
 import { AuthContext } from "../../context/AuthContext";
 
-<<<<<<< HEAD
-const Moodbooster = (moodData) => {
-=======
 const Moodbooster = () => {
->>>>>>> b7001d45d5044d7efc57fd926857a680c5f88239
   const [data, setData] = useState([]);
   const [activeData, setActiveData] = useState([]);
   const [completedData, setCompletedData] = useState([]);
