@@ -22,14 +22,6 @@ export async function getAllActivities(token) {
   return response.data;
 }
 
-export async function acceptActivity(id, token) {
-  var response = await axios.put(
-    url + id,
-    {},
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
-  return response.data;
-}
 export async function deleteActivity(id, token) {
   console.log(url + id)
   var response = await axios.delete(
@@ -40,7 +32,6 @@ export async function deleteActivity(id, token) {
   return response.data;
 }
 export async function createActivity(data, token) {
-  console.log(data.activity.category.name)
   var response = await axios.post(
     url,
     {
@@ -65,14 +56,14 @@ export async function createActivity(data, token) {
   return response.data;
 }
 
-// export async function completeActivity(id, token) {
-//   var response = await axios.put(
-//     url + "complete/" + id,
-//     {},
-//     { headers: { Authorization: `Bearer ${token}` } }
-//   );
-//   return response.data;
-// }
+export async function completeActivity(id, token) {
+  var response = await axios.put(
+    url + "complete/" + id,
+    {},
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  return response.data;
+}
 
 // export async function getActivityById(id, token) {
 //   var response = await axios.get(url + id, {
@@ -98,12 +89,12 @@ export async function createActivity(data, token) {
 //   return response.data;
 // }
 
-// export async function getAllCompletedActivities(token) {
-//   var response = await axios.get(url + "completed", {
-//     headers: { Authorization: `Bearer ${token}` },
-//   });
-//   return response.data;
-// }
+export async function getAllCompletedActivities(token) {
+  var response = await axios.get(url + "completed", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
 
 export async function getAllActiveActivities(token) {
   var response = await axios.get(url + "accepted", {

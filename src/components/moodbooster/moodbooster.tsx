@@ -13,9 +13,10 @@ import {
   startActivity,
   cancelActivity,
   getAllActiveActivities,
-  acceptActivity,
   createActivity,
-  deleteActivity
+  deleteActivity,
+  completeActivity,
+  getAllCompletedActivities,
 } from "../../services/moodboosterService";
 
 // import { HStack, Banner, Button } from "@react-native-material/core";
@@ -37,18 +38,30 @@ import {
 import { protectedResources } from "../../../authConfig";
 import { AuthContext } from "../../context/AuthContext";
 
-const Moodbooster = (props) => {
-
+<<<<<<< HEAD
+const Moodbooster = (moodData) => {
+=======
+const Moodbooster = () => {
+>>>>>>> b7001d45d5044d7efc57fd926857a680c5f88239
   const [data, setData] = useState([]);
   const [activeData, setActiveData] = useState([]);
+  const [completedData, setCompletedData] = useState([]);
   const [buttonState, setButtonState] = useState(false);
+  const [disabledState, setDisabledState] = useState(false);
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
+    // console.log(activeActivities[0].activity.id);
+
     var activities = await getAllActivities(accessToken);
-    // console.log(activeActivities);
+    // var completedActivities = await getAllCompletedActivities(accessToken);
+
     setData(await activities);
     setActiveData(await activeActivities);
+    if (await activeActivities[0].activity.id) {
+      setDisabledState(true);
+    }
+    // setCompletedData(await completedActivities);
   };
   useEffect(() => {
     handleActivities();
@@ -65,17 +78,22 @@ const Moodbooster = (props) => {
   }
 
   const handleToStart = async (index) => {
-    // await acceptActivity(data[index].id, accessToken);
-    await deleteActivity(data[index].id, accessToken);
+    await startActivity(data[index].id, accessToken);
+    // await deleteActivity(data[index].id, accessToken);
     setButtonState(!buttonState);
+    setDisabledState(true);
   };
   const handleToComplete = async (index) => {
+    // console.log(activeData[index].id, accessToken)
+    await completeActivity(activeData[index].id, accessToken);
     setButtonState(!buttonState);
+    setDisabledState(false);
   };
   const handleToCancel = async (index) => {
     await cancelActivity(activeData[index].id, accessToken);
-    await createActivity(activeData[index], accessToken);
+    // await createActivity(activeData[index], accessToken);
     setButtonState(!buttonState);
+    setDisabledState(false);
   };
 
   const ActiveCards = () => (
@@ -88,7 +106,6 @@ const Moodbooster = (props) => {
           />
           <Card.Actions>
             <IconButton
-              {...props}
               mode="outlined"
               icon="account-plus"
               onPress={() => {}}
@@ -99,7 +116,6 @@ const Moodbooster = (props) => {
               labelStyle={{
                 fontFamily: "Poppins_600SemiBold",
                 textTransform: "uppercase",
-                // color: "#FA9901"
               }}
               onPress={() => handleToCancel(index)}
             >
@@ -124,43 +140,58 @@ const Moodbooster = (props) => {
   const MainCard = () => (
     <View>
       {data.map((item, index) => (
-          <Card style={styles.surface} mode="outlined" key={index}>
-            <Card.Title
-              title={item.title}
-              titleStyle={{ fontFamily: "Poppins_400Regular" }}
-              right={(props) => (
-                <View style={styles.buttons}>
-                  <IconButton
-                    {...props}
-                    mode="outlined"
-                    icon="account-plus"
-                    onPress={() => {}}
-                  />
-                  <Button
-                    mode="contained"
-                    buttonColor="#419FD9"
-                    labelStyle={{
-                      fontFamily: "Poppins_600SemiBold",
-                      textTransform: "uppercase",
-                    }}
-                    onPress={() => handleToStart(index)}
-                  >
-                    <Text style={styles.btntext}>Start</Text>
-                  </Button>
-                </View>
-              )}
-            />
-          </Card>
+        <Card style={styles.surface} mode="outlined" key={index}>
+          <Card.Title
+            title={item.title}
+            titleStyle={{ fontFamily: "Poppins_400Regular" }}
+            right={() => (
+              <View style={styles.buttons}>
+                <IconButton
+                  mode="outlined"
+                  icon="account-plus"
+                  disabled={disabledState}
+                  onPress={() => {}}
+                />
+                <Button
+                  mode="contained"
+                  disabled={disabledState}
+                  buttonColor="#419FD9"
+                  labelStyle={{
+                    fontFamily: "Poppins_600SemiBold",
+                    textTransform: "uppercase",
+                  }}
+                  onPress={() => handleToStart(index)}
+                >
+                  <Text style={styles.btntext}>Start</Text>
+                </Button>
+              </View>
+            )}
+          />
+        </Card>
       ))}
     </View>
   );
-
+  const CompletedCard = () => (
+    //can be used to show completed moodboosters
+    <View>
+      {completedData.map((item, index) => (
+        <Card style={styles.surface} mode="outlined" key={index}>
+          <Card.Title
+            title={item.activity.title}
+            subtitle={item.activity.category.source.date}
+            titleStyle={{ fontFamily: "Poppins_400Regular" }}
+          />
+        </Card>
+      ))}
+    </View>
+  );
   return (
     <View>
       <Text style={styles.moodtitle}>Today's moodboosters</Text>
-      <ScrollView style={{ maxHeight: 350 }}>
+      <ScrollView style={{ minHeight: 350, maxHeight: 350 }}>
         <ActiveCards />
         <MainCard />
+        {/* <CompletedCard />  */}
       </ScrollView>
     </View>
   );
