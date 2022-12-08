@@ -42,11 +42,9 @@ const PageLogin = () => {
 
   const handleLogin = async (token) => {
     var firstLogin = await checkUser(token);
-    console.log("firstLogin", JSON.stringify(firstLogin));
     save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error message
     var user = await getUser(token);
     save("User", JSON.stringify(user)) // user= id, nam, ... , mood
-    console.log("user", JSON.stringify(user));
     login(token)
 }
 
