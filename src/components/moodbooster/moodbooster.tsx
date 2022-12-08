@@ -38,7 +38,7 @@ import {
 import { protectedResources } from "../../../authConfig";
 import { AuthContext } from "../../context/AuthContext";
 
-const Moodbooster = (props) => {
+const Moodbooster = () => {
   const [data, setData] = useState([]);
   const [activeData, setActiveData] = useState([]);
   const [completedData, setCompletedData] = useState([]);
@@ -47,12 +47,17 @@ const Moodbooster = (props) => {
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
+    // console.log(activeActivities[0].activity.id);
+
     var activities = await getAllActivities(accessToken);
-    var completedActivities = await getAllCompletedActivities(accessToken);
-    // console.log(activeActivities);
+    // var completedActivities = await getAllCompletedActivities(accessToken);
+
     setData(await activities);
     setActiveData(await activeActivities);
-    setCompletedData(await completedActivities);
+    if (await activeActivities[0].activity.id) {
+      setDisabledState(true);
+    }
+    // setCompletedData(await completedActivities);
   };
   useEffect(() => {
     handleActivities();
@@ -97,7 +102,6 @@ const Moodbooster = (props) => {
           />
           <Card.Actions>
             <IconButton
-              {...props}
               mode="outlined"
               icon="account-plus"
               onPress={() => {}}
@@ -108,7 +112,6 @@ const Moodbooster = (props) => {
               labelStyle={{
                 fontFamily: "Poppins_600SemiBold",
                 textTransform: "uppercase",
-                // color: "#FA9901"
               }}
               onPress={() => handleToCancel(index)}
             >
@@ -137,12 +140,12 @@ const Moodbooster = (props) => {
           <Card.Title
             title={item.title}
             titleStyle={{ fontFamily: "Poppins_400Regular" }}
-            right={(props) => (
+            right={() => (
               <View style={styles.buttons}>
                 <IconButton
-                  {...props}
                   mode="outlined"
                   icon="account-plus"
+                  disabled={disabledState}
                   onPress={() => {}}
                 />
                 <Button
