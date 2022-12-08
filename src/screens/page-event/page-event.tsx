@@ -1,7 +1,7 @@
 
 import { Surface } from "react-native-paper";
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ImageBackground, } from "react-native";
 // import { HStack, Banner, Button } from "@react-native-material/core";
 import {
   Avatar,
@@ -10,10 +10,12 @@ import {
   Button,
   Title,
   Paragraph,
+
 } from "react-native-paper";
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular} from '@expo-google-fonts/poppins';
 
 // import { EventCards } from "../../components/NewsPage/EventCards";
+const wave = require("../../../assets/wave.png");
 
 const PageEvent = ({ navigation }) => {
 
@@ -53,7 +55,37 @@ const PageEvent = ({ navigation }) => {
       
   return (
     <View>
-      <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 20, margin: 10 }}>Recent Events</Text>
+      <ImageBackground source={wave} style={styles.wave}>
+        <Text style={styles.title}>Signed Up</Text>
+      <View>
+        {todos.map((item, index) => (
+          <Surface style={styles.surface} elevation={1} key={index} >
+            <Card.Title
+              title={item.text} titleStyle={{ fontFamily: 'Poppins_400Regular' }}
+              // left={(props) => <Avatar.Icon {...props} icon="folder" />}
+              right={(props) => (
+                <View style={styles.buttons}>
+                  <IconButton
+                    {...props}
+                    icon="account-plus"
+                    onPress={() => {}}
+                  />
+                  <Button
+                    mode="contained"
+                    buttonColor="#419FD9"
+                    labelStyle={{ fontFamily: 'Poppins_600SemiBold' }}
+                    onPress={() => navigation.navigate('Event Details')}
+                  >
+                    See More
+                  </Button>
+                </View>
+              )}
+            />
+          </Surface>
+        ))}
+      </View>
+      <Text style={styles.title}>Open events</Text>
+      </ImageBackground>
       <View>
         {todos.map((item, index) => (
           <Surface style={styles.surface} elevation={1} key={index} >
@@ -103,5 +135,17 @@ const styles = StyleSheet.create({
     marginVertical: 6,
     fontFamily: 'Poppins_600SemiBold'
   },
+  wave: {
+    height: undefined,
+    width: "100%",
+    resizeMode: "center"
+  },
+  title: {
+    fontFamily: 'Poppins_600SemiBold', 
+    fontSize: 20, 
+    margin: 8, 
+    color: '#031D29', 
+    paddingLeft: 16
+  }
 });
 
