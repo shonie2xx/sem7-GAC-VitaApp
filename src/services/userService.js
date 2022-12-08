@@ -11,6 +11,7 @@ export async function getAllUsers(token) {
 }
 
 export async function getUser(token) {
+  console.log("STIGA KAAM TI ")
   var response = await axios.get(url + "me", {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -18,6 +19,7 @@ export async function getUser(token) {
 }
 
 export async function checkUser(token) {
+  
   var response = await axios.get(url + "login/check", {
     headers: { Authorization: `Bearer ${token}` },
   });
