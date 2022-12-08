@@ -20,6 +20,7 @@
 //         scopes: ["api://15e8abf0-9951-4e65-9d1c-1d14b82e6268/Challenge.All"]
 //     }
 // }
+
 // CLOUD
 export const protectedResources = {
     graphMe: {
