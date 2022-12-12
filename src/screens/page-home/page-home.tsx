@@ -83,6 +83,7 @@ const updateMood = useMoodPointsUpdate()
           
         </View>
       </ImageBackground>
+      <Text style={styles.moodtitle}>Today's moodboosters</Text>
       <Moodbooster onComplete={changeMood}/>
     </View>
   );
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
 
   // styling here
   screen: {
-      // flex: 1,
+      flex: 1,
       backgroundColor: "white",
     },
     title: {
@@ -104,6 +105,13 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
       margin: 8,
+    },
+    moodtitle: {
+      fontFamily: "Poppins_600SemiBold",
+      fontSize: 18,
+      margin: 8,
+      color: "#031D29",
+      paddingLeft: 8,
     },
     moodnmbr: {
       position: "absolute",

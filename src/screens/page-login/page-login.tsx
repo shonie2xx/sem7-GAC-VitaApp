@@ -55,7 +55,7 @@ const PageLogin = () => {
       const access_token = response.params.access_token;
 
       if(access_token != null) {
-        console.log("access_token: ", access_token);
+        // console.log("access_token: ", access_token);
         handleLogin(access_token)
       }
       else {

@@ -16,10 +16,8 @@ export async function getAllActivities(token) {
   // console.log(token)
   var response = await axios.get(url + "active", {
     headers: { Authorization: `Bearer ${token}` },
-  }).catch(response => {
-    console.log("response " + response);
-  });
-  // return response.data;
+  })
+  return response.data;
 }
 
 export async function deleteActivity(id, token) {

@@ -33,17 +33,20 @@ import {
   useFonts,
   Poppins_600SemiBold,
   Poppins_400Regular,
+  Poppins_500Medium,
 } from "@expo-google-fonts/poppins";
 
 import { protectedResources } from "../../../authConfig";
 import { AuthContext } from "../../context/AuthContext";
+import CardActions from "react-native-paper/lib/typescript/components/Card/CardActions";
 
-const Moodbooster = () => {
+const Moodbooster = (mood) => {
   const [data, setData] = useState([]);
   const [activeData, setActiveData] = useState([]);
   const [completedData, setCompletedData] = useState([]);
   const [buttonState, setButtonState] = useState(false);
   const [disabledState, setDisabledState] = useState(false);
+  const [loadingState, setLoadingState] = useState(false);
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
@@ -54,11 +57,13 @@ const Moodbooster = () => {
 
     setData(await activities);
     setActiveData(await activeActivities);
-    if (await activeActivities[0].activity.id) {
+    if (await activeActivities[0]) {
       setDisabledState(true);
+      setLoadingState(false);
     }
     // setCompletedData(await completedActivities);
   };
+
   useEffect(() => {
     handleActivities();
   }, [buttonState]);
@@ -67,6 +72,7 @@ const Moodbooster = () => {
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
     Poppins_400Regular,
+    Poppins_500Medium,
   });
 
   if (!fontsLoaded) {
@@ -74,6 +80,7 @@ const Moodbooster = () => {
   }
 
   const handleToStart = async (index) => {
+    setLoadingState(true);
     await startActivity(data[index].id, accessToken);
     // await deleteActivity(data[index].id, accessToken);
     setButtonState(!buttonState);
@@ -95,12 +102,22 @@ const Moodbooster = () => {
   const ActiveCards = () => (
     <View>
       {activeData.map((item, index) => (
-        <Card style={styles.surface} mode="outlined" key={index}>
-          <Card.Title
-            title={item.activity.title}
-            titleStyle={{ fontFamily: "Poppins_400Regular" }}
-          />
-          <Card.Actions>
+        <Card
+          style={styles.surface}
+          mode="outlined"
+          theme={{
+            colors: {
+              outline: "rgba(0, 0, 0, 0.2)",
+            },
+          }}
+          key={index}
+        >
+          <Card.Content>
+            <Paragraph style={styles.description}>
+              {item.activity.description}
+            </Paragraph>
+          </Card.Content>
+          <Card.Actions style={styles.buttons}>
             <IconButton
               mode="outlined"
               icon="account-plus"
@@ -136,33 +153,42 @@ const Moodbooster = () => {
   const MainCard = () => (
     <View>
       {data.map((item, index) => (
-        <Card style={styles.surface} mode="outlined" key={index}>
-          <Card.Title
-            title={item.title}
-            titleStyle={{ fontFamily: "Poppins_400Regular" }}
-            right={() => (
-              <View style={styles.buttons}>
-                <IconButton
-                  mode="outlined"
-                  icon="account-plus"
-                  disabled={disabledState}
-                  onPress={() => {}}
-                />
-                <Button
-                  mode="contained"
-                  disabled={disabledState}
-                  buttonColor="#419FD9"
-                  labelStyle={{
-                    fontFamily: "Poppins_600SemiBold",
-                    textTransform: "uppercase",
-                  }}
-                  onPress={() => handleToStart(index)}
-                >
-                  <Text style={styles.btntext}>Start</Text>
-                </Button>
-              </View>
-            )}
-          />
+        <Card
+          style={styles.surface}
+          mode="outlined"
+          theme={{
+            colors: {
+              outline: "rgba(0, 0, 0, 0.2)",
+            },
+          }}
+          key={index}
+        >
+          <Card.Content>
+            <Paragraph style={styles.description}>
+              {item.description}
+            </Paragraph>
+          </Card.Content>
+          <Card.Actions style={styles.buttons}>
+            <IconButton
+              mode="outlined"
+              icon="account-plus"
+              disabled={disabledState}
+              onPress={() => {}}
+            />
+            <Button
+              mode="contained"
+              disabled={disabledState}
+              loading={loadingState}
+              buttonColor="#419FD9"
+              labelStyle={{
+                fontFamily: "Poppins_600SemiBold",
+                textTransform: "uppercase",
+              }}
+              onPress={() => handleToStart(index)}
+            >
+              <Text style={styles.btntext}>Start</Text>
+            </Button>
+          </Card.Actions>
         </Card>
       ))}
     </View>
@@ -182,14 +208,11 @@ const Moodbooster = () => {
     </View>
   );
   return (
-    <View>
-      <Text style={styles.moodtitle}>Today's moodboosters</Text>
-      <ScrollView style={{ minHeight: 350, maxHeight: 350 }}>
-        <ActiveCards />
-        <MainCard />
-        {/* <CompletedCard />  */}
-      </ScrollView>
-    </View>
+    <ScrollView>
+      <ActiveCards />
+      <MainCard />
+      {/* <CompletedCard />  */}
+    </ScrollView>
   );
 };
 
@@ -200,20 +223,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingRight: 10,
   },
-  moodtitle: {
-    fontFamily: "Poppins_600SemiBold",
-    fontSize: 18,
-    margin: 8,
+  description: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 16,
     color: "#031D29",
-    paddingLeft: 16,
   },
   surface: {
-    borderRadius: 8,
+    // borderRadius: 20,
     // paddingHorizontal: 16,
     marginHorizontal: 8,
     marginVertical: 8,
     fontFamily: "Poppins_600SemiBold",
-    borderColor: "#CCCCCC",
     backgroundColor: "#FFFFFF",
   },
   btntext: {
