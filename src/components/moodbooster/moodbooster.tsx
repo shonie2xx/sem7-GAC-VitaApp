@@ -1,4 +1,3 @@
-import { Surface } from "react-native-paper";
 import React, { useContext, useEffect, useState } from "react";
 import {
   View,
@@ -13,8 +12,6 @@ import {
   startActivity,
   cancelActivity,
   getAllActiveActivities,
-  createActivity,
-  deleteActivity,
   completeActivity,
   getAllCompletedActivities,
 } from "../../services/moodboosterService";
@@ -39,6 +36,8 @@ import {
 import { protectedResources } from "../../../authConfig";
 import { AuthContext } from "../../context/AuthContext";
 import CardActions from "react-native-paper/lib/typescript/components/Card/CardActions";
+import Toast from 'react-native-toast-message';
+
 
 const Moodbooster = (mood) => {
   const [data, setData] = useState([]);
@@ -47,6 +46,14 @@ const Moodbooster = (mood) => {
   const [buttonState, setButtonState] = useState(false);
   const [disabledState, setDisabledState] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
+  //TOAST AFTER COMPLETE
+  const showToast = (toastData) => {
+    Toast.show({
+      type: 'success',
+      text1: "Completed moodbooster!",
+      text2: toastData.activity.description,
+    });
+  }
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
@@ -54,7 +61,6 @@ const Moodbooster = (mood) => {
 
     var activities = await getAllActivities(accessToken);
     // var completedActivities = await getAllCompletedActivities(accessToken);
-
     setData(await activities);
     setActiveData(await activeActivities);
     if (await activeActivities[0]) {
@@ -91,6 +97,7 @@ const Moodbooster = (mood) => {
     await completeActivity(activeData[index].id, accessToken);
     setButtonState(!buttonState);
     setDisabledState(false);
+    showToast(activeData[index])
   };
   const handleToCancel = async (index) => {
     await cancelActivity(activeData[index].id, accessToken);
@@ -164,9 +171,7 @@ const Moodbooster = (mood) => {
           key={index}
         >
           <Card.Content>
-            <Paragraph style={styles.description}>
-              {item.description}
-            </Paragraph>
+            <Paragraph style={styles.description}>{item.description}</Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
             <IconButton
@@ -248,7 +253,6 @@ const styles = StyleSheet.create({
 export default Moodbooster;
 
 // {todos[index].started &&(
-
 //   <Card.Actions >
 //     <Button
 //         mode="outlined"
