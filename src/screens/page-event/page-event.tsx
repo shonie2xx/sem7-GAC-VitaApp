@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground } from "react-native";
 // import { HStack, Banner, Button } from "@react-native-material/core";
 import {
@@ -67,23 +68,28 @@ const PageEvent = ({ navigation, props}) => {
   return (
       <ScrollView style={styles.screen}>
       <ImageBackground source={wave} style={styles.wave}>
-        <Text style={styles.title}>Signed Up</Text>
+      </ImageBackground>
+        <Text style={styles.moodtitle}>Signed Up</Text>
         <View>
+
         {events.map((item, index) => (
-          // <Surface style={styles.surface} elevation={1} key={index} >
-          
-          <Card style={styles.surface} elevation={1} key={index}>
+          <Card style={styles.surface} key={index}>
             <TouchableOpacity style={styles.touchcard} onPress={() => handleOnPress(item)} >
              <Card.Title title={item.title} subtitle={item.description} right={() => RightContent(item.date)} />
              </TouchableOpacity>
-            <Card.Content>
+            <Card.Content style={styles.content}>
               <Text>{item.joined}/{item.limit}</Text>
-              <IconButton
+              <Ionicons style={styles.icon} 
+                name="people"
+                size={24}
+                color="#031D29" 
+              />
+              {/* <IconButton
                    {...props}
                     mode="outlined"
                     icon="account-plus"
                     onPress={() => {}}
-                  />
+                  /> */}
               </Card.Content>
             <Card.Actions>
               {item.isSigned ? <Button mode="contained" onPress={() => console.log('Pressed')}>SIGN OUT</Button> : <Button>SIGN IN</Button>}
@@ -92,29 +98,28 @@ const PageEvent = ({ navigation, props}) => {
           
         ))}
       </View>
-      <Text style={styles.title}>Open events</Text>
-      {/* <ImageBackground source={wave} style={styles.wave} /> */}
-      </ImageBackground>
+      <Text style={styles.moodtitle}>Open events</Text>
       <View>
+
         {events.map((item, index) => (
-          // <Surface style={styles.surface} elevation={1} key={index} >
-          
-          <Card style={styles.surface} elevation={1} key={index}>
+          <Card style={styles.surface} key={index}>
             <TouchableOpacity style={styles.touchcard} onPress={() => handleOnPress(item)} >
-             <Card.Title title={item.title} subtitle={item.description} right={() => RightContent(item.date)} />
+             <Card.Title title={item.title} subtitle={item.description} right={() => RightContent(item.date)}/>
              </TouchableOpacity>
-            <Card.Content>
+            <Card.Content style={styles.content}>
               <Text>{item.joined}/{item.limit}</Text>
-              <IconButton
+              <Ionicons  name="person" />
+              {/* <IconButton
                    {...props}
                     mode="outlined"
                     icon="account-plus"
                     onPress={() => {}}
-                  />
+                  /> */}
+                 <Card.Actions>
+                  {item.isSigned ? <Button mode="contained" onPress={() => console.log('Pressed')} style={{backgroundColor: "#419FD9"}}>SIGN OUT</Button> : <Button style={{borderWidth: 1, borderColor: "#FFE06A"}}>SIGN IN</Button>}
+                </Card.Actions>
               </Card.Content>
-            <Card.Actions>
-              {item.isSigned ? <Button mode="contained" onPress={() => console.log('Pressed')}>SIGN OUT</Button> : <Button>SIGN IN</Button>}
-            </Card.Actions>
+            
           </Card>
         ))}
       </View>
@@ -128,33 +133,42 @@ const styles = StyleSheet.create({
   screen: {
     backgroundColor: "white",
   },
-  buttons: {
+  surface: {
+    borderRadius: 8,
+    padding: 8,
+    margin: 8,
+    fontFamily: 'Poppins_600SemiBold',
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
+  },
+  wave: {
+    flex: 1,
+    width: "100vw",
+    height: "40vh",
+    position: "absolute",
+    top: 0,
+    zIndex: -1,
+  },
+  moodtitle: {
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 18,
+    margin: 8,
+    color: "#031D29",
+    paddingLeft: 8,
+    marginLeft: 16,
+  },
+  content: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-
-  },
-  surface: {
-    borderRadius: 5,
-    paddingRight: 10,
-    marginHorizontal: 10,
-    marginVertical: 6,
-    fontFamily: 'Poppins_600SemiBold'
+    justifyContent: "flex-start",
   },
   touchcard: {
-
+    padding: 0,
+    margin: 0,
   },
-  wave: {
-    height: undefined,
-    width: "100%",
-    resizeMode: "center"
-  },
-  title: {
-    fontFamily: 'Poppins_600SemiBold', 
-    fontSize: 20, 
-    margin: 8, 
-    color: '#031D29', 
-    paddingLeft: 16
+  icon: {
+    paddingLeft: 8,
   }
 });
 

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, View, Image } from "react-native";
+import { Alert, Modal, StyleSheet, Text, View, Image, Platform } from "react-native";
 import { Button } from "react-native-paper";
 import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
 import { useFonts, Poppins_500Medium, Poppins_700Bold, Poppins_600SemiBold } from '@expo-google-fonts/poppins'
+import { TouchableHighlight} from 'react-native'
+
 
 const StartupMood = () => {
   const [modalVisible, setModalVisible] = useState(true);
@@ -80,14 +82,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 32,
     alignItems: "center",
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity:  0.17,
-    shadowRadius: 3.05,
-    elevation: 4
+    // shadowColor: "#000000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 3,
+    // },
+    // shadowOpacity:  0.17,
+    // shadowRadius: 3.05,
+    // elevation: 4
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
   },
   btn: {
     margin: 8,
@@ -109,8 +113,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_700Bold'
   },
   emoji: {
-    width: 42,
-    height: 42,
+    flex: 1,
+    // flex: Platform.OS === 'ios' ? 1 : null,
+    justifyContent: "center",
+    alignItems: "center",
+    minWidth: 42,
+    minHeight: 42,
+    resizeMode: "stretch"
   }
 });
 

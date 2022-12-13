@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     nameinput :{
         marginTop: 16,
         marginBottom: 16,
+        borderRadius: 99,
     },
 })
 
