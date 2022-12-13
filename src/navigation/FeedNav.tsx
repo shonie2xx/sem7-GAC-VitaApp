@@ -44,7 +44,7 @@ const EventStackScreen = () => {
 const NewsStackScreen = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="News" component={PageNews} options={{ headerShown: false }} />
+            <Stack.Screen name="News Page" component={PageNews} options={{ headerShown: false }} />
             <Stack.Screen name="News Details" component={PageNewsDetails} />
         </Stack.Navigator>
     )
