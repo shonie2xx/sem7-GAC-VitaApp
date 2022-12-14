@@ -27,8 +27,8 @@ import {
   MD3LightTheme as DefaultTheme,
   Provider as PaperProvider,
 } from "react-native-paper";
-import Primary from "../../components/buttons/primary";
-import Secondary from "../../components/buttons/secondary";
+import SecondaryBtn from "../../components/buttons/SecondaryBtn";
+import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 
 // import { EventCards } from "../../components/NewsPage/EventCards";
 const wave = require("../../../assets/wave.png");
@@ -111,8 +111,8 @@ const PageEvent = ({ navigation, props }) => {
                 color="#031D29"
               />
             </View>
-            <Primary></Primary>
-            <Secondary></Secondary>
+            <PrimaryBtn></PrimaryBtn>
+            <SecondaryBtn></SecondaryBtn>
             {/* <Pressable style={styles.btnPrimary} onPress={() => console.log("clicked!")}>
               <Text style={styles.buttontext}>LOG IN</Text>
             </Pressable> */}
