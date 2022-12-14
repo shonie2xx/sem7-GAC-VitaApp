@@ -23,10 +23,10 @@ export async function addFriend(token, id) {
 }
 
 export async function removeFriend(token, friendId) {
-    var response = await axios.delete(url + "remove" + friendId, {
+    var response = await axios.delete(url + "/remove/" + friendId, {
         headers: { Authorization: `Bearer ${token}` },
     });
-    return response.data;
+    return response;
 }
 
 export async function getFrRequests(token) {

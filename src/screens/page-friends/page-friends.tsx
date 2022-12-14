@@ -5,7 +5,7 @@ import {
 } from "react-native-paper";
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular } from '@expo-google-fonts/poppins';
 import { useEffect, useState, useContext } from "react";
-import { addFriend, getFriends, getFrRequests } from "../../services/friendsService";
+import { addFriend, getFriends, removeFriend } from "../../services/friendsService";
 import { getAllUsers } from "../../services/userService";
 import { AuthContext } from "../../context/AuthContext";
 import { __handlePersistedRegistrationInfoAsync } from "expo-notifications/build/DevicePushTokenAutoRegistration.fx";
@@ -15,21 +15,22 @@ const PageFriends = () => {
 
   const { accessToken } = useContext(AuthContext);
 
-  const [users, setUsers] = useState([]);
-  const [friends, setFriends] = useState([])
-  const [notFriends, setNotFriends] = useState([]);
+  const [usersState, setUsersState] = useState([]);
+  const [friendsState, setFriendsState] = useState([])
+  const [notFriendsState, setNotFriendsState] = useState([]);
   const [isFriends, setIsFriends] = useState(false);
-  // const [friendsRequests, setFriendsRequests] = useState([]);
+  const [isNotFriends, setIsNotFriends] = useState(false);
+  // const [friendsRequests, setUsersStateRequests] = useState([]);
 
   useEffect(() => {
     handleData();
-    console.log(friends)
   }, [])
 
   const fetchUsers = async () => {
     try {
       const res = await getAllUsers(accessToken);
-      setUsers(res);
+      setUsersState(res);
+      return res;
     } catch (err) {
       console.log(err)
     }
@@ -38,42 +39,48 @@ const PageFriends = () => {
   const fetchFriends = async () => {
     try {
       const res = await getFriends(accessToken);
-      setFriends(res);
+      setFriendsState(res);
+      return res;
     } catch (err) {
       console.log(err)
     }
   }
 
-  
-
   const handleData = async () => {
-    await fetchUsers();
-    await fetchFriends();
-    // await fetchRequests();
-    // if (users.length > 0) {
-      const notFriends = users.filter(user => !friends.includes(user.id))
-      console.log("not friends", notFriends)
-      setNotFriends(notFriends);
-    // }
+    const users = await fetchUsers();
+    const friends = await fetchFriends();
+  
+    if(users.length > 0) {
+    const notFriends = users.filter(user => !friends.includes(user.id))
+      setNotFriendsState(notFriends);
+    }
 
-    if (friends.length === 0) {
+    await checkFriendsLenght();
+    await checkNotFriendsLength();
+  }
+
+  const checkFriendsLenght = async () => {
+    if (friendsState.length === 0) {
       setIsFriends(false);
     } else {
       setIsFriends(true);
     }
-    console.log("friends", friends)
   }
-
+  const checkNotFriendsLength = async () => {
+    if (notFriendsState.length === 0) {
+      setIsNotFriends(false);
+    } else {
+      setIsNotFriends(true);
+    }
+  }
   const handleAddFriends = async (id: any) => {
     try {
       const res = await addFriend(accessToken, id);
-      console.log(res)
       if(res.length > 0) {
         //alert
         
         //filter not friends list
-        //const newList = notFriends.filter(user => user.id);
-        //setNotFriends(newList);
+        
         console.log(res)
       }
       // console.log(res.status)
@@ -82,6 +89,17 @@ const PageFriends = () => {
     }
   }
 
+  const handleRemoveFriend = async (id) => {
+    try {
+      const res = await removeFriend(accessToken, id);
+      if(res.status === 200) {
+        setFriendsState(friendsState.filter(item => item.id !== id))
+        await checkFriendsLenght()
+      }
+    } catch (err) {
+      console.log("can't remove friend", err);
+    }
+  }
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
     Poppins_400Regular
@@ -96,11 +114,11 @@ const PageFriends = () => {
         <View> 
           
           <Text style={styles.title}>Friends</Text>
-          {isFriends ? friends.map((item, index) => (
+          {isFriends ? friendsState.map((item, index) => (
             <Card style={styles.surface} elevation={1} key={index}>
               <Card.Title title={item.name} />
               <Card.Actions>
-                <Button mode="contained" onPress={() => console.log('Pressed')}>REMOVE</Button>
+                <Button mode="contained" onPress={() => handleRemoveFriend(item.id)}>REMOVE</Button>
               </Card.Actions>
             </Card>
           )) : <Text>No friends yet! Make some friends by sending a friend request!</Text>}
@@ -110,7 +128,7 @@ const PageFriends = () => {
         
         <View>
           <Text style={styles.title}>Other people</Text>
-          {notFriends ? notFriends.map((item, index) => (
+          {isNotFriends ? notFriendsState.map((item, index) => (
             <Card style={styles.surface} elevation={1} key={index}>
               <Card.Title title={item.name} />
               <Card.Actions>
