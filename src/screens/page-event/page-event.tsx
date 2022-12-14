@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  ImageBackground,
+  Pressable,
+} from "react-native";
 // import { HStack, Banner, Button } from "@react-native-material/core";
 import {
   Avatar,
@@ -7,120 +16,112 @@ import {
   IconButton,
   Button,
   Title,
-  Paragraph
+  Paragraph,
 } from "react-native-paper";
-import { useFonts, Poppins_600SemiBold, Poppins_400Regular } from '@expo-google-fonts/poppins';
+import {
+  useFonts,
+  Poppins_600SemiBold,
+  Poppins_400Regular,
+} from "@expo-google-fonts/poppins";
+import {
+  MD3LightTheme as DefaultTheme,
+  Provider as PaperProvider,
+} from "react-native-paper";
+import Primary from "../../components/buttons/primary";
+import Secondary from "../../components/buttons/secondary";
 
 // import { EventCards } from "../../components/NewsPage/EventCards";
 const wave = require("../../../assets/wave.png");
 
-const PageEvent = ({ navigation, props}) => {
-
+const PageEvent = ({ navigation, props }) => {
   const [events, setTodos] = useState([
     {
       id: 1,
       title: "Marble race",
-      description: "This is a mockup event. In this event employees can participate in a marble race",
-      date: "22 feb",
+      description:
+        "This is a mockup event. In this event employees can participate in a marble race.",
+      date: "22 FEB",
       isSigned: true,
       joined: 17,
-      limit: 30
+      limit: 30,
     },
     {
       id: 2,
       title: "Group fitness",
-      description: "This is a mockup event. In this event employees can participate in a marble race",
-      date: "18 feb",
+      description:
+        "This is a mockup event. In this event employees can participate in a marble race.",
+      date: "18 FEB",
       isSigned: false,
       joined: 19,
-      limit: 30
+      limit: 30,
     },
     {
       id: 3,
       title: "Hotdog contest",
-      description: "This is a mockup event. In this event employees can participate in a marble race",
-      date: "13 feb",
+      description:
+        "This is a mockup event. In this event employees can participate in a marble race.",
+      date: "13 FEB",
       isSigned: false,
       joined: 19,
-      limit: 30
+      limit: 30,
     },
   ]);
 
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
-    Poppins_400Regular
+    Poppins_400Regular,
   });
 
   if (!fontsLoaded) {
     return null;
   }
 
+  const RightContent = (date: any) => <Text>{date}</Text>;
 
-  const RightContent = (date: any) => <Text>{date}</Text>
-
-  const wave = require("../../../assets/wave.png");  
+  const wave = require("../../../assets/wave.png");
 
   const handleOnPress = (item: any) => {
-    navigation.navigate('Event Details', {item})
-  }
+    navigation.navigate("Event Details", { item });
+  };
 
   return (
-      <ScrollView style={styles.screen}>
-      <ImageBackground source={wave} style={styles.wave}>
-        <Text style={styles.title}>Signed Up</Text>
-        <View>
-        {events.map((item, index) => (
-          // <Surface style={styles.surface} elevation={1} key={index} >
-          
-          <Card style={styles.surface} elevation={1} key={index}>
-            <TouchableOpacity style={styles.touchcard} onPress={() => handleOnPress(item)} >
-             <Card.Title title={item.title} subtitle={item.description} right={() => RightContent(item.date)} />
-             </TouchableOpacity>
-            <Card.Content>
-              <Text>{item.joined}/{item.limit}</Text>
-              <IconButton
-                   {...props}
-                    mode="outlined"
-                    icon="account-plus"
-                    onPress={() => {}}
-                  />
-              </Card.Content>
-            <Card.Actions>
-              {item.isSigned ? <Button mode="contained" onPress={() => console.log('Pressed')}>SIGN OUT</Button> : <Button>SIGN IN</Button>}
-            </Card.Actions>
-          </Card>
-          
-        ))}
-      </View>
-      <Text style={styles.title}>Open events</Text>
-      <ImageBackground source={wave} style={styles.wave} />
-      </ImageBackground>
-      <View>
-        {events.map((item, index) => (
-          // <Surface style={styles.surface} elevation={1} key={index} >
-          
-          <Card style={styles.surface} elevation={1} key={index}>
-            <TouchableOpacity style={styles.touchcard} onPress={() => handleOnPress(item)} >
-             <Card.Title title={item.title} subtitle={item.description} right={() => RightContent(item.date)} />
-             </TouchableOpacity>
-            <Card.Content>
-              <Text>{item.joined}/{item.limit}</Text>
-              <IconButton
-                   {...props}
-                    mode="outlined"
-                    icon="account-plus"
-                    onPress={() => {}}
-                  />
-              </Card.Content>
-            <Card.Actions>
-              {item.isSigned ? <Button mode="contained" onPress={() => console.log('Pressed')}>SIGN OUT</Button> : <Button>SIGN IN</Button>}
-            </Card.Actions>
-          </Card>
-        ))}
-      </View>
-      </ScrollView>
-  )
-}
+    <ScrollView style={styles.screen}>
+      <ImageBackground source={wave} style={styles.wave}></ImageBackground>
+      <Text style={styles.moodtitle}>Signed Up</Text>
+
+      {events.map((item, index) => (
+        <View key={index} style={styles.card}>
+          <TouchableOpacity onPress={() => handleOnPress(item)} style={{ width: "100%" }}>
+            <View style={styles.wrapperTop}>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.date}>{item.date}</Text>
+            </View>
+            <Text style={styles.description}>{item.description}</Text>
+          </TouchableOpacity>
+
+          <View style={styles.wrapperBottom}>
+            <View style={styles.joined}>
+              <Text style={styles.description}>
+                {item.joined}/{item.limit}
+              </Text>
+              <Ionicons
+                style={styles.icon}
+                name="people"
+                size={24}
+                color="#031D29"
+              />
+            </View>
+            <Primary></Primary>
+            <Secondary></Secondary>
+            {/* <Pressable style={styles.btnPrimary} onPress={() => console.log("clicked!")}>
+              <Text style={styles.buttontext}>LOG IN</Text>
+            </Pressable> */}
+          </View>
+        </View>
+      ))}
+    </ScrollView>
+  );
+};
 
 export default PageEvent;
 
@@ -128,35 +129,90 @@ const styles = StyleSheet.create({
   screen: {
     backgroundColor: "white",
   },
-  buttons: {
+  card: {
     flex: 1,
-    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
-
+    marginHorizontal: 8,
+    marginVertical: 4,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
+    borderRadius: 8,
+    backgroundColor: "white",
   },
-  surface: {
-    borderRadius: 5,
-    paddingRight: 10,
-    marginHorizontal: 10,
-    marginVertical: 6,
-    fontFamily: 'Poppins_600SemiBold'
-  },
-  touchcard: {
-
-  },
-  wave: {
-    height: undefined,
-    width: "100%",
-    resizeMode: "center"
+  joined: {
+    flexDirection: "row",
   },
   title: {
-    fontFamily: 'Poppins_600SemiBold', 
-    fontSize: 20, 
-    margin: 8, 
-    color: '#031D29', 
-    paddingLeft: 16
-  }
+    fontFamily: "Poppins_600SemiBold",
+    margin: 0,
+    padding: 0,
+    fontSize: 20,
+    color: "#031D29",
+  },
+  description: {
+    fontFamily: "Poppins_500Medium",
+    margin: 0,
+    padding: 0,
+    fontSize: 12,
+    color: "#052D40",
+    paddingVertical: 4,
+  },
+  date: {
+    fontFamily: "Poppins_700Bold",
+    margin: 0,
+    padding: 0,
+    fontSize: 12,
+    color: "#031D29",
+  },
+  icon: {
+    paddingHorizontal: 8,
+  },
+  wave: {
+    // flex: 1,
+    // width: "100vw",
+    // height: "40vh",
+    // position: "absolute",
+    // top: 0,
+    // zIndex: -1,
+  },
+  wrapperTop: {
+    flex: 1,
+    flexDirection: "row",
+        alignItems: "flex-start",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingVertical: 4,
+  },
+  wrapperBottom: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingVertical: 4,
+  },
+  moodtitle: {
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 20,
+    marginVertical: 8,
+    color: "#031D29",
+    paddingLeft: 20,
+  },
+  btnPrimary: {
+    backgroundColor: "#419FD9",
+    borderRadius: 999,
+    paddingHorizontal: 24,
+    paddingVertical: 8,
+  },
+  btnSecondary: {
+
+  },
+  buttontext: {
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 12,
+    margin: 8,
+    color: "white",
+  },
 });
-
-
-
