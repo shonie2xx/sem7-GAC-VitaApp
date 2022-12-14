@@ -4,6 +4,7 @@ import { Button } from "react-native-paper";
 import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
 import { useFonts, Poppins_500Medium, Poppins_700Bold, Poppins_600SemiBold } from '@expo-google-fonts/poppins'
 import { TouchableHighlight} from 'react-native'
+import Svg, { Circle } from 'react-native-svg';
 
 
 const StartupMood = () => {
@@ -45,6 +46,9 @@ const StartupMood = () => {
               <Pressable
                   style={styles.btn}
                   onPress={() => updateMoodPopUp(1)}>
+                    <Svg height="50%" width="50%" viewBox="0 0 100 100">
+                      <Circle cx="50" cy="50" r="50" stroke="purple" strokeWidth=".5" fill="violet" />
+                    </Svg>
                   <Image source={require("../../../assets/modal_frowney.png")} style={styles.emoji}/>
               </Pressable>
               <Pressable

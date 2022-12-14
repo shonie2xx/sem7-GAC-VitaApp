@@ -27,6 +27,8 @@ import {
   MD3LightTheme as DefaultTheme,
   Provider as PaperProvider,
 } from "react-native-paper";
+import Primary from "../../components/buttons/primary";
+import Secondary from "../../components/buttons/secondary";
 
 // import { EventCards } from "../../components/NewsPage/EventCards";
 const wave = require("../../../assets/wave.png");
@@ -82,17 +84,6 @@ const PageEvent = ({ navigation, props }) => {
     navigation.navigate("Event Details", { item });
   };
 
-  const theme = {
-    ...DefaultTheme,
-    roundness: 8,
-    colors: {
-      primary: "#E21E1E",
-      secondary: "#E21E1E",
-      background: "#FFFFFF",
-      fontFamily: "Poppins_600SemiBold",
-    },
-  };
-
   return (
     <ScrollView style={styles.screen}>
       <ImageBackground source={wave} style={styles.wave}></ImageBackground>
@@ -120,9 +111,11 @@ const PageEvent = ({ navigation, props }) => {
                 color="#031D29"
               />
             </View>
-            <Pressable style={styles.btnPrimary} onPress={() => console.log("clicked!")}>
-              <Text style={styles.buttontext}>Button</Text>
-            </Pressable>
+            <Primary></Primary>
+            <Secondary></Secondary>
+            {/* <Pressable style={styles.btnPrimary} onPress={() => console.log("clicked!")}>
+              <Text style={styles.buttontext}>LOG IN</Text>
+            </Pressable> */}
           </View>
         </View>
       ))}
@@ -177,12 +170,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   wave: {
-    flex: 1,
-    width: "100vw",
-    height: "40vh",
-    position: "absolute",
-    top: 0,
-    zIndex: -1,
+    // flex: 1,
+    // width: "100vw",
+    // height: "40vh",
+    // position: "absolute",
+    // top: 0,
+    // zIndex: -1,
   },
   wrapperTop: {
     flex: 1,
