@@ -1,58 +1,84 @@
 import { View, Text,StyleSheet, ScrollView, ImageBackground } from "react-native";
 import {
-  Avatar,
   Card,
-  IconButton,
   Button,
-  Title,
-  Paragraph
 } from "react-native-paper";
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular } from '@expo-google-fonts/poppins';
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { __handlePersistedRegistrationInfoAsync } from "expo-notifications/build/DevicePushTokenAutoRegistration.fx";
+import { acceptFrRequest, cancelFrRequest, getFrRequests } from "../../services/friendsService";
 
 const PageRequests = () => {
     const wave = require("../../../assets/wave.png");
     
-    
-    const [requests, setRequests] = useState([
-        {
-          id: 1,
-          name: "John Doe",
-        },
-        {
-          id: 2,
-          name: "John Doe",
-        },
-        {
-          id: 3,
-          name: "John Doe",
-        },
-      ]);
-      let [fontsLoaded] = useFonts({
-        Poppins_600SemiBold,
-        Poppins_400Regular
-      });
-    
-      if (!fontsLoaded) {
-        return null;
+    const { accessToken } = useContext(AuthContext);
+
+    const [requests, setRequests] = useState([]);
+    const [isRequests, setIsRequests] = useState(false);
+    useEffect( () => {
+      fetchRequests(); 
+    }, [])
+
+    const fetchRequests = async () => {
+    try {
+      const res = await getFrRequests(accessToken);
+      console.log("Friend requests", requests);
+      if(res.status === 200) {
+      setRequests(await res.data);
+      setIsRequests(true);
       }
+    } catch (err) {
+      console.log("couldn't fetch requests", err)
+    }
+  }
+
+  const handleCancelRequest = async (id) => {
+    try {
+      const res = await cancelFrRequest(accessToken, id);
+      console.log(res)
+    }
+    catch (err) {
+      console.log("request couldn't be cancelled", err)
+    }
+  }
+
+  const handleAcceptRequest = async (id) => {
+    try {
+      const res = await acceptFrRequest(accessToken, id);
+      console.log("accepted", res)
+    }
+    catch (err) {
+      console.log("request couldn't be accepted", err)
+    }
+  }
+
+  let [fontsLoaded] = useFonts({
+      Poppins_600SemiBold,
+      Poppins_400Regular
+    });
+    
+    if (!fontsLoaded) {
+      return null;
+    }
 
   return (
     <ScrollView style={styles.screen}>
-      <ImageBackground source={wave} style={styles.wave}>
+      <ImageBackground source={wave} style={styles.wave} />
         <View>
-        {requests.map((item, index) => (
+        {isRequests ? requests.map((item, index) => (
          
           <Card style={styles.surface} elevation={1} key={index}>
             <Card.Title title={item.name} />
             <Card.Actions>
-               <Button mode="contained" onPress={() => console.log('Pressed')}>REMOVE</Button> 
+              <Button mode="contained" onPress={() => handleAcceptRequest(item.id)}>Accept</Button>
+              <Button mode="contained" onPress={() => handleCancelRequest(item.id)}>Cancel</Button> 
             </Card.Actions>
           </Card>
           
-        ))}
+        )) : <Text>No requests yet!</Text>}
       </View>
-      </ImageBackground>
+      
       </ScrollView>
   );
 };
@@ -80,9 +106,10 @@ const styles = StyleSheet.create({
   
     },
     wave: {
-      height: undefined,
+      height: "100%",
       width: "100%",
-      resizeMode: "center"
+      resizeMode: "center",
+      position: "absolute"
     },
     title: {
       fontFamily: 'Poppins_600SemiBold', 

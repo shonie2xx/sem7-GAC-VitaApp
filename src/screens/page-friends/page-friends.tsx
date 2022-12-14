@@ -1,19 +1,14 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground, Pressable } from "react-native";
 import {
-  Avatar,
   Card,
-  IconButton,
   Button,
-  Title,
-  Paragraph
 } from "react-native-paper";
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular } from '@expo-google-fonts/poppins';
 import { useEffect, useState, useContext } from "react";
-import { getFriends } from "../../services/friendsService";
+import { addFriend, getFriends, getFrRequests } from "../../services/friendsService";
 import { getAllUsers } from "../../services/userService";
 import { AuthContext } from "../../context/AuthContext";
 import { __handlePersistedRegistrationInfoAsync } from "expo-notifications/build/DevicePushTokenAutoRegistration.fx";
-
 
 const PageFriends = () => {
   const wave = require("../../../assets/wave.png");
@@ -24,6 +19,7 @@ const PageFriends = () => {
   const [friends, setFriends] = useState([])
   const [notFriends, setNotFriends] = useState([]);
   const [isFriends, setIsFriends] = useState(false);
+  // const [friendsRequests, setFriendsRequests] = useState([]);
 
   useEffect(() => {
     handleData();
@@ -38,6 +34,7 @@ const PageFriends = () => {
       console.log(err)
     }
   }
+
   const fetchFriends = async () => {
     try {
       const res = await getFriends(accessToken);
@@ -47,16 +44,18 @@ const PageFriends = () => {
     }
   }
 
+  
+
   const handleData = async () => {
     await fetchUsers();
     await fetchFriends();
+    // await fetchRequests();
+    // if (users.length > 0) {
+      const notFriends = users.filter(user => !friends.includes(user.id))
+      console.log("not friends", notFriends)
+      setNotFriends(notFriends);
+    // }
 
-    if (users.length > 0) {
-        const notFriends = users.filter(user => !friends.includes(user.id))
-        console.log("not friends", notFriends)
-        setNotFriends(notFriends);
-    }
-     
     if (friends.length === 0) {
       setIsFriends(false);
     } else {
@@ -65,6 +64,23 @@ const PageFriends = () => {
     console.log("friends", friends)
   }
 
+  const handleAddFriends = async (id: any) => {
+    try {
+      const res = await addFriend(accessToken, id);
+      console.log(res)
+      if(res.length > 0) {
+        //alert
+        
+        //filter not friends list
+        //const newList = notFriends.filter(user => user.id);
+        //setNotFriends(newList);
+        console.log(res)
+      }
+      // console.log(res.status)
+    } catch (err) {
+      console.log("Adding friend failed", err)
+    }
+  }
 
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
@@ -76,12 +92,10 @@ const PageFriends = () => {
   }
   return (
     <ScrollView style={styles.screen}>
-      <ImageBackground source={wave} style={styles.wave}>
-        <View>
-
+     <ImageBackground source={wave} style={styles.wave} />
+        <View> 
+          
           <Text style={styles.title}>Friends</Text>
-
-
           {isFriends ? friends.map((item, index) => (
             <Card style={styles.surface} elevation={1} key={index}>
               <Card.Title title={item.name} />
@@ -93,18 +107,28 @@ const PageFriends = () => {
 
 
         </View>
+        
         <View>
           <Text style={styles.title}>Other people</Text>
           {notFriends ? notFriends.map((item, index) => (
             <Card style={styles.surface} elevation={1} key={index}>
               <Card.Title title={item.name} />
               <Card.Actions>
-                <Button mode="contained" onPress={() => console.log('Pressed')}>ADD</Button>
+                <Button mode="contained" onPress={() => handleAddFriends(item.id)}>Add</Button>
+                {/* {showPopup && (
+                  <Dialog visible={showPopup} onDismiss={() => setShowPopup(false)}>
+                  <Dialog.Title>You are sending a request</Dialog.Title>
+                  
+                  <Dialog.Actions>
+                    <Button onPress={() => handleYesPress}>Confirm</Button>
+                    <Button onPress={() => setShowPopup(false)}>Cancel</Button>
+                  </Dialog.Actions>
+                </Dialog>
+                )} */}
               </Card.Actions>
             </Card>
           )) : <Text>No users</Text>}
-        </View>
-      </ImageBackground>
+        </View> 
     </ScrollView>
   );
 };
@@ -132,9 +156,10 @@ const styles = StyleSheet.create({
 
   },
   wave: {
-    height: undefined,
+    height: "100%",
     width: "100%",
-    resizeMode: "center"
+    resizeMode: "center",
+    position: "absolute"
   },
   title: {
     fontFamily: 'Poppins_600SemiBold',
