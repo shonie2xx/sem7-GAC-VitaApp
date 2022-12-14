@@ -42,7 +42,7 @@ const PageHome = ({ navigation }) => {
   useEffect(() => {
     changePic();
     userMood();
-  }, [mood]);
+  }, []);
 
   const changePic = async () => {
     if (mood > 7) {
