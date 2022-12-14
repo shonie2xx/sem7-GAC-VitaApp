@@ -1,32 +1,39 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Alert, Modal, StyleSheet, Text, View, Image } from "react-native";
 import { Button } from "react-native-paper";
 import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
-import { useFonts, Poppins_500Medium, Poppins_700Bold, Poppins_600SemiBold } from '@expo-google-fonts/poppins'
+import {
+  useFonts,
+  Poppins_500Medium,
+  Poppins_700Bold,
+  Poppins_600SemiBold,
+} from "@expo-google-fonts/poppins";
+import { AuthContext } from "../../context/AuthContext";
+import { updateUserMood } from "../../services/userService";
 
-const StartupMood = () => {
+const StartupMood = ({changeMood}) => {
   const [modalVisible, setModalVisible] = useState(true);
-  const mood = useMoodPoints()
-  const updateMood = useMoodPointsUpdate()
+  const mood = useMoodPoints();
+  const updateMood = useMoodPointsUpdate();
+  const { accessToken } = useContext(AuthContext);
 
-  function updateMoodPopUp(points) {
+  const updateMoodPopUp = async (points) => {
     setModalVisible(!modalVisible);
-    updateMood(points)
-    console.log(points)
+    await updateUserMood(accessToken, points);
+    changeMood(points)
   };
 
   let [fontsLoaded] = useFonts({
     Poppins_500Medium,
     Poppins_700Bold,
-    Poppins_600SemiBold
+    Poppins_600SemiBold,
   });
-  
+
   if (!fontsLoaded) {
     return null;
   }
 
   return (
-
     <Modal
       animationType="slide"
       transparent={true}
@@ -40,27 +47,42 @@ const StartupMood = () => {
         <View style={styles.modalView}>
           <Text style={styles.modalText}>How are we feeling today?</Text>
           <View style={{ flexDirection: "row" }}>
-              <Button
-                  style={styles.btn}
-                  mode="contained"
-                  buttonColor="#419FD9"
-                  labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(1)}>
-                  <Image source={require("../../../assets/modal_frowney.png")} style={styles.emoji}/>
-              </Button>
-              <Button
-                  style={styles.btn}
-                  mode="contained"
-                  buttonColor="#419FD9"
-                  labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(5)}>
-                  <Image source={require("../../../assets/modal_neutral.png")} style={styles.emoji}/>
-              </Button>
-              <Button
-                  style={styles.btn}
-                  mode="contained"
-                  buttonColor="#419FD9"
-                  labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(10)}>
-                  <Image source={require("../../../assets/modal_happy.png")} style={styles.emoji}/>
-              </Button>
+            <Button
+              style={styles.btn}
+              mode="contained"
+              buttonColor="#419FD9"
+              labelStyle={{ fontFamily: "Poppins_600SemiBold" }}
+              onPress={() => updateMoodPopUp(1)}
+            >
+              <Image
+                source={require("../../../assets/modal_frowney.png")}
+                style={styles.emoji}
+              />
+            </Button>
+            <Button
+              style={styles.btn}
+              mode="contained"
+              buttonColor="#419FD9"
+              labelStyle={{ fontFamily: "Poppins_600SemiBold" }}
+              onPress={() => updateMoodPopUp(5)}
+            >
+              <Image
+                source={require("../../../assets/modal_neutral.png")}
+                style={styles.emoji}
+              />
+            </Button>
+            <Button
+              style={styles.btn}
+              mode="contained"
+              buttonColor="#419FD9"
+              labelStyle={{ fontFamily: "Poppins_600SemiBold" }}
+              onPress={() => updateMoodPopUp(10)}
+            >
+              <Image
+                source={require("../../../assets/modal_happy.png")}
+                style={styles.emoji}
+              />
+            </Button>
           </View>
         </View>
       </View>
@@ -85,9 +107,9 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3,
     },
-    shadowOpacity:  0.17,
+    shadowOpacity: 0.17,
     shadowRadius: 3.05,
-    elevation: 4
+    elevation: 4,
   },
   btn: {
     margin: 8,
@@ -96,7 +118,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonOpen: {
-    backgroundColor: 'rgba(0,0,0,0.5)'
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   buttonClose: {
     backgroundColor: "#2196F3",
@@ -106,12 +128,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: "center",
     color: "#031D29",
-    fontFamily: 'Poppins_700Bold'
+    fontFamily: "Poppins_700Bold",
   },
   emoji: {
     width: 42,
     height: 42,
-  }
+  },
 });
 
 export default StartupMood;

@@ -21,7 +21,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Toast from "react-native-toast-message";
 import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native";
 
-const Moodbooster = (mood) => {
+const Moodbooster = ({changeMood}) => {
   const [data, setData] = useState([]);
   const [activeData, setActiveData] = useState([]);
   const [completedData, setCompletedData] = useState([]);
@@ -73,6 +73,8 @@ const Moodbooster = (mood) => {
     // await deleteActivity(data[index].id, accessToken);
     setButtonState(!buttonState);
     setDisabledState(true);
+    // console.log(data[index].points)
+    
   };
   const handleToComplete = async (index) => {
     // console.log(activeData[index].id, accessToken)
@@ -80,6 +82,8 @@ const Moodbooster = (mood) => {
     setButtonState(!buttonState);
     setDisabledState(false);
     showToast(activeData[index]);
+    // console.log(activeData[index])
+    changeMood(activeData[index].moodbooster.points)
   };
   const handleToCancel = async (index) => {
     await cancelActivity(activeData[index].id, accessToken);
@@ -230,8 +234,6 @@ const styles = StyleSheet.create({
     color: "#031D29",
   },
   surface: {
-    // borderRadius: 20,
-    // paddingHorizontal: 16,
     marginHorizontal: 8,
     marginVertical: 8,
     fontFamily: "Poppins_600SemiBold",
