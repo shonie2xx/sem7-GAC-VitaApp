@@ -1,12 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  FlatList,
-  LayoutAnimation,
-} from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import {
   getAllActivities,
   startActivity,
@@ -16,16 +9,7 @@ import {
   getAllCompletedActivities,
 } from "../../services/moodboosterService";
 
-// import { HStack, Banner, Button } from "@react-native-material/core";
-import axios from "axios";
-import {
-  Avatar,
-  Card,
-  IconButton,
-  Button,
-  Title,
-  Paragraph,
-} from "react-native-paper";
+import { Card, IconButton, Button, Paragraph } from "react-native-paper";
 import {
   useFonts,
   Poppins_600SemiBold,
@@ -33,11 +17,9 @@ import {
   Poppins_500Medium,
 } from "@expo-google-fonts/poppins";
 
-import { protectedResources } from "../../../authConfig";
 import { AuthContext } from "../../context/AuthContext";
-import CardActions from "react-native-paper/lib/typescript/components/Card/CardActions";
-import Toast from 'react-native-toast-message';
-
+import Toast from "react-native-toast-message";
+import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native";
 
 const Moodbooster = (mood) => {
   const [data, setData] = useState([]);
@@ -49,11 +31,11 @@ const Moodbooster = (mood) => {
   //TOAST AFTER COMPLETE
   const showToast = (toastData) => {
     Toast.show({
-      type: 'success',
+      type: "success",
       text1: "Completed moodbooster!",
-      text2: toastData.activity.description,
+      text2: toastData.moodbooster.description,
     });
-  }
+  };
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
@@ -97,7 +79,7 @@ const Moodbooster = (mood) => {
     await completeActivity(activeData[index].id, accessToken);
     setButtonState(!buttonState);
     setDisabledState(false);
-    showToast(activeData[index])
+    showToast(activeData[index]);
   };
   const handleToCancel = async (index) => {
     await cancelActivity(activeData[index].id, accessToken);
@@ -121,7 +103,7 @@ const Moodbooster = (mood) => {
         >
           <Card.Content>
             <Paragraph style={styles.description}>
-              {item.activity.description}
+              {item.moodbooster.description}
             </Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
@@ -215,12 +197,26 @@ const Moodbooster = (mood) => {
   return (
     <ScrollView>
       <ActiveCards />
-      <MainCard />
+      {data[0] ? (
+        <MainCard />
+      ) : (
+        <ContentLoader
+        speed={2}
+        width={400}
+        height={460}
+        viewBox="0 0 400 460"
+        backgroundColor="#e6e6e6"
+        foregroundColor="#d6d6d6"
+      >
+        <Rect x="10" y="0" rx="2" ry="2" width="350" height="100" />
+        <Rect x="10" y="110" rx="2" ry="2" width="320" height="100" />
+        <Rect x="10" y="220" rx="2" ry="2" width="340" height="100" />
+        </ContentLoader>
+      )}
       {/* <CompletedCard />  */}
     </ScrollView>
   );
 };
-
 const styles = StyleSheet.create({
   buttons: {
     flex: 1,
