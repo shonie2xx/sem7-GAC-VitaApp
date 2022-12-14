@@ -36,6 +36,7 @@ const PageRequests = () => {
   const handleCancelRequest = async (id) => {
     try {
       const res = await cancelFrRequest(accessToken, id);
+      await fetchRequests();
       console.log(res)
     }
     catch (err) {
@@ -46,6 +47,7 @@ const PageRequests = () => {
   const handleAcceptRequest = async (id) => {
     try {
       const res = await acceptFrRequest(accessToken, id);
+      await fetchRequests()
       console.log("accepted", res)
     }
     catch (err) {
