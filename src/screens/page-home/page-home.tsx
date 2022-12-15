@@ -80,7 +80,6 @@ const updateMood = useMoodPointsUpdate()
             <Image style={styles.moodbg} source={require("../../../assets/moodbg.png")} />
             <Text style={styles.moodnmbr}>{mood}</Text>
           </View>
-          
         </View>
       </ImageBackground>
       <Text style={styles.moodtitle}>Today's moodboosters</Text>

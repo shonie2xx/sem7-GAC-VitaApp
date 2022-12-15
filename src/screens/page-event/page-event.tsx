@@ -85,37 +85,41 @@ const PageEvent = ({ navigation, props }) => {
   };
 
   return (
-    <ScrollView style={styles.screen}>
-      <ImageBackground source={wave} style={styles.wave}></ImageBackground>
-      <Text style={styles.moodtitle}>Signed Up</Text>
+    <ImageBackground source={wave} style={styles.wave}>
+      <ScrollView style={styles.screen}>
+        <Text style={styles.moodtitle}>Signed Up</Text>
 
-      {events.map((item, index) => (
-        <View key={index} style={styles.card}>
-          <TouchableOpacity onPress={() => handleOnPress(item)} style={{ width: "100%" }}>
-            <View style={styles.wrapperTop}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.date}>{item.date}</Text>
-            </View>
-            <Text style={styles.description}>{item.description}</Text>
-          </TouchableOpacity>
+        {events.map((item, index) => (
+          <View key={index} style={styles.card}>
+            <TouchableOpacity
+              onPress={() => handleOnPress(item)}
+              style={{ width: "100%" }}
+            >
+              <View style={styles.wrapperTop}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.date}>{item.date}</Text>
+              </View>
+              <Text style={styles.description}>{item.description}</Text>
+            </TouchableOpacity>
 
-          <View style={styles.wrapperBottom}>
-            <View style={styles.joined}>
-              <Text style={styles.description}>
-                {item.joined}/{item.limit}
-              </Text>
-              <Ionicons
-                style={styles.icon}
-                name="people"
-                size={24}
-                color="#031D29"
-              />
+            <View style={styles.wrapperBottom}>
+              <View style={styles.joined}>
+                <Text style={styles.description}>
+                  {item.joined}/{item.limit}
+                </Text>
+                <Ionicons
+                  style={styles.icon}
+                  name="people"
+                  size={24}
+                  color="#031D29"
+                />
+              </View>
+              <PrimaryBtn text={"LOG IN"}></PrimaryBtn>
             </View>
-            <PrimaryBtn text={"LOG IN"}></PrimaryBtn>
           </View>
-        </View>
-      ))}
-    </ScrollView>
+        ))}
+      </ScrollView>
+    </ImageBackground>
   );
 };
 
@@ -166,17 +170,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   wave: {
-    // flex: 1,
-    // width: "100vw",
-    // height: "40vh",
-    // position: "absolute",
-    // top: 0,
-    // zIndex: -1,
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: -1,
   },
   wrapperTop: {
     flex: 1,
     flexDirection: "row",
-        alignItems: "flex-start",
+    alignItems: "flex-start",
     justifyContent: "space-between",
     width: "100%",
     paddingVertical: 4,
@@ -202,9 +208,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 8,
   },
-  btnSecondary: {
-
-  },
+  btnSecondary: {},
   buttontext: {
     fontFamily: "Poppins_600SemiBold",
     fontSize: 12,
