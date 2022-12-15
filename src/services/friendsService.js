@@ -61,3 +61,9 @@ export async function cancelFrRequest(token, friendReqId) {
     return response.data;
 }
 
+export async function getSendedRequests(token) {
+    var response = await axios.get(url + "/sendedrequests", {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+}

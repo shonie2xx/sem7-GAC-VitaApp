@@ -1,4 +1,4 @@
-import { View, Text,StyleSheet, ScrollView, ImageBackground } from "react-native";
+import { View, Text,StyleSheet, ScrollView, ImageBackground, SafeAreaView, RefreshControl } from "react-native";
 import {
   Card,
   Button,
@@ -9,6 +9,10 @@ import { AuthContext } from "../../context/AuthContext";
 import { __handlePersistedRegistrationInfoAsync } from "expo-notifications/build/DevicePushTokenAutoRegistration.fx";
 import { acceptFrRequest, cancelFrRequest, getFrRequests } from "../../services/friendsService";
 
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 const PageRequests = () => {
     const wave = require("../../../assets/wave.png");
     
@@ -16,6 +20,8 @@ const PageRequests = () => {
 
     const [requests, setRequests] = useState([]);
     const [isRequests, setIsRequests] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+
     useEffect( () => {
       fetchRequests(); 
     }, [])
@@ -24,13 +30,20 @@ const PageRequests = () => {
     try {
       const res = await getFrRequests(accessToken);
       console.log("Friend requests", requests);
+      setRefreshing(true);
+      wait(2000).then(() => setRefreshing(false));
       if(res.status === 200) {
       setRequests(await res.data);
+      if(res.data.length > 0) {
       setIsRequests(true);
+      } else {
+        setIsRequests(false);
+      }
       }
     } catch (err) {
       console.log("couldn't fetch requests", err)
     }
+    
   }
 
   const handleCancelRequest = async (id) => {
@@ -65,7 +78,16 @@ const PageRequests = () => {
     }
 
   return (
-    <ScrollView style={styles.screen}>
+    <SafeAreaView style = {styles.container}>
+    <ScrollView 
+    contentContainerStyle = {styles.screen}
+    refreshControl = {
+      <RefreshControl
+              refreshing={refreshing}
+              onRefresh={fetchRequests}
+            />
+            }
+          >
       <ImageBackground source={wave} style={styles.wave} />
         <View>
         {isRequests ? requests.map((item, index) => (
@@ -80,17 +102,21 @@ const PageRequests = () => {
           
         )) : <Text>No requests yet!</Text>}
       </View>
-      
       </ScrollView>
+  </SafeAreaView>
   );
 };
 
 export default PageRequests;
 
 const styles = StyleSheet.create({
-    screen: {
-      backgroundColor: "white",
-    },
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  screen: {
+    backgroundColor: "white",
+  },
     buttons: {
       flex: 1,
       flexDirection: "row",

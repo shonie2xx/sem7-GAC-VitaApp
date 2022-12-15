@@ -1,27 +1,32 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground, Pressable } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground, Pressable, SafeAreaView, RefreshControl } from "react-native";
 import {
   Card,
   Button,
 } from "react-native-paper";
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular } from '@expo-google-fonts/poppins';
-import { useEffect, useState, useContext } from "react";
-import { addFriend, getFriends, removeFriend } from "../../services/friendsService";
+import { useEffect, useState, useContext, useRef, useCallback } from "react";
+import { addFriend, getFriends, getSendedRequests, removeFriend } from "../../services/friendsService";
 import { getAllUsers } from "../../services/userService";
 import { AuthContext } from "../../context/AuthContext";
 import { __handlePersistedRegistrationInfoAsync } from "expo-notifications/build/DevicePushTokenAutoRegistration.fx";
+
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 const PageFriends = () => {
   const wave = require("../../../assets/wave.png");
 
   const { accessToken } = useContext(AuthContext);
 
-  const [usersState, setUsersState] = useState([]);
-  const [friendsState, setFriendsState] = useState([])
-  const [notFriendsState, setNotFriendsState] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [friends, setFriends] = useState([])
+  const [notFriends, setNotFriends] = useState([]);
   const [isFriends, setIsFriends] = useState(false);
   const [isNotFriends, setIsNotFriends] = useState(false);
+  const [sendedRequests, setSendedRequests] = useState([]);
   // const [friendsRequests, setUsersStateRequests] = useState([]);
-
+  const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     handleData();
   }, [])
@@ -29,7 +34,7 @@ const PageFriends = () => {
   const fetchUsers = async () => {
     try {
       const res = await getAllUsers(accessToken);
-      setUsersState(res);
+      setUsers(res);
       return res;
     } catch (err) {
       console.log(err)
@@ -39,35 +44,52 @@ const PageFriends = () => {
   const fetchFriends = async () => {
     try {
       const res = await getFriends(accessToken);
-      setFriendsState(res);
+      setFriends(res);
       return res;
     } catch (err) {
       console.log(err)
     }
   }
 
-  const handleData = async () => {
-    const users = await fetchUsers();
-    const friends = await fetchFriends();
-  
-    if(users.length > 0) {
-    const notFriends = users.filter(user => !friends.includes(user.id))
-      setNotFriendsState(notFriends);
+  const fetchSendedRequests = async () => {
+    try { 
+      const res = await getSendedRequests(accessToken);
+      setSendedRequests(res);
+      console.log("sended requests: ", res)
+    } catch (err) {
+      console.log("sended requests failed with :", err)
     }
+  }
 
+  const handleData = async () => {
+    await fetchUsers();
+    await fetchFriends();
+    await fetchSendedRequests();
+    if(users.length > 0) {
+    const newNotFriends = users.filter(user => !friends.includes(user.id))
+      setNotFriends(newNotFriends);
+      console.log("people who are not friends: ", newNotFriends);
+    }
+    if(sendedRequests.length > 0) { 
+      const newNotFriends = notFriends.filter(user => !sendedRequests.includes(user.name))
+      setNotFriends(newNotFriends);
+      console.log("people I have not sended requests to: ", newNotFriends);
+    }
     await checkFriendsLenght();
     await checkNotFriendsLength();
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
   }
 
   const checkFriendsLenght = async () => {
-    if (friendsState.length === 0) {
+    if (friends.length === 0) {
       setIsFriends(false);
     } else {
       setIsFriends(true);
     }
   }
   const checkNotFriendsLength = async () => {
-    if (notFriendsState.length === 0) {
+    if (notFriends.length === 0) {
       setIsNotFriends(false);
     } else {
       setIsNotFriends(true);
@@ -93,13 +115,14 @@ const PageFriends = () => {
     try {
       const res = await removeFriend(accessToken, id);
       if(res.status === 200) {
-        setFriendsState(friendsState.filter(item => item.id !== id))
+        setFriends(friends.filter(item => item.id !== id))
         await checkFriendsLenght()
       }
     } catch (err) {
       console.log("can't remove friend", err);
     }
   }
+
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
     Poppins_400Regular
@@ -108,13 +131,22 @@ const PageFriends = () => {
   if (!fontsLoaded) {
     return null;
   }
+
   return (
-    <ScrollView style={styles.screen}>
+    <SafeAreaView style = {styles.container}>
+    <ScrollView 
+    contentContainerStyle = {styles.screen}
+    refreshControl = {
+      <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleData}
+            />
+            }
+          >
      <ImageBackground source={wave} style={styles.wave} />
         <View> 
-          
           <Text style={styles.title}>Friends</Text>
-          {isFriends ? friendsState.map((item, index) => (
+          {isFriends ? friends.map((item, index) => (
             <Card style={styles.surface} elevation={1} key={index}>
               <Card.Title title={item.name} />
               <Card.Actions>
@@ -122,13 +154,11 @@ const PageFriends = () => {
               </Card.Actions>
             </Card>
           )) : <Text>No friends yet! Make some friends by sending a friend request!</Text>}
-
-
         </View>
         
         <View>
           <Text style={styles.title}>Other people</Text>
-          {isNotFriends ? notFriendsState.map((item, index) => (
+          {isNotFriends ? notFriends.map((item, index) => (
             <Card style={styles.surface} elevation={1} key={index}>
               <Card.Title title={item.name} />
               <Card.Actions>
@@ -148,12 +178,17 @@ const PageFriends = () => {
           )) : <Text>No users</Text>}
         </View> 
     </ScrollView>
+  </SafeAreaView>
   );
 };
 
 export default PageFriends;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
   screen: {
     backgroundColor: "white",
   },
@@ -185,5 +220,5 @@ const styles = StyleSheet.create({
     margin: 8,
     color: '#031D29',
     paddingLeft: 16
-  }
+  },
 });
