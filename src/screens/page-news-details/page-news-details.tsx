@@ -1,8 +1,14 @@
-import { View, Text, ImageBackground, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  Image,
+  ScrollView,
+} from "react-native";
 
-const PageNewsDetails = ({route}) => {
-  const {item} = route.params;
-
+const PageNewsDetails = ({ route }) => {
+  const { item } = route.params;
 
   return (
     <ScrollView style={styles.screen}>
@@ -12,15 +18,15 @@ const PageNewsDetails = ({route}) => {
       ></Image>
       <View style={styles.wrapper}>
         <View style={styles.wrapperTop}>
-            <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.date}>{item.date}</Text>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.date}>{item.date}</Text>
         </View>
 
         <Text style={styles.description}>{item.description}</Text>
         <Image
-        source={require("../../../assets/header.png")}
-        style={styles.contentimage}
-      ></Image>
+          source={require("../../../assets/header.png")}
+          style={styles.contentimage}
+        ></Image>
       </View>
     </ScrollView>
   );
@@ -34,7 +40,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
   wrapper: {
-    margin: 16
+    margin: 16,
   },
   title: {
     fontFamily: "Poppins_600SemiBold",
@@ -60,7 +66,7 @@ const styles = StyleSheet.create({
   },
   screen: {
     backgroundColor: "white",
-    height: "100%"
+    height: "100%",
   },
   contentimage: {
     width: "100%",
