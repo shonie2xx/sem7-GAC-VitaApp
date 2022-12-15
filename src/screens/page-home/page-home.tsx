@@ -27,29 +27,27 @@ const PageHome = ({ navigation }) => {
   );
   const wave = require("../../../assets/wave.png");
 
-  const [mood, setMood] = useState(1);
+  const [mood, setMood] = useState(10);
 
   const userMood = async () => {
     var userData = await getUser(accessToken);
     console.log(userData);
     setMood(userData.mood)
+    changePic(userData.mood)
   };
 
-  // const mood = useMoodPoints()
-  const updateMood = useMoodPointsUpdate();
   const { accessToken } = useContext(AuthContext);
 
   useEffect(() => {
-    changePic();
-    userMood();
+    userMood()
   }, []);
 
-  const changePic = async () => {
-    if (mood > 7) {
+  const changePic = async (userMood) => {
+    if (userMood > 7) {
       setPicsource(require("../../../assets/smiley.png"));
-    } else if (mood < 7 && mood > 4) {
+    } else if (userMood < 7 && userMood > 4) {
       setPicsource(require("../../../assets/neutral.png"));
-    } else if (mood < 4) {
+    } else if (userMood < 4) {
       setPicsource(require("../../../assets/frowney.png"));
     }
   };
