@@ -7,8 +7,12 @@
 //         endpoint: "http://localhost:5000/activity/",
 //         scopes: ["api://fbb04eec-10f5-4677-b91e-b366a1e0303a/Activity.All"], // e.g. api://xxxxxx/access_as_user
 //     },
-//     apiUser: {
-//         endpoint: "http://localhost:5000/user/",
+//     // apiUser: {
+//     //     endpoint: "http://localhost:5000/user/",
+//     //     scopes: ["api://82b5a9e1-eaa2-4ee8-a3a0-7d3c41a4a1b5/User.All"]
+//     // },
+//         apiUser: {
+//         endpoint: "http://vitaappgw.northeurope.cloudapp.azure.com/user/" ,
 //         scopes: ["api://82b5a9e1-eaa2-4ee8-a3a0-7d3c41a4a1b5/User.All"]
 //     },
 //     apiBadge: {
@@ -18,7 +22,11 @@
 //     apiChallenge: {
 //         endpoint: "http://localhost:5000/challenge/",
 //         scopes: ["api://15e8abf0-9951-4e65-9d1c-1d14b82e6268/Challenge.All"]
-//     }
+//     },
+    // apiFriends: {
+    //     endpoint: "http://localhost:5000/user/friends/",
+    //     scopes: ["api://15e8abf0-9951-4e65-9d1c-1d14b82e6268/Friends.All"]
+    // }
 // }
 
 // CLOUD
