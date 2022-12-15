@@ -111,11 +111,7 @@ const PageEvent = ({ navigation, props }) => {
                 color="#031D29"
               />
             </View>
-            <PrimaryBtn></PrimaryBtn>
-            <SecondaryBtn></SecondaryBtn>
-            {/* <Pressable style={styles.btnPrimary} onPress={() => console.log("clicked!")}>
-              <Text style={styles.buttontext}>LOG IN</Text>
-            </Pressable> */}
+            <PrimaryBtn text={"LOG IN"}></PrimaryBtn>
           </View>
         </View>
       ))}
