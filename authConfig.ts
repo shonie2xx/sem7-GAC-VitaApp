@@ -36,7 +36,7 @@ export const protectedResources = {
         scopes: ["User.Read"],
     },
     apiActivity: {
-        endpoint: "http://vitaappgw.northeurope.cloudapp.azure.com/activity/" ,
+        endpoint: "http://vitaappgw.northeurope.cloudapp.azure.com/moodbooster/" ,
         scopes: ["api://fbb04eec-10f5-4677-b91e-b366a1e0303a/Activity.All"], // e.g. api://xxxxxx/access_as_user
     },
     apiUser: {
