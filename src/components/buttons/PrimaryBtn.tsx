@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Text, StyleSheet, Pressable } from "react-native";
+import { Text, StyleSheet, Pressable, Touchable, TouchableHighlight, TouchableOpacity } from "react-native";
 
-const PrimaryBtn = ({ text }) => {
+const PrimaryBtn = (props) => {
   return (
-    <Pressable
-      style={styles.PrimaryBtn}
-      onPress={() => console.log("clicked!")}
+    <TouchableOpacity
+      onPress={props.onPress}
+      style={ props.disabled ? styles.disabledBtn : styles.PrimaryBtn}
+      disabled={props.disabled}
     >
-      <Text style={styles.buttontext}>{text}</Text>
-    </Pressable>
+      <Text style={styles.buttontext}>{props.text}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -21,6 +22,15 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     paddingHorizontal: 24,
     paddingVertical: 8,
+    margin: 4,
+  },
+  disabledBtn: {
+    backgroundColor: "#419FD9",
+    opacity: 0.3,
+    borderRadius: 999,
+    paddingHorizontal: 24,
+    paddingVertical: 8,
+    margin: 4
   },
   buttontext: {
     fontFamily: "Poppins_600SemiBold",

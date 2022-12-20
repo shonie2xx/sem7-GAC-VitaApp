@@ -20,8 +20,10 @@ import {
 import { AuthContext } from "../../context/AuthContext";
 import Toast from "react-native-toast-message";
 import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native";
+import PrimaryBtn from "../buttons/PrimaryBtn";
+import SecondaryBtn from "../buttons/SecondaryBtn";
 
-const Moodbooster = ({changeMood}) => {
+const Moodbooster = ({ changeMood }) => {
   const [data, setData] = useState([]);
   const [activeData, setActiveData] = useState([]);
   const [completedData, setCompletedData] = useState([]);
@@ -29,13 +31,27 @@ const Moodbooster = ({changeMood}) => {
   const [disabledState, setDisabledState] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
   //TOAST AFTER COMPLETE
-  const showToast = (toastData) => {
+  const completedToast = (toastData) => {
     Toast.show({
       type: "success",
       text1: "Completed moodbooster!",
       text2: toastData.moodbooster.description,
     });
   };
+  const cancelledToast = (toastData) => {
+    Toast.show({
+      type: "error",
+      text1: "Cancelled moodbooster!",
+      text2: toastData.moodbooster.description,
+    });
+  };
+  // const startedToast = (toastData) => {
+  //   Toast.show({
+  //     type: "info",
+  //     text1: "Started moodbooster!",
+  //     text2: toastData.moodbooster.description,
+  //   });
+  // };
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
@@ -74,20 +90,20 @@ const Moodbooster = ({changeMood}) => {
     setButtonState(!buttonState);
     setDisabledState(true);
     // console.log(data[index].points)
-    
   };
   const handleToComplete = async (index) => {
     // console.log(activeData[index].id, accessToken)
     await completeActivity(activeData[index].id, accessToken);
     setButtonState(!buttonState);
     setDisabledState(false);
-    showToast(activeData[index]);
+    completedToast(activeData[index]);
     // console.log(activeData[index])
-    changeMood(activeData[index].moodbooster.points)
+    changeMood(activeData[index].moodbooster.points);
   };
   const handleToCancel = async (index) => {
     await cancelActivity(activeData[index].id, accessToken);
     // await createActivity(activeData[index], accessToken);
+    cancelledToast(activeData[index]);
     setButtonState(!buttonState);
     setDisabledState(false);
   };
@@ -116,7 +132,7 @@ const Moodbooster = ({changeMood}) => {
               icon="account-plus"
               onPress={() => {}}
             />
-            <Button
+            {/* <Button
               mode="outlined"
               textColor="#FA9901"
               labelStyle={{
@@ -137,7 +153,16 @@ const Moodbooster = ({changeMood}) => {
               onPress={() => handleToComplete(index)}
             >
               <Text style={styles.btntext}>Complete</Text>
-            </Button>
+            </Button> */}
+            <SecondaryBtn
+              text={"CANCEL"}
+              onPress={() => handleToCancel(index)}
+            ></SecondaryBtn>
+            <PrimaryBtn
+              text={"COMPLETE"}
+              disabled={false}
+              onPress={() => handleToComplete(index)}
+            ></PrimaryBtn>
           </Card.Actions>
         </Card>
       ))}
@@ -166,7 +191,7 @@ const Moodbooster = ({changeMood}) => {
               disabled={disabledState}
               onPress={() => {}}
             />
-            <Button
+            {/* <Button
               mode="contained"
               disabled={disabledState}
               loading={loadingState}
@@ -178,7 +203,12 @@ const Moodbooster = ({changeMood}) => {
               onPress={() => handleToStart(index)}
             >
               <Text style={styles.btntext}>Start</Text>
-            </Button>
+            </Button> */}
+            <PrimaryBtn
+              text={"START"}
+              disabled={disabledState}
+              onPress={() => handleToStart(index)}
+            ></PrimaryBtn>
           </Card.Actions>
         </Card>
       ))}
@@ -205,16 +235,16 @@ const Moodbooster = ({changeMood}) => {
         <MainCard />
       ) : (
         <ContentLoader
-        speed={2}
-        width={400}
-        height={460}
-        viewBox="0 0 400 460"
-        backgroundColor="#e6e6e6"
-        foregroundColor="#d6d6d6"
-      >
-        <Rect x="10" y="0" rx="2" ry="2" width="350" height="100" />
-        <Rect x="10" y="110" rx="2" ry="2" width="320" height="100" />
-        <Rect x="10" y="220" rx="2" ry="2" width="340" height="100" />
+          speed={2}
+          width={400}
+          height={460}
+          viewBox="0 0 400 460"
+          backgroundColor="#e6e6e6"
+          foregroundColor="#d6d6d6"
+        >
+          <Rect x="10" y="0" rx="2" ry="2" width="350" height="100" />
+          <Rect x="10" y="110" rx="2" ry="2" width="320" height="100" />
+          <Rect x="10" y="220" rx="2" ry="2" width="340" height="100" />
         </ContentLoader>
       )}
       {/* <CompletedCard />  */}

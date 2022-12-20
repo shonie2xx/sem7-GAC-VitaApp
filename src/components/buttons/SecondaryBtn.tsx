@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Text, StyleSheet, Pressable } from "react-native";
+import { Text, StyleSheet, Pressable, TouchableOpacity } from "react-native";
 
-const SecondaryBtn = ({ text }) => {
+const SecondaryBtn = (props) => {
   return (
-    <Pressable
+    <TouchableOpacity
+      onPress={props.onPress}
       style={styles.SecondaryBtn}
-      onPress={() => console.log("clicked!")}
     >
-      <Text style={styles.buttontext}>{text}</Text>
-    </Pressable>
+      <Text style={styles.buttontext}>{props.text}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 8,
     borderWidth: 1,
+    margin: 4,
     borderColor: "#FA9901"
   },
   buttontext: {
