@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import {
   getAllActivities,
   startActivity,
@@ -26,10 +32,11 @@ import SecondaryBtn from "../buttons/SecondaryBtn";
 const Moodbooster = ({ changeMood }) => {
   const [data, setData] = useState([]);
   const [activeData, setActiveData] = useState([]);
-  const [completedData, setCompletedData] = useState([]);
+
   const [buttonState, setButtonState] = useState(false);
   const [disabledState, setDisabledState] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   //TOAST AFTER COMPLETE
   const completedToast = (toastData) => {
     Toast.show({
@@ -55,17 +62,17 @@ const Moodbooster = ({ changeMood }) => {
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
-    // console.log(activeActivities[0].activity.id);
+    // console.log("test");
 
     var activities = await getAllActivities(accessToken);
-    // var completedActivities = await getAllCompletedActivities(accessToken);
+    // 
     setData(await activities);
     setActiveData(await activeActivities);
     if (await activeActivities[0]) {
       setDisabledState(true);
       setLoadingState(false);
     }
-    // setCompletedData(await completedActivities);
+  
   };
 
   useEffect(() => {
@@ -214,22 +221,13 @@ const Moodbooster = ({ changeMood }) => {
       ))}
     </View>
   );
-  const CompletedCard = () => (
-    //can be used to show completed moodboosters
-    <View>
-      {completedData.map((item, index) => (
-        <Card style={styles.surface} mode="outlined" key={index}>
-          <Card.Title
-            title={item.activity.title}
-            subtitle={item.activity.category.source.date}
-            titleStyle={{ fontFamily: "Poppins_400Regular" }}
-          />
-        </Card>
-      ))}
-    </View>
-  );
+
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={handleActivities} />
+      }
+    >
       <ActiveCards />
       {data[0] ? (
         <MainCard />

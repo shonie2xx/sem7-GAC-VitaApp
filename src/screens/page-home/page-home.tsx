@@ -2,6 +2,7 @@ import { View, StyleSheet, Image, ImageBackground } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import { Text, Card, Avatar, IconButton } from "react-native-paper";
 import Moodbooster from "../../components/moodbooster/moodbooster";
+import Modal from "react-native-modal";
 
 import StartupMood from "../../components/PopUps/StartupMood";
 import {
@@ -18,6 +19,7 @@ import {
 } from "@expo-google-fonts/poppins";
 import { getUser } from "../../services/userService";
 import { AuthContext } from "../../context/AuthContext";
+import ChallengeFriends from "../../components/challengeFriends/challengeFriends";
 
 const PageHome = ({ navigation }) => {
   const { name } = React.useContext(NameContext);
@@ -32,14 +34,14 @@ const PageHome = ({ navigation }) => {
   const userMood = async () => {
     var userData = await getUser(accessToken);
     console.log(userData);
-    setMood(userData.mood)
-    changePic(userData.mood)
+    setMood(userData.mood);
+    changePic(userData.mood);
   };
 
   const { accessToken } = useContext(AuthContext);
 
   useEffect(() => {
-    userMood()
+    userMood();
   }, []);
 
   const changePic = async (userMood) => {
@@ -64,7 +66,7 @@ const PageHome = ({ navigation }) => {
 
   return (
     <View style={styles.screen}>
-      <StartupMood changeMood={userMood}/>
+      <StartupMood changeMood={userMood} />
       <ImageBackground source={wave} style={styles.wave}>
         <View style={styles.homeTop}>
           <Text style={styles.heading2}>{name}</Text>
@@ -78,7 +80,10 @@ const PageHome = ({ navigation }) => {
           </View>
         </View>
       </ImageBackground>
-      <Text style={styles.moodtitle}>Today's moodboosters</Text>
+      <View style={styles.moodboostertop}>
+        <Text style={styles.moodtitle}>Today's moodboosters</Text>
+        <ChallengeFriends />
+      </View>
       <Moodbooster changeMood={userMood} />
     </View>
   );
@@ -94,6 +99,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
   },
+  moodboostertop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
   moodcontainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -102,9 +114,7 @@ const styles = StyleSheet.create({
   moodtitle: {
     fontFamily: "Poppins_600SemiBold",
     fontSize: 18,
-    margin: 8,
     color: "#031D29",
-    paddingLeft: 8,
   },
   moodnmbr: {
     position: "absolute",

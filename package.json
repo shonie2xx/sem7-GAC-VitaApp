@@ -40,6 +40,7 @@
     "react-native-app-auth": "^6.4.3",
     "react-native-collapsible": "^1.6.0",
     "react-native-ionicons": "^4.6.5",
+    "react-native-modal": "^13.0.1",
     "react-native-msal": "^4.0.4",
     "react-native-pager-view": "5.4.24",
     "react-native-paper": "^5.0.0-rc.6",
