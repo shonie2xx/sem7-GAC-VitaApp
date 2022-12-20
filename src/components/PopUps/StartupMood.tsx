@@ -1,35 +1,40 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Alert, Modal, StyleSheet, Text, View, Image, Platform, Pressable } from "react-native";
 import { Button } from "react-native-paper";
 import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
-import { useFonts, Poppins_500Medium, Poppins_700Bold, Poppins_600SemiBold } from '@expo-google-fonts/poppins'
+import {
+  useFonts,
+  Poppins_500Medium,
+  Poppins_700Bold,
+  Poppins_600SemiBold,
+} from "@expo-google-fonts/poppins";
+import { AuthContext } from "../../context/AuthContext";
+import { updateUserMood } from "../../services/userService";
 import { TouchableHighlight} from 'react-native'
 import Svg, { Circle } from 'react-native-svg';
 
 
-const StartupMood = () => {
+const StartupMood = ({changeMood}) => {
   const [modalVisible, setModalVisible] = useState(true);
-  const mood = useMoodPoints()
-  const updateMood = useMoodPointsUpdate()
+  const { accessToken } = useContext(AuthContext);
 
-  function updateMoodPopUp(points) {
+  const updateMoodPopUp = async (points) => {
     setModalVisible(!modalVisible);
-    updateMood(points)
-    console.log(points)
+    await updateUserMood(accessToken, points);
+    changeMood(points)
   };
 
   let [fontsLoaded] = useFonts({
     Poppins_500Medium,
     Poppins_700Bold,
-    Poppins_600SemiBold
+    Poppins_600SemiBold,
   });
-  
+
   if (!fontsLoaded) {
     return null;
   }
 
   return (
-
     <Modal
       animationType="slide"
       transparent={true}
@@ -98,7 +103,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: "center",
     color: "#031D29",
-    fontFamily: 'Poppins_700Bold'
+    fontFamily: "Poppins_700Bold",
   },
   emoji: {
     flex: 1,

@@ -19,8 +19,9 @@ export async function addFriend(token, id) {
         'Authorization': `Bearer ${token}`,
       },
     });
-    return await res.json();
+    return res;
 }
+
 
 export async function removeFriend(token, friendId) {
     var response = await axios.delete(url + "/remove/" + friendId, {
@@ -36,12 +37,6 @@ export async function getFrRequests(token) {
     return response;
 }
 
-// export async function acceptFrRequest(token, friendReqId) {
-//     var response = await axios.post(url + "/requests/accept/" + friendReqId, {
-//         headers: { Authorization: `Bearer ${token}` },
-//     });
-//     return response.data;
-// }
 export async function acceptFrRequest(token, friendReqId) {
     const res = await fetch(url + "/requests/accept/" + friendReqId, {
       method: 'POST',
@@ -51,14 +46,14 @@ export async function acceptFrRequest(token, friendReqId) {
         'Authorization': `Bearer ${token}`,
       },
     });
-    return await res.json();
+    return res;
 }
 
 export async function cancelFrRequest(token, friendReqId) {
     var response = await axios.delete(url + "/requests/cancel/" + friendReqId, {
         headers: { Authorization: `Bearer ${token}` },
     });
-    return response.data;
+    return response;
 }
 
 export async function getSendedRequests(token) {

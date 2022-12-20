@@ -33,6 +33,7 @@
     "expo-updates": "~0.14.7",
     "ionicons": "^6.0.4",
     "react": "18.0.0",
+    "react-content-loader": "^6.2.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
     "react-native-animatable": "^1.3.3",
@@ -42,8 +43,9 @@
     "react-native-msal": "^4.0.4",
     "react-native-pager-view": "5.4.24",
     "react-native-paper": "^5.0.0-rc.6",
-    "react-native-svg": "^13.6.0",
+    "react-native-svg": "12.3.0",
     "react-native-tab-view": "^3.3.0",
+    "react-native-toast-message": "^2.1.5",
     "react-native-web": "~0.18.7",
     "sharp-cli": "^3.0.0",
     "typescript": "^4.6.3"

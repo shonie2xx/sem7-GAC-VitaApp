@@ -20,41 +20,50 @@ export async function getAllActivities(token) {
   return response.data;
 }
 
-export async function deleteActivity(id, token) {
-  console.log(url + id)
-  var response = await axios.delete(
-    url + id,
+// export async function deleteActivity(id, token) {
+//   console.log(url + id)
+//   var response = await axios.delete(
+//     url + id,
+//     {},
+//     { headers: { Authorization: `Bearer ${token}` } }
+//   );
+//   return response.data;
+// }
+// export async function createActivity(data, token) {
+//   var response = await axios.post(
+//     url,
+//     {
+//       category: {
+//         id: data.activity.category.id,
+//         name: data.activity.category.name,
+//         source: [
+//           "Object"
+//         ],
+//         target: [
+//           "Object"
+//         ]
+//       },
+//       description: data.activity.description,
+//       id: data.activity.id,
+//       points: data.activity.points,
+//       status: "ACTIVE",
+//       title: data.activity.title
+//     },
+//     { headers: { Authorization: `Bearer ${token}` } }
+//   );
+//   return response.data;
+// }
+
+export async function completeActivity(id, token) {
+  var response = await axios.put(
+    url + "complete/" + id,
     {},
     { headers: { Authorization: `Bearer ${token}` } }
   );
   return response.data;
 }
-export async function createActivity(data, token) {
-  var response = await axios.post(
-    url,
-    {
-      category: {
-        id: data.activity.category.id,
-        name: data.activity.category.name,
-        source: [
-          "Object"
-        ],
-        target: [
-          "Object"
-        ]
-      },
-      description: data.activity.description,
-      id: data.activity.id,
-      points: data.activity.points,
-      status: "ACTIVE",
-      title: data.activity.title
-    },
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
-  return response.data;
-}
 
-export async function completeActivity(id, token) {
+export async function increaseMood(id, token) {
   var response = await axios.put(
     url + "complete/" + id,
     {},
