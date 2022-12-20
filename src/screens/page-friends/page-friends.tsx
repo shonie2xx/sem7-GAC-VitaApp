@@ -207,7 +207,7 @@ const PageFriends = () => {
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn text={"ADD"} press={() => handleAddFriends(item.id)}></SecondaryBtn>
+                  <SecondaryBtn text={"INVITE"} press={() => handleAddFriends(item.id)}></SecondaryBtn>
                 </View>
               </View>
             ))

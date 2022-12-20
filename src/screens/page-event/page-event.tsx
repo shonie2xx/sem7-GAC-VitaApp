@@ -28,54 +28,38 @@ const PageEvent = ({ navigation, props }) => {
   const [events, setEvents] = useState([])
   const wave = require("../../../assets/wave.png");
   const { accessToken } = useContext(AuthContext);
-  
+
   useEffect(() => {
     handleData();
   }, [])
 
   const handleData = async () => {
-    // const fetchedEvents = await getEvents();
-
-    // if (fetchedEvents.length > 0) {
-    //   console.log("events", fetchedEvents)
-    //   setEvents(fetchedEvents);
-    // }
     try {
-       getEvents(accessToken).then(res => res.data).then(data => {
-      setEvents(data);
-    })
-    console.log("events", events);
+      getEvents(accessToken).then(res => res.data).then(data => {
+        setEvents(data);
+      })
     } catch (err) {
       console.log("error fetching events : ", err);
     }
-   
+
   }
 
-  // const fetchEvents = async () => {
-  //   try {
-  //     const res = await getEvents(accessToken);
-  //     return res;
-  //   } catch (err) {
-  //     console.log("Error fetching events")
-  //   }
-  // }
   const handleOnPress = (item: any) => {
     navigation.navigate("Event Details", { item });
   };
 
   const handleJoinEvent = async (id) => {
-    try {
-      const response = await joinEvent(accessToken, id);
-      if(response.status === 200) {
-        // alert
 
-        // refresh
-        handleData();
-      }
-    } catch (err) {
-      console.log("Couldn't join event", err);
+    const response = await joinEvent(accessToken, id);
+    if (response.status === 200) {
+      // alert
+
+      // refresh
+      console.log("event joined")
+      handleData();
     }
   }
+
   // fonts
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
@@ -116,7 +100,7 @@ const PageEvent = ({ navigation, props }) => {
                   color="#031D29"
                 />
               </View>
-              <PrimaryBtn text={"LOG IN"} press = {handleJoinEvent(item.id)}></PrimaryBtn>
+              <PrimaryBtn text={"JOIN"} press={() => handleJoinEvent(item.id)}></PrimaryBtn>
             </View>
           </View>
         ))}
