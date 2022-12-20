@@ -19,7 +19,7 @@ const PageRequests = () => {
     const { accessToken } = useContext(AuthContext);
 
     const [requests, setRequests] = useState([]);
-    const [isRequests, setIsRequests] = useState(false);
+    //const [isRequests, setIsRequests] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
 
     useEffect( () => {
@@ -27,30 +27,32 @@ const PageRequests = () => {
     }, [])
 
     const fetchRequests = async () => {
-    try {
-      const res = await getFrRequests(accessToken);
+    
+      const res = await fetchFrRequests();
       console.log("Friend requests", requests);
-      setRefreshing(true);
-      wait(2000).then(() => setRefreshing(false));
+      
       if(res.status === 200) {
       setRequests(await res.data);
-      if(res.data.length > 0) {
-      setIsRequests(true);
-      } else {
-        setIsRequests(false);
       }
-      }
-    } catch (err) {
-      console.log("couldn't fetch requests", err)
-    }
     
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }
+
+  const fetchFrRequests = async () => {
+    try {
+      return await getFrRequests(accessToken);
+    } catch (err) {
+      console.log("couldn't get friend requests", err);
+    }
   }
 
   const handleCancelRequest = async (id) => {
     try {
       const res = await cancelFrRequest(accessToken, id);
-      await fetchRequests();
-      console.log(res)
+      if(res.status === 200) {
+        setRequests(requests.filter(item => item.id !== id));
+      }
     }
     catch (err) {
       console.log("request couldn't be cancelled", err)
@@ -60,8 +62,11 @@ const PageRequests = () => {
   const handleAcceptRequest = async (id) => {
     try {
       const res = await acceptFrRequest(accessToken, id);
-      await fetchRequests()
+      if(res.status === 200) {
+        //setOtherPeople(otherPeople.filter(user => user.id !== id));
+        setRequests(requests.filter(item => item.id !== id));
       console.log("accepted", res)
+      }
     }
     catch (err) {
       console.log("request couldn't be accepted", err)
@@ -90,7 +95,7 @@ const PageRequests = () => {
           >
       <ImageBackground source={wave} style={styles.wave} />
         <View>
-        {isRequests ? requests.map((item, index) => (
+        {requests.length ? requests.map((item, index) => (
          
           <Card style={styles.surface} elevation={1} key={index}>
             <Card.Title title={item.name} />
