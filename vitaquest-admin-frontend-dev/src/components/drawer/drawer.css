@@ -1,0 +1,37 @@
+.drawer {
+  width: 15vw;
+  box-sizing: border-box;
+  border-right: 1px solid;
+  border-color: var(--contrast-50--light);
+  height: 100vh;
+}
+
+#drawer-content {
+  flex-direction: column;
+  padding-left: 1vw;
+  padding-top: 1vw;
+}
+
+.menu-item,
+.menu-item-selected {
+  display: flex;
+  text-decoration: none;
+}
+
+.menu-item > div,
+.menu-item-selected > div {
+  padding: 0.4vw;
+}
+
+.menu-item-selected #icon {
+  color: var(--primary--light);
+}
+
+.menu-item-selected p {
+  color: var(--primary--dark);
+}
+
+.menu-item div,
+.menu-item p {
+  color: var(--contrast-50--light);
+}

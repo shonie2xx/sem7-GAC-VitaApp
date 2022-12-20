@@ -1,0 +1,9 @@
+#header #icon {
+    color: var(--primary--light);
+    font-size: var(--lumo-icon-size-m);
+}
+
+#header {
+    align-items: center;
+    background-color: var(--contrast-10--light);
+}

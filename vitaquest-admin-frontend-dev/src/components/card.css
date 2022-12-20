@@ -1,0 +1,48 @@
+.card {
+  background-color: var(--base--light);
+  padding: 1.875rem;
+  border-radius: 0 0 0.625rem 0.625rem;
+  box-shadow: var(--shadow--s);
+  gap: 1.875rem;
+  z-index: 1;
+  border-top: 3px solid var(--primary--light);
+  box-sizing: border-box;
+}
+
+.card-top {
+  gap: 1.875rem;
+}
+
+.card-title {
+  gap: 0.625rem;
+}
+
+.card-bottom {
+  animation: growDown 300ms ease-in-out forwards;
+  transform-origin: top center;
+  display: none;
+}
+
+.card:hover .card-bottom {
+  display: flex;
+}
+
+@keyframes growDown {
+  0% {
+    transform: scaleY(0);
+  }
+  80% {
+    transform: scaleY(1.1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.invited-by {
+  gap: 0.625rem;
+}
+
+.buttons {
+  gap: 0.9375rem;
+}
