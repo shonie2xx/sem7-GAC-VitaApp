@@ -2,21 +2,21 @@ import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Text, StyleSheet, Pressable } from "react-native";
 
-const Secondary = ({}) => {
+const SecondaryBtn = ({ text }) => {
   return (
     <Pressable
-      style={styles.btnSecondary}
+      style={styles.SecondaryBtn}
       onPress={() => console.log("clicked!")}
     >
-      <Text style={styles.buttontext}>LOG OUT</Text>
+      <Text style={styles.buttontext}>{text}</Text>
     </Pressable>
   );
 };
 
-export default Secondary;
+export default SecondaryBtn;
 
 const styles = StyleSheet.create({
-  btnSecondary: {
+  SecondaryBtn: {
     backgroundColor: "white",
     borderRadius: 999,
     paddingHorizontal: 24,
