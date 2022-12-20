@@ -5,13 +5,14 @@ import {
 } from "react-native-paper";
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular } from '@expo-google-fonts/poppins';
 import { useEffect, useState, useContext, useRef, useCallback } from "react";
-import { addFriend, getFriends, getSendedRequests, removeFriend } from "../../services/friendsService";
+import { addFriend, getFriends, getSendedRequests, removeFriend, cancelFrRequest } from "../../services/friendsService";
 import { getAllUsers } from "../../services/userService";
 import { AuthContext } from "../../context/AuthContext";
 import { __handlePersistedRegistrationInfoAsync } from "expo-notifications/build/DevicePushTokenAutoRegistration.fx";
 import SecondaryBtn from "../../components/buttons/SecondaryBtn";
 import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 import { Item } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
+import * as SecureStore from 'expo-secure-store';
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -25,8 +26,11 @@ const PageFriends = () => {
   //const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([])
   const [otherPeople, setOtherPeople] = useState([]);
+  const [invites, setInvites] = useState([]);
 
   const [refreshing, setRefreshing] = useState(false);
+
+ 
   useEffect(() => {
     handleData();
   }, [])
@@ -67,13 +71,18 @@ const PageFriends = () => {
     const fetchedFriends = await fetchFriends();
 
     const fetchedSendedRequests = await fetchSendedRequests();
+    
+    const currentUser =  JSON.parse(await SecureStore.getItemAsync("User"));
+    // console.log(currentUser.id);
     // check for users and filter friends and non friends
     if (fetchedUsers.length > 0) {
-      const withoutFriends = fetchedUsers.filter(user => !fetchedFriends.includes(user.id)) // filter friends from users
+
+      const withoutFriends = fetchedUsers.filter(user => !fetchedFriends.includes(user.id) && user.id !== currentUser.id) // filter friends from users
       if (withoutFriends.length > 0) {
-        const toRemove = fetchedSendedRequests.map(item => item.friendId);
-        const filteredRequests = withoutFriends.filter(obj => !toRemove.includes(obj.id))
+        const toRemove = fetchedSendedRequests.map(user => user.friendId);
+        const filteredRequests = withoutFriends.filter(user => !toRemove.includes(user.id))
         setOtherPeople(filteredRequests);
+        setInvites(fetchedSendedRequests);
       } else {
         setOtherPeople(withoutFriends);
       }
@@ -81,17 +90,17 @@ const PageFriends = () => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }
-  
+
   const handleAddFriends = async (id: any) => {
     try {
       const res = await addFriend(accessToken, id);
       console.log("response add friend", res.status)
-      if(res.ok)  {
+      if (res.ok) {
         //alert
-        
+
         //filter other people array
         setOtherPeople(otherPeople.filter(user => user.id !== id)); // filter friends from users
-        
+        handleData()
       }
       // console.log(res.status)
     } catch (err) {
@@ -110,6 +119,19 @@ const PageFriends = () => {
       }
     } catch (err) {
       console.log("can't remove friend", err);
+    }
+  }
+
+  const handleCancelRequest = async (id) => {
+    try {
+      const res = await cancelFrRequest(accessToken, id);
+      if(res.status === 200) {
+        setInvites(invites.filter(item => item.id !== id));
+        handleData();
+      }
+    }
+    catch (err) {
+      console.log("request couldn't be cancelled", err)
     }
   }
 
@@ -139,54 +161,71 @@ const PageFriends = () => {
           {
             friends.length ?
               friends.map((item, index) => (
-                <Card style={styles.surface} elevation={1} key={index}>
-                  <Card.Title title={item.name} />
-                  <Card.Actions>
-                    <Button mode="contained" onPress={() => handleRemoveFriend(item.id)}>REMOVE</Button>
-                  </Card.Actions>
-                </Card>
+                // <Card style={styles.surface} elevation={1} key={index}>
+                //   <Card.Title title={item.name} />
+                //   <Card.Actions>
+                //     <Button mode="contained" onPress={() => handleRemoveFriend(item.id)}>REMOVE</Button>
+                //   </Card.Actions>
+                // </Card>
+                <View style={styles.card} key={index}>
+                <View style={styles.wrapperTop}>
+                  <View style={styles.joined}>
+                    <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
+                    <Text style={styles.title}>{item.name}</Text>
+                  </View>
+
+                  <SecondaryBtn text={"REMOVE"} press={() => handleRemoveFriend(item.id)}></SecondaryBtn>
+                </View>
+              </View>
               ))
               :
               <Text>No friends yet! Make some friends by sending a friend request!</Text>}
         </View>
 
         <View>
+          <Text style={styles.title}>Invites</Text>
+          {invites.length
+            ?
+            invites.map((item, index) => (
+
+              <View style={styles.card} key={index}>
+                <View style={styles.wrapperTop}>
+                  <View style={styles.joined}>
+                    <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
+                    <Text style={styles.title}>{item.name}</Text>
+                  </View>
+
+                  <SecondaryBtn text={"Cancel"} press={() => handleCancelRequest(item.id)}></SecondaryBtn>
+                </View>
+              </View>
+            ))
+            : (
+              <Text>No users</Text>
+            )}
+            </View>
+        <View>
           <Text style={styles.title}>Other people</Text>
           {otherPeople.length
             ?
             otherPeople.map((item, index) => (
-              <Card style={styles.surface} elevation={1} key={index}>
-                <Card.Title title={item.name} />
-                <Card.Actions>
-                  <Button mode="contained" onPress={() => handleAddFriends(item.id)}>Add</Button>
-                  {/* {showPopup && (
-                  <Dialog visible={showPopup} onDismiss={() => setShowPopup(false)}>
-                  <Dialog.Title>You are sending a request</Dialog.Title>
-                  
-                  <Dialog.Actions>
-                    <Button onPress={() => handleYesPress}>Confirm</Button>
-                    <Button onPress={() => setShowPopup(false)}>Cancel</Button>
-                  </Dialog.Actions>
-                </Dialog>
-                )} */}
-                </Card.Actions>
-              </Card>
+
+              <View style={styles.card} key={index}>
+                <View style={styles.wrapperTop}>
+                  <View style={styles.joined}>
+                    <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
+                    <Text style={styles.title}>{item.name}</Text>
+                  </View>
+
+                  <SecondaryBtn text={"ADD"} press={() => handleAddFriends(item.id)}></SecondaryBtn>
+                </View>
+              </View>
             ))
-           : (
-            <Text>No users</Text>
-          )}
+            : (
+              <Text>No users</Text>
+            )}
         </View>
 
-        <View style={styles.card}>
-          <View style={styles.wrapperTop}>
-            <View style={styles.joined}>
-              <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
-              <Text style={styles.title}>{"Username"}</Text>
-            </View>
 
-            <SecondaryBtn text={"REMOVE"}></SecondaryBtn>
-          </View>
-        </View>
 
       </ScrollView>
     </SafeAreaView>
@@ -249,7 +288,7 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     fontSize: 18,
-    color: "#052D40",    
+    color: "#052D40",
     paddingLeft: 12,
   },
   description: {

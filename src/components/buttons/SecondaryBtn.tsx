@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Text, StyleSheet, Pressable } from "react-native";
 
-const SecondaryBtn = ({ text }) => {
+const SecondaryBtn = ({ text, press }) => {
   return (
     <Pressable
       style={styles.SecondaryBtn}
-      onPress={() => console.log("clicked!")}
+      onPress={press}
     >
       <Text style={styles.buttontext}>{text}</Text>
     </Pressable>
