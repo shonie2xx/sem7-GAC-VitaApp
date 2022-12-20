@@ -1,8 +1,4 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground, Pressable, SafeAreaView, RefreshControl, Image } from "react-native";
-import {
-  Card,
-  Button,
-} from "react-native-paper";
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular } from '@expo-google-fonts/poppins';
 import { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { addFriend, getFriends, getSendedRequests, removeFriend, cancelFrRequest } from "../../services/friendsService";
@@ -78,6 +74,7 @@ const PageFriends = () => {
     if (fetchedUsers.length > 0) {
 
       const withoutFriends = fetchedUsers.filter(user => !fetchedFriends.includes(user.id) && user.id !== currentUser.id) // filter friends from users
+      
       if (withoutFriends.length > 0) {
         const toRemove = fetchedSendedRequests.map(user => user.friendId);
         const filteredRequests = withoutFriends.filter(user => !toRemove.includes(user.id))
@@ -161,12 +158,6 @@ const PageFriends = () => {
           {
             friends.length ?
               friends.map((item, index) => (
-                // <Card style={styles.surface} elevation={1} key={index}>
-                //   <Card.Title title={item.name} />
-                //   <Card.Actions>
-                //     <Button mode="contained" onPress={() => handleRemoveFriend(item.id)}>REMOVE</Button>
-                //   </Card.Actions>
-                // </Card>
                 <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
@@ -183,7 +174,7 @@ const PageFriends = () => {
         </View>
 
         <View>
-          <Text style={styles.title}>Invites</Text>
+          <Text style={styles.title}>Invited</Text>
           {invites.length
             ?
             invites.map((item, index) => (
@@ -200,7 +191,7 @@ const PageFriends = () => {
               </View>
             ))
             : (
-              <Text>No users</Text>
+              <Text>No invitations sended</Text>
             )}
             </View>
         <View>

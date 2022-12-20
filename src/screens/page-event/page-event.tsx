@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   View,
@@ -9,64 +9,74 @@ import {
   ImageBackground,
   Pressable,
 } from "react-native";
-// import { HStack, Banner, Button } from "@react-native-material/core";
-import {
-  Avatar,
-  Card,
-  IconButton,
-  Button,
-  Title,
-  Paragraph,
-} from "react-native-paper";
+
 import {
   useFonts,
   Poppins_600SemiBold,
   Poppins_400Regular,
 } from "@expo-google-fonts/poppins";
-import {
-  MD3LightTheme as DefaultTheme,
-  Provider as PaperProvider,
-} from "react-native-paper";
+import { getEvents, joinEvent } from "../../services/eventService";
+
 import SecondaryBtn from "../../components/buttons/SecondaryBtn";
 import PrimaryBtn from "../../components/buttons/PrimaryBtn";
+import { AuthContext } from "../../context/AuthContext";
 
 // import { EventCards } from "../../components/NewsPage/EventCards";
 const wave = require("../../../assets/wave.png");
 
 const PageEvent = ({ navigation, props }) => {
-  const [events, setTodos] = useState([
-    {
-      id: 1,
-      title: "Marble race",
-      description:
-        "This is a mockup event. In this event employees can participate in a marble race.",
-      date: "22 FEB",
-      isSigned: true,
-      joined: 17,
-      limit: 30,
-    },
-    {
-      id: 2,
-      title: "Group fitness",
-      description:
-        "This is a mockup event. In this event employees can participate in a marble race.",
-      date: "18 FEB",
-      isSigned: false,
-      joined: 19,
-      limit: 30,
-    },
-    {
-      id: 3,
-      title: "Hotdog contest",
-      description:
-        "This is a mockup event. In this event employees can participate in a marble race.",
-      date: "13 FEB",
-      isSigned: false,
-      joined: 19,
-      limit: 30,
-    },
-  ]);
+  const [events, setEvents] = useState([])
+  const wave = require("../../../assets/wave.png");
+  const { accessToken } = useContext(AuthContext);
+  
+  useEffect(() => {
+    handleData();
+  }, [])
 
+  const handleData = async () => {
+    // const fetchedEvents = await getEvents();
+
+    // if (fetchedEvents.length > 0) {
+    //   console.log("events", fetchedEvents)
+    //   setEvents(fetchedEvents);
+    // }
+    try {
+       getEvents(accessToken).then(res => res.data).then(data => {
+      setEvents(data);
+    })
+    console.log("events", events);
+    } catch (err) {
+      console.log("error fetching events : ", err);
+    }
+   
+  }
+
+  // const fetchEvents = async () => {
+  //   try {
+  //     const res = await getEvents(accessToken);
+  //     return res;
+  //   } catch (err) {
+  //     console.log("Error fetching events")
+  //   }
+  // }
+  const handleOnPress = (item: any) => {
+    navigation.navigate("Event Details", { item });
+  };
+
+  const handleJoinEvent = async (id) => {
+    try {
+      const response = await joinEvent(accessToken, id);
+      if(response.status === 200) {
+        // alert
+
+        // refresh
+        handleData();
+      }
+    } catch (err) {
+      console.log("Couldn't join event", err);
+    }
+  }
+  // fonts
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
     Poppins_400Regular,
@@ -75,14 +85,6 @@ const PageEvent = ({ navigation, props }) => {
   if (!fontsLoaded) {
     return null;
   }
-
-  const RightContent = (date: any) => <Text>{date}</Text>;
-
-  const wave = require("../../../assets/wave.png");
-
-  const handleOnPress = (item: any) => {
-    navigation.navigate("Event Details", { item });
-  };
 
   return (
     <ImageBackground source={wave} style={styles.wave}>
@@ -105,7 +107,7 @@ const PageEvent = ({ navigation, props }) => {
             <View style={styles.wrapperBottom}>
               <View style={styles.joined}>
                 <Text style={styles.description}>
-                  {item.joined}/{item.limit}
+                  {item.userIds.length}/20
                 </Text>
                 <Ionicons
                   style={styles.icon}
@@ -114,7 +116,7 @@ const PageEvent = ({ navigation, props }) => {
                   color="#031D29"
                 />
               </View>
-              <PrimaryBtn text={"LOG IN"}></PrimaryBtn>
+              <PrimaryBtn text={"LOG IN"} press = {handleJoinEvent(item.id)}></PrimaryBtn>
             </View>
           </View>
         ))}

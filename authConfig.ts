@@ -46,5 +46,13 @@ export const protectedResources = {
     apiChallenge: {
         endpoint:"http://vitaappgw.northeurope.cloudapp.azure.com/challenge/",
         scopes: ["api://15e8abf0-9951-4e65-9d1c-1d14b82e6268/Challenge.All"]
+    },
+    apiNews: {
+        endpoint:"http://vitaappgw.northeurope.cloudapp.azure.com/feed/",
+        scopes: ["api://349fa8f3-bea0-4ee5-8205-e301e3d3f197/News.All"]
+    }, 
+    apiEvent: {
+        endpoint:"http://vitaappgw.northeurope.cloudapp.azure.com/event/",
+        scopes: ["api://a12710a0-aefb-414a-9fc0-2fb3792e7aa5/Event.All"]
     }
 }
