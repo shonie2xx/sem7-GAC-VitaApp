@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,60 +7,36 @@ import {
   ScrollView,
   ImageBackground,
 } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-// import { HStack, Banner, Button } from "@react-native-material/core";
-import {
-  Avatar,
-  Card,
-  IconButton,
-  Button,
-  Title,
-  Paragraph,
-} from "react-native-paper";
 import {
   useFonts,
   Poppins_600SemiBold,
   Poppins_400Regular,
 } from "@expo-google-fonts/poppins";
-import PrimaryBtn from "../../components/buttons/PrimaryBtn";
-
-// import { EventCards } from "../../components/NewsPage/EventCards";
+import { getNews } from "../../services/newsService";
+import { AuthContext } from "../../context/AuthContext";
 const wave = require("../../../assets/wave.png");
 
 const PageNews = ({ navigation, props }) => {
-  const [news, setNews] = useState([
-    {
-      id: 1,
-      title: "THE BIG NEWS!",
-      description:
-        "This is a mockup event. In this event employees can participate in a marble race",
-      date: "22 FEB",
-      isSigned: true,
-      joined: 17,
-      limit: 30,
-    },
-    {
-      id: 2,
-      title: "Group fitness",
-      description:
-        "This is a mockup event. In this event employees can participate in a marble race",
-      date: "18 FEB",
-      isSigned: false,
-      joined: 19,
-      limit: 30,
-    },
-    {
-      id: 3,
-      title: "Hotdog contest",
-      description:
-        "This is a mockup event. In this event employees can participate in a marble race",
-      date: "13 FEB",
-      isSigned: false,
-      joined: 19,
-      limit: 30,
-    },
-  ]);
+  
+  const [news, setNews] = useState([]);
+  const { accessToken } = useContext(AuthContext);
 
+  useEffect(() => {
+    handleData();
+  }, [])
+
+  const handleData = async () => {
+    try {
+      getNews(accessToken).then(res => res.data).then(data => {
+        setNews(data);
+      })
+      console.log("news", news);
+    } catch (err) {
+      console.log("error fetching events : ", err);
+    }
+
+  }
+  
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
     Poppins_400Regular,
@@ -69,8 +45,6 @@ const PageNews = ({ navigation, props }) => {
   if (!fontsLoaded) {
     return null;
   }
-
-  const RightContent = (date: any) => <Text>{date}</Text>;
 
   const wave = require("../../../assets/wave.png");
 

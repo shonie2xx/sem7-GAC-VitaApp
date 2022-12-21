@@ -1,17 +1,14 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground, Pressable, SafeAreaView, RefreshControl, Image } from "react-native";
-import {
-  Card,
-  Button,
-} from "react-native-paper";
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular } from '@expo-google-fonts/poppins';
 import { useEffect, useState, useContext, useRef, useCallback } from "react";
-import { addFriend, getFriends, getSendedRequests, removeFriend } from "../../services/friendsService";
+import { addFriend, getFriends, getSendedRequests, removeFriend, cancelFrRequest } from "../../services/friendsService";
 import { getAllUsers } from "../../services/userService";
 import { AuthContext } from "../../context/AuthContext";
 import { __handlePersistedRegistrationInfoAsync } from "expo-notifications/build/DevicePushTokenAutoRegistration.fx";
 import SecondaryBtn from "../../components/buttons/SecondaryBtn";
 import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 import { Item } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
+import * as SecureStore from 'expo-secure-store';
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -22,14 +19,14 @@ const PageFriends = () => {
 
   const { accessToken } = useContext(AuthContext);
 
-  const [users, setUsers] = useState([]);
+  //const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([])
-  const [notFriends, setNotFriends] = useState([]);
-  const [isFriends, setIsFriends] = useState(false);
-  const [isNotFriends, setIsNotFriends] = useState(false);
-  const [sendedRequests, setSendedRequests] = useState([]);
-  // const [friendsRequests, setUsersStateRequests] = useState([]);
+  const [otherPeople, setOtherPeople] = useState([]);
+  const [invites, setInvites] = useState([]);
+
   const [refreshing, setRefreshing] = useState(false);
+
+ 
   useEffect(() => {
     handleData();
   }, [])
@@ -37,7 +34,7 @@ const PageFriends = () => {
   const fetchUsers = async () => {
     try {
       const res = await getAllUsers(accessToken);
-      setUsers(res);
+      //setUsers(res);
       return res;
     } catch (err) {
       console.log(err)
@@ -47,7 +44,7 @@ const PageFriends = () => {
   const fetchFriends = async () => {
     try {
       const res = await getFriends(accessToken);
-      setFriends(res);
+      //setFriends(res);
       return res;
     } catch (err) {
       console.log(err)
@@ -55,58 +52,52 @@ const PageFriends = () => {
   }
 
   const fetchSendedRequests = async () => {
-    try { 
+    try {
       const res = await getSendedRequests(accessToken);
-      setSendedRequests(res);
-      console.log("sended requests: ", res)
+      return res;
     } catch (err) {
       console.log("sended requests failed with :", err)
     }
   }
 
   const handleData = async () => {
-    await fetchUsers();
-    await fetchFriends();
-    await fetchSendedRequests();
-    if(users.length > 0) {
-    const newNotFriends = users.filter(user => !friends.includes(user.id))
-      setNotFriends(newNotFriends);
-      console.log("people who are not friends: ", newNotFriends);
+    // fetch all data
+
+    const fetchedUsers = await fetchUsers();
+    const fetchedFriends = await fetchFriends();
+
+    const fetchedSendedRequests = await fetchSendedRequests();
+    
+    const currentUser =  JSON.parse(await SecureStore.getItemAsync("User"));
+    // console.log(currentUser.id);
+    // check for users and filter friends and non friends
+    if (fetchedUsers.length > 0) {
+
+      const withoutFriends = fetchedUsers.filter(user => !fetchedFriends.includes(user.id) && user.id !== currentUser.id) // filter friends from users
+      
+      if (withoutFriends.length > 0) {
+        const toRemove = fetchedSendedRequests.map(user => user.friendId);
+        const filteredRequests = withoutFriends.filter(user => !toRemove.includes(user.id))
+        setOtherPeople(filteredRequests);
+        setInvites(fetchedSendedRequests);
+      } else {
+        setOtherPeople(withoutFriends);
+      }
     }
-    if(sendedRequests.length > 0) { 
-      const newNotFriends = notFriends.filter(user => !sendedRequests.includes(user.name))
-      setNotFriends(newNotFriends);
-      console.log("people I have not sended requests to: ", newNotFriends);
-    }
-    await checkFriendsLenght();
-    await checkNotFriendsLength();
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }
 
-  const checkFriendsLenght = async () => {
-    if (friends.length === 0) {
-      setIsFriends(false);
-    } else {
-      setIsFriends(true);
-    }
-  }
-  const checkNotFriendsLength = async () => {
-    if (notFriends.length === 0) {
-      setIsNotFriends(false);
-    } else {
-      setIsNotFriends(true);
-    }
-  }
   const handleAddFriends = async (id: any) => {
     try {
       const res = await addFriend(accessToken, id);
-      if(res.length > 0) {
+      console.log("response add friend", res.status)
+      if (res.ok) {
         //alert
-        
-        //filter not friends list
-        
-        console.log(res)
+
+        //filter other people array
+        setOtherPeople(otherPeople.filter(user => user.id !== id)); // filter friends from users
+        handleData()
       }
       // console.log(res.status)
     } catch (err) {
@@ -117,12 +108,27 @@ const PageFriends = () => {
   const handleRemoveFriend = async (id) => {
     try {
       const res = await removeFriend(accessToken, id);
-      if(res.status === 200) {
+      if (res.status === 200) {
+        //alert
+
+        //filter friends array
         setFriends(friends.filter(item => item.id !== id))
-        await checkFriendsLenght()
       }
     } catch (err) {
       console.log("can't remove friend", err);
+    }
+  }
+
+  const handleCancelRequest = async (id) => {
+    try {
+      const res = await cancelFrRequest(accessToken, id);
+      if(res.status === 200) {
+        setInvites(invites.filter(item => item.id !== id));
+        handleData();
+      }
+    }
+    catch (err) {
+      console.log("request couldn't be cancelled", err)
     }
   }
 
@@ -140,74 +146,77 @@ const PageFriends = () => {
       <ScrollView
         contentContainerStyle={styles.screen}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleData} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleData}
+          />
         }
       >
         <ImageBackground source={wave} style={styles.wave} />
         <View>
           <Text style={styles.title}>Friends</Text>
-          {isFriends ? (
-            friends.map((item, index) => (
-              <Card style={styles.surface} elevation={1} key={index}>
-                <Card.Title title={item.name} />
-                <Card.Actions>
-                  <Button
-                    mode="contained"
-                    onPress={() => handleRemoveFriend(item.id)}
-                  >
-                    REMOVE
-                  </Button>
-                </Card.Actions>
-              </Card>
-            ))
-          ) : (
-            <Text>
-              No friends yet! Make some friends by sending a friend request!
-            </Text>
-          )}
+          {
+            friends.length ?
+              friends.map((item, index) => (
+                <View style={styles.card} key={index}>
+                <View style={styles.wrapperTop}>
+                  <View style={styles.joined}>
+                    <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
+                    <Text style={styles.title}>{item.name}</Text>
+                  </View>
+
+                  <SecondaryBtn text={"REMOVE"} press={() => handleRemoveFriend(item.id)}></SecondaryBtn>
+                </View>
+              </View>
+              ))
+              :
+              <Text>No friends yet! Make some friends by sending a friend request!</Text>}
         </View>
 
         <View>
-          <Text style={styles.title}>Other people</Text>
-          {isNotFriends ? (
-            notFriends.map((item, index) => (
-              <Card style={styles.surface} elevation={1} key={index}>
-                <Card.Title title={item.name} />
-                <Card.Actions>
-                  <Button
-                    mode="contained"
-                    onPress={() => handleAddFriends(item.id)}
-                  >
-                    Add
-                  </Button>
-                  {/* {showPopup && (
-                  <Dialog visible={showPopup} onDismiss={() => setShowPopup(false)}>
-                  <Dialog.Title>You are sending a request</Dialog.Title>
-                  
-                  <Dialog.Actions>
-                    <Button onPress={() => handleYesPress}>Confirm</Button>
-                    <Button onPress={() => setShowPopup(false)}>Cancel</Button>
-                  </Dialog.Actions>
-                </Dialog>
-                )} */}
-                </Card.Actions>
-              </Card>
+          <Text style={styles.title}>Invited</Text>
+          {invites.length
+            ?
+            invites.map((item, index) => (
+
+              <View style={styles.card} key={index}>
+                <View style={styles.wrapperTop}>
+                  <View style={styles.joined}>
+                    <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
+                    <Text style={styles.title}>{item.name}</Text>
+                  </View>
+
+                  <SecondaryBtn text={"Cancel"} press={() => handleCancelRequest(item.id)}></SecondaryBtn>
+                </View>
+              </View>
             ))
-          ) : (
-            <Text>No users</Text>
-          )}
-        </View>
-
-        <View style={styles.card}>
-          <View style={styles.wrapperTop}>
-            <View style={styles.joined}>
-              <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
-              <Text style={styles.title}>{"Username"}</Text>
+            : (
+              <Text>No invitations sended</Text>
+            )}
             </View>
+        <View>
+          <Text style={styles.title}>Other people</Text>
+          {otherPeople.length
+            ?
+            otherPeople.map((item, index) => (
 
-            <SecondaryBtn text={"REMOVE"}></SecondaryBtn>
-          </View>
+              <View style={styles.card} key={index}>
+                <View style={styles.wrapperTop}>
+                  <View style={styles.joined}>
+                    <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
+                    <Text style={styles.title}>{item.name}</Text>
+                  </View>
+
+                  <SecondaryBtn text={"INVITE"} press={() => handleAddFriends(item.id)}></SecondaryBtn>
+                </View>
+              </View>
+            ))
+            : (
+              <Text>No users</Text>
+            )}
         </View>
+
+
 
       </ScrollView>
     </SafeAreaView>
@@ -270,7 +279,7 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     fontSize: 18,
-    color: "#052D40",    
+    color: "#052D40",
     paddingLeft: 12,
   },
   description: {

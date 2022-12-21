@@ -7,6 +7,7 @@ const SecondaryBtn = (props) => {
     <TouchableOpacity
       onPress={props.onPress}
       style={styles.SecondaryBtn}
+      onPress={() => console.log("clicked!")}
     >
       <Text style={styles.buttontext}>{props.text}</Text>
     </TouchableOpacity>
