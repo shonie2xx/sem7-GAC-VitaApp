@@ -28,6 +28,7 @@ const PageEvent = ({ navigation, props }) => {
   const [events, setEvents] = useState([])
   const wave = require("../../../assets/wave.png");
   const { accessToken } = useContext(AuthContext);
+  const [isJoined, setIsJoined] = useState(false);
 
   useEffect(() => {
     handleData();
@@ -36,6 +37,7 @@ const PageEvent = ({ navigation, props }) => {
   const handleData = async () => {
     try {
       getEvents(accessToken).then(res => res.data).then(data => {
+        console.log(data);
         setEvents(data);
         // console.log(data);
       })
@@ -94,12 +96,18 @@ const PageEvent = ({ navigation, props }) => {
     }
   }
 
-  const isJoined = async (event_id) => {
+  const checkJoinedEvents = async (event_id) => {
     const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
-    events.map(event =>
-      event.id === event_id && event.userIds.includes(currentUser.id))
-    console.log("event_id", event_id, "is joined")
-    return true;
+      events.forEach(event => {
+        if(event.id === event_id ) {
+          if(event.userIds.includes(currentUser.id)){
+            console.log(event_id, "event is joined")
+            return true;
+          } else {
+            console.log(event_id, "event is not joined")
+            return false;
+          }
+        }});
   }
   // fonts
   let [fontsLoaded] = useFonts({
@@ -141,10 +149,10 @@ const PageEvent = ({ navigation, props }) => {
                   color="#031D29"
                 />
               </View>
-              {isJoined ?
-                <PrimaryBtn text={"LEAVE"} press={() => handleLeaveEvent(item.id)}></PrimaryBtn>
-                :
-                <PrimaryBtn text={"JOIN"} press={() => handleJoinEvent(item.id)}></PrimaryBtn>
+              {checkJoinedEvents(item.id) ?
+              <PrimaryBtn text={"LEAVE"} press={() => handleLeaveEvent(item.id)}></PrimaryBtn>
+              :
+              <PrimaryBtn text={"JOIN"} press={() => handleJoinEvent(item.id)}></PrimaryBtn>
               }
             </View>
           </View>
