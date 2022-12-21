@@ -245,7 +245,6 @@ const Moodbooster = ({ changeMood }) => {
           <Rect x="10" y="220" rx="2" ry="2" width="340" height="100" />
         </ContentLoader>
       )}
-      {/* <CompletedCard />  */}
     </ScrollView>
   );
 };
