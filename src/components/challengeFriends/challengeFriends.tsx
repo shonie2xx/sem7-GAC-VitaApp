@@ -57,23 +57,33 @@ const challengeFriends = () => {
   const FriendsList = () => (
     <ScrollView>
       {friends.map((item, index) => (
-        <Card
-          style={styles.surface}
-          mode="outlined"
-          theme={{
-            colors: {
-              outline: "rgba(0, 0, 0, 0.2)",
-            },
-          }}
-          key={index}
-        >
-          <Card.Content style={styles.friendscard}>
-            <Paragraph style={styles.description}>{item.name}</Paragraph>
-            <Card.Actions style={styles.buttons}>
-              <PrimaryBtn text={"START"}></PrimaryBtn>
-            </Card.Actions>
-          </Card.Content>
-        </Card>
+        // <Card
+        //   style={styles.surface}
+        //   mode="outlined"
+        //   theme={{
+        //     colors: {
+        //       outline: "rgba(0, 0, 0, 0.2)",
+        //     },
+        //   }}
+        //   key={index}
+        // >
+        //   <Card.Content style={styles.friendscard}>
+        //     <Paragraph style={styles.description}>{item.name}</Paragraph>
+        //     <Card.Actions style={styles.buttons}>
+        //       <PrimaryBtn text={"START"}></PrimaryBtn>
+        //     </Card.Actions>
+        //   </Card.Content>
+        // </Card>
+        <View style={styles.card} key={index}>
+          <View style={styles.wrapperTop}>
+            <View style={styles.joined}>
+              {/* <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image> */}
+              <Text style={styles.title}>{item.name}</Text>
+            </View>
+
+            <PrimaryBtn text={"START"}></PrimaryBtn>
+          </View>
+        </View>
       ))}
     </ScrollView>
   );
@@ -140,27 +150,44 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "100%"
+    width: "100%",
   },
   friendstitle: {
     fontFamily: "Poppins_600SemiBold",
     fontSize: 24,
     color: "#031D29",
   },
-  surface: {
-    marginHorizontal: 8,
-    marginVertical: 8,
+  title: {
     fontFamily: "Poppins_600SemiBold",
-    backgroundColor: "#FFFFFF",
+    margin: 0,
+    padding: 0,
+    fontSize: 18,
+    color: "#052D40",
+    paddingLeft: 12,
   },
-  buttons: {
+  joined: {
+    flex: 1,
+    flexDirection: "row",
     alignItems: "center",
-    paddingRight: 10,
   },
-  description: {
-    fontFamily: "Poppins_500Medium",
-    fontSize: 16,
-    color: "#031D29",
-    width: "60%",
+  card: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // marginHorizontal: 8,
+    marginVertical: 8,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
+    borderRadius: 8,
+    backgroundColor: "white",
+  },
+  wrapperTop: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    margin: 8,
   },
 });
