@@ -10,10 +10,12 @@ import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import TertiaryBtn from "../buttons/TertiaryBtn";
-import { Card } from "react-native-paper";
+import { Card, Paragraph } from "react-native-paper";
 import { getAllCompletedActivities } from "../../services/moodboosterService";
 import { AuthContext } from "../../context/AuthContext";
 import { getFriends } from "../../services/friendsService";
+import { getAllUsers } from "../../services/userService";
+import PrimaryBtn from "../buttons/PrimaryBtn";
 
 const challengeFriends = () => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -30,23 +32,32 @@ const challengeFriends = () => {
     // var completedActivities = await getAllCompletedActivities(accessToken);
     // console.log(completedActivities[0].moodbooster);
     // setCompletedData(await completedActivities);
-    await fetchFriends();
+    const fetchedUsers = await fetchUsers();
+    setFriends(fetchedUsers);
   };
-  const fetchFriends = async () => {
+  const fetchUsers = async () => {
     try {
-      const res = await getFriends(accessToken);
-      setFriends(res);
-      if (res.length === 0) {
-        setMoodboosterRequests(0);
-      }
-      else {
-        setMoodboosterRequests(res);
-      }
+      const res = await getAllUsers(accessToken);
       return res;
     } catch (err) {
       console.log(err);
     }
   };
+  // const fetchFriends = async () => {
+  //   try {
+  //     const res = await getAllUsers(accessToken);
+
+  //     console.log(res);
+  //     if (res.length === 0) {
+  //       setMoodboosterRequests(0);
+  //     } else {
+  //       setMoodboosterRequests(res);
+  //     }
+  //     return res;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   useEffect(() => {
     handleActivities();
   }, []);
@@ -56,12 +67,22 @@ const challengeFriends = () => {
 
     <ScrollView>
       {friends.map((item, index) => (
-        <Card style={styles.surface} mode="outlined" key={index}>
-          <Card.Title
-            subtitle={item.moodbooster.description}
-            title={item.moodbooster.title}
-            titleStyle={{ fontFamily: "Poppins_400Regular" }}
-          />
+        <Card
+          style={styles.surface}
+          mode="outlined"
+          theme={{
+            colors: {
+              outline: "rgba(0, 0, 0, 0.2)",
+            },
+          }}
+          key={index}
+        >
+          <Card.Content>
+            <Paragraph style={styles.description}>{item.name}</Paragraph>
+            <Card.Actions style={styles.buttons}>
+              <PrimaryBtn text={"START"}></PrimaryBtn>
+            </Card.Actions>
+          </Card.Content>
         </Card>
       ))}
     </ScrollView>
@@ -136,5 +157,14 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     fontFamily: "Poppins_600SemiBold",
     backgroundColor: "#FFFFFF",
+  },
+  buttons: {
+    alignItems: "center",
+    paddingRight: 10,
+  },
+  description: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 16,
+    color: "#031D29",
   },
 });

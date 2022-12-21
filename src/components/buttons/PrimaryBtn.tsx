@@ -4,9 +4,10 @@ import { Text, StyleSheet, Pressable, Touchable, TouchableHighlight, TouchableOp
 
 const PrimaryBtn = (props) => {
   return (
-    <Pressable
-      style={styles.PrimaryBtn}
-      onPress={() => console.log("clicked!")}
+    <TouchableOpacity
+      onPress={props.onPress}
+      style={ props.disabled ? styles.disabledBtn : styles.PrimaryBtn}
+      disabled={props.disabled}
     >
       <Text style={styles.buttontext}>{props.text}</Text>
     </TouchableOpacity>
