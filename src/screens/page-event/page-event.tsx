@@ -15,12 +15,12 @@ import {
   Poppins_600SemiBold,
   Poppins_400Regular,
 } from "@expo-google-fonts/poppins";
-import { getEvents, joinEvent } from "../../services/eventService";
+import { getEvents, joinEvent, leaveEvent } from "../../services/eventService";
 
 import SecondaryBtn from "../../components/buttons/SecondaryBtn";
 import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 import { AuthContext } from "../../context/AuthContext";
-
+import * as SecureStore from 'expo-secure-store';
 // import { EventCards } from "../../components/NewsPage/EventCards";
 const wave = require("../../../assets/wave.png");
 
@@ -37,11 +37,33 @@ const PageEvent = ({ navigation, props }) => {
     try {
       getEvents(accessToken).then(res => res.data).then(data => {
         setEvents(data);
+        // console.log(data);
       })
     } catch (err) {
       console.log("error fetching events : ", err);
     }
 
+  }
+
+  const parseDate = (dateString) => {
+
+    // Parse the date string using the Date constructor
+    const date = new Date(dateString);
+
+    // Use the getDate method to get the day
+    const day = date.getDate();
+
+    // Use the toLocaleString method to get the month and year
+    const month = date.toLocaleString("en-US", { month: "long" });
+    const year = date.toLocaleString("en-US", { year: "numeric" });
+
+    // Use the toLocaleString method to get the time
+    const time = date.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit"});
+
+    // Use string formatting to add the "th"
+    const formattedDate = `${day}${day === 1 ? "st" : day === 2 ? "nd" : day === 3 ? "rd" : "th"} ${month} ${year} at ${time}`;
+
+    return formattedDate;
   }
 
   const handleOnPress = (item: any) => {
@@ -60,6 +82,25 @@ const PageEvent = ({ navigation, props }) => {
     }
   }
 
+  const handleLeaveEvent = async (id) => {
+
+    const response = await leaveEvent(accessToken, id);
+    if (response.status === 200) {
+      // alert
+
+      // refresh
+      console.log("event left")
+      handleData();
+    }
+  }
+
+  const isJoined = async (event_id) => {
+    const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
+    events.map(event =>
+      event.id === event_id && event.userIds.includes(currentUser.id))
+    console.log("event_id", event_id, "is joined")
+    return true;
+  }
   // fonts
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
@@ -83,7 +124,7 @@ const PageEvent = ({ navigation, props }) => {
             >
               <View style={styles.wrapperTop}>
                 <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.date}>{item.date}</Text>
+                <Text style={styles.date}>{parseDate(item.date)}</Text>
               </View>
               <Text style={styles.description}>{item.description}</Text>
             </TouchableOpacity>
@@ -100,7 +141,11 @@ const PageEvent = ({ navigation, props }) => {
                   color="#031D29"
                 />
               </View>
-              <PrimaryBtn text={"JOIN"} press={() => handleJoinEvent(item.id)}></PrimaryBtn>
+              {isJoined ?
+                <PrimaryBtn text={"LEAVE"} press={() => handleLeaveEvent(item.id)}></PrimaryBtn>
+                :
+                <PrimaryBtn text={"JOIN"} press={() => handleJoinEvent(item.id)}></PrimaryBtn>
+              }
             </View>
           </View>
         ))}
