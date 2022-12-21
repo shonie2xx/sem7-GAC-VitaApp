@@ -32,39 +32,29 @@ const challengeFriends = () => {
     // var completedActivities = await getAllCompletedActivities(accessToken);
     // console.log(completedActivities[0].moodbooster);
     // setCompletedData(await completedActivities);
-    const fetchedUsers = await fetchUsers();
+    const fetchedUsers = await fetchFriends();
     setFriends(fetchedUsers);
   };
-  const fetchUsers = async () => {
+  const fetchFriends = async () => {
     try {
       const res = await getAllUsers(accessToken);
+
+      console.log(res);
+      if (res.length === 0) {
+        setMoodboosterRequests(0);
+      } else {
+        setMoodboosterRequests(res.length);
+      }
       return res;
     } catch (err) {
       console.log(err);
     }
   };
-  // const fetchFriends = async () => {
-  //   try {
-  //     const res = await getAllUsers(accessToken);
-
-  //     console.log(res);
-  //     if (res.length === 0) {
-  //       setMoodboosterRequests(0);
-  //     } else {
-  //       setMoodboosterRequests(res);
-  //     }
-  //     return res;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
   useEffect(() => {
     handleActivities();
   }, []);
 
-  const CompletedCard = () => (
-    //can be used to show completed moodboosters
-
+  const FriendsList = () => (
     <ScrollView>
       {friends.map((item, index) => (
         <Card
@@ -77,7 +67,7 @@ const challengeFriends = () => {
           }}
           key={index}
         >
-          <Card.Content>
+          <Card.Content style={styles.friendscard}>
             <Paragraph style={styles.description}>{item.name}</Paragraph>
             <Card.Actions style={styles.buttons}>
               <PrimaryBtn text={"START"}></PrimaryBtn>
@@ -98,7 +88,7 @@ const challengeFriends = () => {
         <View style={styles.friendsModal}>
           <Text style={styles.friendstitle}>Invite friends</Text>
           <View style={styles.friendslist}>
-            <CompletedCard />
+            <FriendsList />
           </View>
           <TertiaryBtn text="DONE" onPress={toggleModal} />
         </View>
@@ -142,10 +132,15 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   friendslist: {
-    // backgroundColor: "gray",
     marginVertical: 16,
     width: "100%",
     height: "80%",
+  },
+  friendscard: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%"
   },
   friendstitle: {
     fontFamily: "Poppins_600SemiBold",
@@ -166,5 +161,6 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_500Medium",
     fontSize: 16,
     color: "#031D29",
+    width: "60%",
   },
 });

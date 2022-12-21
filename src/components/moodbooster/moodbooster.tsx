@@ -139,28 +139,6 @@ const Moodbooster = ({ changeMood }) => {
               icon="account-plus"
               onPress={() => {}}
             />
-            {/* <Button
-              mode="outlined"
-              textColor="#FA9901"
-              labelStyle={{
-                fontFamily: "Poppins_600SemiBold",
-                textTransform: "uppercase",
-              }}
-              onPress={() => handleToCancel(index)}
-            >
-              <Text style={styles.btntext}>Cancel</Text>
-            </Button>
-            <Button
-              mode="contained"
-              buttonColor="#419FD9"
-              labelStyle={{
-                fontFamily: "Poppins_600SemiBold",
-                textTransform: "uppercase",
-              }}
-              onPress={() => handleToComplete(index)}
-            >
-              <Text style={styles.btntext}>Complete</Text>
-            </Button> */}
             <SecondaryBtn
               text={"CANCEL"}
               onPress={() => handleToCancel(index)}
@@ -198,19 +176,6 @@ const Moodbooster = ({ changeMood }) => {
               disabled={disabledState}
               onPress={() => {}}
             />
-            {/* <Button
-              mode="contained"
-              disabled={disabledState}
-              loading={loadingState}
-              buttonColor="#419FD9"
-              labelStyle={{
-                fontFamily: "Poppins_600SemiBold",
-                textTransform: "uppercase",
-              }}
-              onPress={() => handleToStart(index)}
-            >
-              <Text style={styles.btntext}>Start</Text>
-            </Button> */}
             <PrimaryBtn
               text={"START"}
               disabled={disabledState}
@@ -276,21 +241,3 @@ const styles = StyleSheet.create({
 });
 
 export default Moodbooster;
-
-// {todos[index].started &&(
-//   <Card.Actions >
-//     <Button
-//         mode="outlined"
-//         textColor="#FA9901"
-//         labelStyle={{
-//           fontFamily: "Poppins_600SemiBold",
-//           textTransform: "uppercase",
-//           // color: "#FA9901"
-
-//         }}
-//         onPress={() => handleToCancel(index)}
-//       >
-//         <Text style={styles.btntext}>Cancel</Text>
-//       </Button>
-//   </Card.Actions>
-// )}
