@@ -73,7 +73,7 @@ const PageHome = ({ navigation }) => {
           <View style={styles.homeTop}>
             <Text style={styles.heading2}>{name}</Text>
             {/* <Image style={styles.pic} source={picsource}/> */}
-            
+            <Moodperson/>
             <View style={styles.moodcontainer}>
               <Image
                 style={styles.moodbg}
