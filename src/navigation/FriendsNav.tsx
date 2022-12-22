@@ -16,7 +16,6 @@ const FriendsNav = () => {
                 tabBarLabelStyle: {
                     fontSize: 18,
                     fontWeight: useIsFocused ? 'bold' : '400',
-                    textTransform: 'capitalized'
                 },
                 tabBarIndicatorStyle: {
                     backgroundColor: '#FA9901',
