@@ -4,7 +4,6 @@ import { Text, Card, Avatar, IconButton } from "react-native-paper";
 import Moodbooster from "../../components/moodbooster/moodbooster";
 import Modal from "react-native-modal";
 import Moodperson from '../../../assets/moodperson.svg';
-
 import StartupMood from "../../components/PopUps/StartupMood";
 import {
   useMoodPoints,
