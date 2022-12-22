@@ -67,19 +67,21 @@ const PageHome = ({ navigation }) => {
   return (
     <View style={styles.screen}>
       <StartupMood changeMood={userMood} />
-      <ImageBackground source={wave} style={styles.wave}>
-        <View style={styles.homeTop}>
-          <Text style={styles.heading2}>{name}</Text>
-          <Image style={styles.pic} source={picsource} />
-          <View style={styles.moodcontainer}>
-            <Image
-              style={styles.moodbg}
-              source={require("../../../assets/moodbg.png")}
-            />
-            <Text style={styles.moodnmbr}>{mood}</Text>
+      <View style={styles.top}>
+        <ImageBackground source={wave} style={styles.wave}>
+          <View style={styles.homeTop}>
+            <Text style={styles.heading2}>{name}</Text>
+            <Image style={styles.pic} source={picsource} />
+            <View style={styles.moodcontainer}>
+              <Image
+                style={styles.moodbg}
+                source={require("../../../assets/moodbg2.png")}
+              />
+              <Text style={styles.moodnmbr}>{mood}</Text>
+            </View>
           </View>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      </View>
       <View style={styles.moodboostertop}>
         <Text style={styles.moodtitle}>Today's moodboosters</Text>
         <ChallengeFriends />
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 8,
-  },
+    },
   moodtitle: {
     fontFamily: "Poppins_600SemiBold",
     fontSize: 18,
@@ -118,28 +120,33 @@ const styles = StyleSheet.create({
   },
   moodnmbr: {
     position: "absolute",
-    fontSize: 35,
+    fontSize: 34,
     fontWeight: "bold",
     color: "#FFFFFF",
     zIndex: 3,
     textAlign: "center",
-    marginBottom: 8,
+    marginBottom: 20,
   },
   moodbg: {
     zIndex: 2,
     position: "relative",
-    width: 82,
-    height: 74,
+    width: 70,
+    resizeMode: "contain",
+    marginTop: 8
   },
   pic: {
-    margin: 8,
-    width: 150,
-    height: 150,
+    // margin: 8,
+    // width: 150,
+    // height: 150,
+    resizeMode: "contain",
+  },
+  top: {
+    height: "50%",
   },
   wave: {
-    height: undefined,
-    width: "100%",
-    resizeMode: "center",
+    height: "95%",
+    // width: ,
+    // resizeMode: "contain",
   },
   heading2: {
     fontSize: 24,
@@ -148,7 +155,7 @@ const styles = StyleSheet.create({
     color: "#031D29",
   },
   homeTop: {
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
   },
 });
