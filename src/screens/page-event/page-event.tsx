@@ -150,9 +150,9 @@ const PageEvent = ({ navigation, props }) => {
                 />
               </View>
               {checkJoinedEvents(item.id) ?
-              <PrimaryBtn text={"LEAVE"} press={() => handleLeaveEvent(item.id)}></PrimaryBtn>
+              <PrimaryBtn text={"LEAVE"} onPress={() => handleLeaveEvent(item.id)}></PrimaryBtn>
               :
-              <PrimaryBtn text={"JOIN"} press={() => handleJoinEvent(item.id)}></PrimaryBtn>
+              <PrimaryBtn text={"JOIN"} onPress={() => handleJoinEvent(item.id)}></PrimaryBtn>
               }
             </View>
           </View>

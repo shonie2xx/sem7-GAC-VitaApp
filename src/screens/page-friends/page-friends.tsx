@@ -165,7 +165,7 @@ const PageFriends = () => {
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn text={"REMOVE"} press={() => handleRemoveFriend(item.id)}></SecondaryBtn>
+                  <SecondaryBtn text={"REMOVE"} onPress={() => handleRemoveFriend(item.id)}></SecondaryBtn>
                 </View>
               </View>
               ))
@@ -186,7 +186,7 @@ const PageFriends = () => {
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn text={"Cancel"} press={() => handleCancelRequest(item.id)}></SecondaryBtn>
+                  <SecondaryBtn text={"Cancel"} onPress={() => handleCancelRequest(item.id)}></SecondaryBtn>
                 </View>
               </View>
             ))
@@ -207,7 +207,7 @@ const PageFriends = () => {
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn text={"INVITE"} press={() => handleAddFriends(item.id)}></SecondaryBtn>
+                  <SecondaryBtn text={"INVITE"} onPress={() => handleAddFriends(item.id)}></SecondaryBtn>
                 </View>
               </View>
             ))
