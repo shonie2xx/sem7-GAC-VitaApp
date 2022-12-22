@@ -44,7 +44,7 @@
     "react-native-msal": "^4.0.4",
     "react-native-pager-view": "5.4.24",
     "react-native-paper": "^5.0.0-rc.6",
-    "react-native-svg": "12.3.0",
+    "react-native-svg": "^12.3.0",
     "react-native-tab-view": "^3.3.0",
     "react-native-toast-message": "^2.1.5",
     "react-native-web": "~0.18.7",

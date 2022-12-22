@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Text, Card, Avatar, IconButton } from "react-native-paper";
 import Moodbooster from "../../components/moodbooster/moodbooster";
 import Modal from "react-native-modal";
+import Moodperson from '../../../assets/moodperson.svg';
 
 import StartupMood from "../../components/PopUps/StartupMood";
 import {
@@ -71,7 +72,8 @@ const PageHome = ({ navigation }) => {
         <ImageBackground source={wave} style={styles.wave}>
           <View style={styles.homeTop}>
             <Text style={styles.heading2}>{name}</Text>
-            <Image style={styles.pic} source={picsource} />
+            {/* <Image style={styles.pic} source={picsource}/> */}
+            
             <View style={styles.moodcontainer}>
               <Image
                 style={styles.moodbg}
@@ -107,6 +109,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: 16,
     paddingRight: 16,
+    marginBottom: 4,
   },
   moodcontainer: {
     justifyContent: "center",
@@ -135,9 +138,6 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   pic: {
-    // margin: 8,
-    // width: 150,
-    // height: 150,
     resizeMode: "contain",
   },
   top: {
@@ -145,8 +145,6 @@ const styles = StyleSheet.create({
   },
   wave: {
     height: "95%",
-    // width: ,
-    // resizeMode: "contain",
   },
   heading2: {
     fontSize: 24,

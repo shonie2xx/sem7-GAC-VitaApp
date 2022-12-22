@@ -20,35 +20,35 @@ import { getEvents, joinEvent, leaveEvent } from "../../services/eventService";
 import SecondaryBtn from "../../components/buttons/SecondaryBtn";
 import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 import { AuthContext } from "../../context/AuthContext";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 // import { EventCards } from "../../components/NewsPage/EventCards";
 const wave = require("../../../assets/wave.png");
 
 const PageEvent = ({ navigation, props }) => {
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState([]);
   const wave = require("../../../assets/wave.png");
   const { accessToken } = useContext(AuthContext);
   const [isJoined, setIsJoined] = useState(false);
 
   useEffect(() => {
     handleData();
-  }, [])
+  }, []);
 
   const handleData = async () => {
     try {
-      getEvents(accessToken).then(res => res.data).then(data => {
-        console.log(data);
-        setEvents(data);
-        // console.log(data);
-      })
+      getEvents(accessToken)
+        .then((res) => res.data)
+        .then((data) => {
+          console.log(data);
+          setEvents(data);
+          // console.log(data);
+        });
     } catch (err) {
       console.log("error fetching events : ", err);
     }
-
-  }
+  };
 
   const parseDate = (dateString) => {
-
     // Parse the date string using the Date constructor
     const date = new Date(dateString);
 
@@ -60,55 +60,59 @@ const PageEvent = ({ navigation, props }) => {
     const year = date.toLocaleString("en-US", { year: "numeric" });
 
     // Use the toLocaleString method to get the time
-    const time = date.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit"});
+    const time = date.toLocaleString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
     // Use string formatting to add the "th"
-    const formattedDate = `${day}${day === 1 ? "st" : day === 2 ? "nd" : day === 3 ? "rd" : "th"} ${month} ${year} at ${time}`;
+    const formattedDate = `${day}${
+      day === 1 ? "st" : day === 2 ? "nd" : day === 3 ? "rd" : "th"
+    } ${month} ${year} at ${time}`;
 
     return formattedDate;
-  }
+  };
 
   const handleOnPress = (item: any) => {
     navigation.navigate("Event Details", { item });
   };
 
   const handleJoinEvent = async (id) => {
-
     const response = await joinEvent(accessToken, id);
     if (response.status === 200) {
       // alert
 
       // refresh
-      console.log("event joined")
+      console.log("event joined");
       handleData();
     }
-  }
+  };
 
   const handleLeaveEvent = async (id) => {
-
     const response = await leaveEvent(accessToken, id);
     if (response.status === 200) {
       // alert
 
       // refresh
-      console.log("event left")
+      console.log("event left");
       handleData();
     }
-  }
+  };
 
   const checkJoinedEvents = async (event_id) => {
     const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
-      events.forEach(event => {
-        if(event.id === event_id ) {
-          if(event.userIds.includes(currentUser.id)){
-            console.log(event_id, "event is joined")
-            return true;
-          } else {
-            console.log(event_id, "event is not joined")
-            return false;
-          }
-        }});
-  }
+    events.forEach((event) => {
+      if (event.id === event_id) {
+        if (event.userIds.includes(currentUser.id)) {
+          console.log(event_id, "event is joined");
+          return true;
+        } else {
+          console.log(event_id, "event is not joined");
+          return false;
+        }
+      }
+    });
+  };
   // fonts
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
@@ -139,9 +143,7 @@ const PageEvent = ({ navigation, props }) => {
 
             <View style={styles.wrapperBottom}>
               <View style={styles.joined}>
-                <Text style={styles.description}>
-                  {item.userIds.length}/20
-                </Text>
+                <Text style={styles.description}>{item.userIds.length}/20</Text>
                 <Ionicons
                   style={styles.icon}
                   name="people"
@@ -149,11 +151,17 @@ const PageEvent = ({ navigation, props }) => {
                   color="#031D29"
                 />
               </View>
-              {checkJoinedEvents(item.id) ?
-              <PrimaryBtn text={"LEAVE"} onPress={() => handleLeaveEvent(item.id)}></PrimaryBtn>
-              :
-              <PrimaryBtn text={"JOIN"} onPress={() => handleJoinEvent(item.id)}></PrimaryBtn>
-              }
+              {checkJoinedEvents(item.id) ? (
+                <PrimaryBtn
+                  text={"LEAVE"}
+                  onPress={() => handleLeaveEvent(item.id)}
+                ></PrimaryBtn>
+              ) : (
+                <PrimaryBtn
+                  text={"JOIN"}
+                  onPress={() => handleJoinEvent(item.id)}
+                ></PrimaryBtn>
+              )}
             </View>
           </View>
         ))}
