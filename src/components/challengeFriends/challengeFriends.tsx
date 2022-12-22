@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-native-modal";
@@ -57,31 +58,14 @@ const challengeFriends = () => {
   const FriendsList = () => (
     <ScrollView>
       {friends.map((item, index) => (
-        // <Card
-        //   style={styles.surface}
-        //   mode="outlined"
-        //   theme={{
-        //     colors: {
-        //       outline: "rgba(0, 0, 0, 0.2)",
-        //     },
-        //   }}
-        //   key={index}
-        // >
-        //   <Card.Content style={styles.friendscard}>
-        //     <Paragraph style={styles.description}>{item.name}</Paragraph>
-        //     <Card.Actions style={styles.buttons}>
-        //       <PrimaryBtn text={"START"}></PrimaryBtn>
-        //     </Card.Actions>
-        //   </Card.Content>
-        // </Card>
         <View style={styles.card} key={index}>
           <View style={styles.wrapperTop}>
             <View style={styles.joined}>
-              {/* <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image> */}
+              <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
               <Text style={styles.title}>{item.name}</Text>
             </View>
 
-            <PrimaryBtn text={"START"}></PrimaryBtn>
+            <PrimaryBtn text={"ACCEPT"}></PrimaryBtn>
           </View>
         </View>
       ))}
@@ -96,7 +80,7 @@ const challengeFriends = () => {
       </TouchableOpacity>
       <Modal isVisible={isModalVisible} style={styles.modal}>
         <View style={styles.friendsModal}>
-          <Text style={styles.friendstitle}>Invite friends</Text>
+          <Text style={styles.friendstitle}>Moodbooster invitations</Text>
           <View style={styles.friendslist}>
             <FriendsList />
           </View>
@@ -159,11 +143,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "Poppins_600SemiBold",
-    margin: 0,
-    padding: 0,
-    fontSize: 18,
+    fontSize: 16,
     color: "#052D40",
     paddingLeft: 12,
+    width: "70%",
   },
   joined: {
     flex: 1,
@@ -183,11 +166,19 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   wrapperTop: {
-    flex: 1,
+    // flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
     margin: 8,
+  },
+  pfp: {
+    height: 45,
+    width: 45,
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
+    borderRadius: 999,
+    backgroundColor: "green",
   },
 });
