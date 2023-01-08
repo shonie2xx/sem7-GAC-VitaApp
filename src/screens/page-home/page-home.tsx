@@ -3,7 +3,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { Text, Card, Avatar, IconButton } from "react-native-paper";
 import Moodbooster from "../../components/moodbooster/moodbooster";
 import Modal from "react-native-modal";
-import Moodperson from '../../../assets/moodperson.svg';
+import Moodperson from "../../../assets/moodperson.svg";
+import Moodperson_sad from "../../../assets/moodperson_sad.svg";
+import Moodperson_neutral from "../../../assets/moodperson_neutral.svg";
 
 import StartupMood from "../../components/PopUps/StartupMood";
 import {
@@ -26,7 +28,7 @@ const PageHome = ({ navigation }) => {
   const { name } = React.useContext(NameContext);
 
   const [picsource, setPicsource] = useState(
-    require("../../../assets/smiley.png")
+    require("../../../assets/moodperson.svg")
   );
   const wave = require("../../../assets/wave.png");
 
@@ -36,7 +38,6 @@ const PageHome = ({ navigation }) => {
     var userData = await getUser(accessToken);
     console.log(userData);
     setMood(userData.mood);
-    changePic(userData.mood);
   };
 
   const { accessToken } = useContext(AuthContext);
@@ -45,13 +46,16 @@ const PageHome = ({ navigation }) => {
     userMood();
   }, []);
 
-  const changePic = async (userMood) => {
-    if (userMood > 7) {
-      setPicsource(require("../../../assets/smiley.png"));
-    } else if (userMood < 7 && userMood > 4) {
-      setPicsource(require("../../../assets/neutral.png"));
-    } else if (userMood < 4) {
-      setPicsource(require("../../../assets/frowney.png"));
+  const ChangePic = () => {
+    const userMoodConditions = mood
+    if (userMoodConditions > 7) {
+      return <Moodperson />;
+    } else if (userMoodConditions <= 7 && userMoodConditions >= 4) {
+      console.log(userMood);
+      return <Moodperson_neutral />;
+    } else if (userMoodConditions < 4)  {
+      console.log(userMood);
+      return <Moodperson_sad />;
     }
   };
 
@@ -72,8 +76,7 @@ const PageHome = ({ navigation }) => {
         <ImageBackground source={wave} style={styles.wave}>
           <View style={styles.homeTop}>
             <Text style={styles.heading2}>{name}</Text>
-            {/* <Image style={styles.pic} source={picsource}/> */}
-            <Moodperson/>
+            <ChangePic/>
             <View style={styles.moodcontainer}>
               <Image
                 style={styles.moodbg}
@@ -114,8 +117,9 @@ const styles = StyleSheet.create({
   moodcontainer: {
     justifyContent: "center",
     alignItems: "center",
-    margin: 8,
-    },
+    // margin: 8,
+    marginTop: -16,
+  },
   moodtitle: {
     fontFamily: "Poppins_600SemiBold",
     fontSize: 18,
@@ -135,10 +139,10 @@ const styles = StyleSheet.create({
     position: "relative",
     width: 70,
     resizeMode: "contain",
-    marginTop: 8
+    marginTop: 8,
   },
   pic: {
-    resizeMode: "contain",
+    marginTop: 18,
   },
   top: {
     height: "50%",
@@ -148,13 +152,14 @@ const styles = StyleSheet.create({
   },
   heading2: {
     fontSize: 24,
-    margin: 8,
+    marginTop: 18,
     fontFamily: "Poppins_600SemiBold",
     color: "#031D29",
   },
   homeTop: {
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
+    marginTop: 16,
   },
 });
 
