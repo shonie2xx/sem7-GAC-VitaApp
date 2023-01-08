@@ -11,33 +11,26 @@ import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import TertiaryBtn from "../buttons/TertiaryBtn";
+import { Card, IconButton, Paragraph } from "react-native-paper";
+import { getAllCompletedActivities } from "../../services/moodboosterService";
 import { AuthContext } from "../../context/AuthContext";
 import { getFriends } from "../../services/friendsService";
-import { getAllMoodboosterRequests } from "../../services/moodboosterService";
+import { getAllUsers } from "../../services/userService";
 import PrimaryBtn from "../buttons/PrimaryBtn";
-import SecondaryBtn from "../buttons/SecondaryBtn";
-import { Card, Paragraph, IconButton } from "react-native-paper";
 import Toast from "react-native-toast-message";
 
-const challengeFriends = () => {
+const challengeFriends = (props) => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const [completedData, setCompletedData] = useState([]);
   const [mount, setMount] = useState(false);
   const { accessToken } = useContext(AuthContext);
   // const [dataState, setDataState] = useState(false);
   const [friends, setFriends] = useState([]);
   const [moodboosterRequests, setMoodboosterRequests] = useState(0);
 
-  const cancelledToast = (toastData) => {
-    Toast.show({
-      type: "error",
-      text1: "Declined invitation from " + toastData,
-    });
-  };
-  const acceptedToast = (toastData) => {
+  const InfoToast = (toastData) => {
     Toast.show({
       type: "info",
-      text1: "Accepted invitation from " + toastData,
+      text1: "Invited " + toastData,
     });
   };
 
@@ -49,21 +42,16 @@ const challengeFriends = () => {
     setModalVisible(!isModalVisible);
   };
   const handleActivities = async () => {
-    const fetchedMoodboosterRequests = await fetchMoodboosterRequests();
-    console.log(fetchedMoodboosterRequests);
-    setFriends(fetchedMoodboosterRequests);
+    const fetchedUsers = await fetchFriends();
+    setFriends(fetchedUsers);
   };
-  const handleToDecline= async (user) => {
-
-    cancelledToast(user.inviterName);
+  const handleToInvite = async (user) => {
+    console.log(user.id + " " + props.moodboosterId)
+    InfoToast(user.name);
   };
-  const handleToAccept= async (user) => {
-
-    acceptedToast(user.inviterName);
-  };
-  const fetchMoodboosterRequests = async () => {
+  const fetchFriends = async () => {
     try {
-      const res = await getAllMoodboosterRequests(accessToken);
+      const res = await getAllUsers(accessToken);
 
       console.log(res);
       if (res.length === 0) {
@@ -83,44 +71,34 @@ const challengeFriends = () => {
   const FriendsList = () => (
     <ScrollView>
       {friends.map((item, index) => (
-        <Card
-          style={styles.surface}
-          mode="outlined"
-          theme={{
-            colors: {
-              outline: "rgba(0, 0, 0, 0.2)",
-            },
-          }}
-          key={index}
-        >
-          <Card.Content>
-            {/* <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image> */}
-            <Paragraph style={styles.description}>{item.inviterName}</Paragraph>
-          </Card.Content>
-          <Card.Actions style={styles.buttons}>
-            <PrimaryBtn
-              text={"ACCEPT"}
-              onPress={() => handleToAccept(item)}
-            ></PrimaryBtn>
-            <SecondaryBtn
-              text={"DECLINE"}
-              onPress={() => handleToDecline(item)}
-            ></SecondaryBtn>
-          </Card.Actions>
-        </Card>
+        <View style={styles.card} key={index}>
+          <View style={styles.wrapperTop}>
+            <View style={styles.joined}>
+              <Image
+                style={styles.pfp}
+                source={require("../../../assets/pfp.png")}
+              ></Image>
+              <Text style={styles.title}>{item.name}</Text>
+            </View>
+
+            <PrimaryBtn text={"INVITE"} onPress={() => handleToInvite(item)}></PrimaryBtn>
+          </View>
+        </View>
       ))}
     </ScrollView>
   );
 
   return (
     <View>
-      <TouchableOpacity onPress={toggleModalOn} style={styles.friendsbtn}>
-        <Text style={styles.buttontext}>{moodboosterRequests}</Text>
-        <Ionicons style={styles.icon} name="people" size={24} color="#052D40" />
-      </TouchableOpacity>
+      <IconButton
+        mode="outlined"
+        icon="account-plus"
+        disabled={props.disabled}
+        onPress={() => toggleModalOn()}
+      />
       <Modal isVisible={isModalVisible} style={styles.modal}>
         <View style={styles.friendsModal}>
-          <Text style={styles.friendstitle}>Moodbooster invitations</Text>
+          <Text style={styles.friendstitle}>Invite friends</Text>
           <View style={styles.friendslist}>
             <FriendsList />
           </View>
@@ -207,7 +185,7 @@ const styles = StyleSheet.create({
   },
   wrapperTop: {
     // flex: 1,
-    // flexDirection: "row",
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
@@ -220,29 +198,5 @@ const styles = StyleSheet.create({
     borderColor: "#CCCCCC",
     borderRadius: 999,
     backgroundColor: "green",
-  },
-  buttons: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingRight: 10,
-  },
-  description: {
-    fontFamily: "Poppins_500Medium",
-    fontSize: 16,
-    color: "#031D29",
-  },
-  surface: {
-    marginHorizontal: 8,
-    marginVertical: 8,
-    fontFamily: "Poppins_600SemiBold",
-    backgroundColor: "#FFFFFF",
-  },
-  btntext: {
-    fontSize: 12,
-    fontFamily: "Poppins_700Bold",
-  },
-  container: {
-    flex: 1,
   },
 });

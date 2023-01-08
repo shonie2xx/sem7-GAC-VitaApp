@@ -28,6 +28,7 @@ import Toast from "react-native-toast-message";
 import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native";
 import PrimaryBtn from "../buttons/PrimaryBtn";
 import SecondaryBtn from "../buttons/SecondaryBtn";
+import InviteFriends from "../../components/challengeFriends/inviteFriends"
 
 const Moodbooster = ({ changeMood }) => {
   const [data, setData] = useState([]);
@@ -62,10 +63,10 @@ const Moodbooster = ({ changeMood }) => {
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
-    // console.log("test");
 
     var activities = await getAllActivities(accessToken);
-    // 
+    console.log(activeActivities);
+    
     setData(await activities);
     setActiveData(await activeActivities);
     if (await activeActivities[0]) {
@@ -134,11 +135,9 @@ const Moodbooster = ({ changeMood }) => {
             </Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
-            <IconButton
-              mode="outlined"
-              icon="account-plus"
-              onPress={() => {}}
-            />
+          <InviteFriends
+            disabled={false}
+            moodboosterId={item.id}/>
             <SecondaryBtn
               text={"CANCEL"}
               onPress={() => handleToCancel(index)}
@@ -170,11 +169,8 @@ const Moodbooster = ({ changeMood }) => {
             <Paragraph style={styles.description}>{item.description}</Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
-            <IconButton
-              mode="outlined"
-              icon="account-plus"
-              disabled={disabledState}
-              onPress={() => {}}
+            <InviteFriends
+            disabled={true}
             />
             <PrimaryBtn
               text={"START"}

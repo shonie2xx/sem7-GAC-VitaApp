@@ -118,3 +118,11 @@ export async function cancelActivity(id, token) {
   );
   return response.data;
 }
+
+export async function getAllMoodboosterRequests(token) {
+  console.log(token)
+  var response = await axios.get(url + "invites", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
