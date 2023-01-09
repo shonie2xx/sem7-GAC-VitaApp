@@ -13,7 +13,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import TertiaryBtn from "../buttons/TertiaryBtn";
 import { AuthContext } from "../../context/AuthContext";
 import { getFriends } from "../../services/friendsService";
-import { getAllMoodboosterRequests } from "../../services/moodboosterService";
+import { acceptMoodboosterRequest, getAllMoodboosterRequests } from "../../services/moodboosterService";
 import { declineMoodboosterRequest } from "../../services/moodboosterService";
 import PrimaryBtn from "../buttons/PrimaryBtn";
 import SecondaryBtn from "../buttons/SecondaryBtn";
@@ -29,7 +29,8 @@ const challengeFriends = () => {
   // const [dataState, setDataState] = useState(false);
   const [friends, setFriends] = useState([]);
   // const [moodboosterRequests, setMoodboosterRequests] = useState(0);
-  const {moodboosterRequests, setMoodboosterRequests} = useContext(MoodboosterContext);
+  const { moodboosterRequests, setMoodboosterRequests } =
+    useContext(MoodboosterContext);
   const cancelledToast = (toastData) => {
     Toast.show({
       type: "error",
@@ -55,14 +56,15 @@ const challengeFriends = () => {
     // console.log(fetchedMoodboosterRequests);
     setFriends(fetchedMoodboosterRequests);
   };
-  const handleToDecline= async (user) => {
-    const decline = await declineMoodboosterRequest(user.inviteId, accessToken)
+  const handleToDecline = async (user) => {
+    const decline = await declineMoodboosterRequest(user.inviteId, accessToken);
     cancelledToast(user.inviterName);
     handleActivities();
   };
-  const handleToAccept= async (user) => {
-
+  const handleToAccept = async (user) => {
+    const accept = await acceptMoodboosterRequest(user.inviteId, accessToken);
     acceptedToast(user.inviterName);
+    handleActivities();
   };
   const fetchMoodboosterRequests = async () => {
     try {
@@ -78,9 +80,7 @@ const challengeFriends = () => {
       console.log(err);
     }
   };
-  useEffect(() => {
-
-  }, []);
+  useEffect(() => {}, []);
 
   const FriendsList = () => (
     <ScrollView>

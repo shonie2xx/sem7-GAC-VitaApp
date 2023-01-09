@@ -138,9 +138,21 @@ export async function inviteMoodbooster(token, userMoodboosterId, invitedUserId)
   return response;
 }
 export async function declineMoodboosterRequest(inviteId, token) {
-console.log(url + "invite/decline/" + inviteId)
+
   var response = await axios.delete(url + "invite/decline/" + inviteId, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
 }
+export async function acceptMoodboosterRequest(inviteId, token) {
+
+    const response = await fetch(url + "invite/" + "accept/" + inviteId, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  }

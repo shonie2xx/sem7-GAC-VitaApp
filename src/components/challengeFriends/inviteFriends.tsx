@@ -12,7 +12,10 @@ import Modal from "react-native-modal";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import TertiaryBtn from "../buttons/TertiaryBtn";
 import { Card, IconButton, Paragraph } from "react-native-paper";
-import { getAllMoodboosterRequests, inviteMoodbooster } from "../../services/moodboosterService";
+import {
+  getAllMoodboosterRequests,
+  inviteMoodbooster,
+} from "../../services/moodboosterService";
 import { AuthContext } from "../../context/AuthContext";
 import { getFriends } from "../../services/friendsService";
 import { getAllUsers } from "../../services/userService";
@@ -26,7 +29,8 @@ const inviteFriends = (props) => {
   const { accessToken } = useContext(AuthContext);
   // const [dataState, setDataState] = useState(false);
   const [friends, setFriends] = useState([]);
-  const {moodboosterRequests, setMoodboosterRequests} = useContext(MoodboosterContext);
+  const { moodboosterRequests, setMoodboosterRequests } =
+    useContext(MoodboosterContext);
 
   const InfoToast = (toastData) => {
     Toast.show({
@@ -47,20 +51,17 @@ const inviteFriends = (props) => {
     setFriends(fetchedUsers);
   };
   const handleToInvite = async (user) => {
-    const invite = await inviteMoodbooster(accessToken, props.moodboosterId, user.id)
-    // setMoodboosterRequests()
+    const invite = await inviteMoodbooster(
+      accessToken,
+      props.moodboosterId,
+      user.id
+    );
     InfoToast(user.name);
   };
   const fetchFriends = async () => {
     try {
       const res = await getAllUsers(accessToken);
 
-      // console.log(res);
-      // if (res.length === 0) {
-      //   setMoodboosterRequests(0);
-      // } else {
-      //   setMoodboosterRequests(res.length);
-      // }
       return res;
     } catch (err) {
       console.log(err);
@@ -76,14 +77,17 @@ const inviteFriends = (props) => {
         <View style={styles.card} key={index}>
           <View style={styles.wrapperTop}>
             <View style={styles.joined}>
-              <Image
+              {/* <Image
                 style={styles.pfp}
                 source={require("../../../assets/pfp.png")}
-              ></Image>
+              ></Image> */}
               <Text style={styles.title}>{item.name}</Text>
             </View>
 
-            <PrimaryBtn text={"INVITE"} onPress={() => handleToInvite(item)}></PrimaryBtn>
+            <PrimaryBtn
+              text={"INVITE"}
+              onPress={() => handleToInvite(item)}
+            ></PrimaryBtn>
           </View>
         </View>
       ))}
