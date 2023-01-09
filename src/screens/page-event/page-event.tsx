@@ -16,7 +16,7 @@ import {
   Poppins_400Regular,
 } from "@expo-google-fonts/poppins";
 import { getEvents, joinEvent, leaveEvent } from "../../services/eventService";
-
+import Bg from "../../../assets/wave.svg";
 import SecondaryBtn from "../../components/buttons/SecondaryBtn";
 import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 import { AuthContext } from "../../context/AuthContext";
@@ -115,8 +115,8 @@ const PageEvent = ({ navigation, props }) => {
   }
 
   return (
-    <ImageBackground source={wave} style={styles.wave}>
       <ScrollView style={styles.screen}>
+        <Bg style={styles.wave}/>
         <Text style={styles.moodtitle}>Signed Up</Text>
         {joinedEvents.length ? joinedEvents.map((item, index) => (
           <View key={index} style={styles.card}>
@@ -180,7 +180,6 @@ const PageEvent = ({ navigation, props }) => {
           </View>
         )) : <Text>No events to join!</Text>}
       </ScrollView>
-    </ImageBackground>
   );
 };
 
@@ -232,14 +231,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   wave: {
-    width: "100%",
-    height: "100%",
     position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: -1,
   },
   wrapperTop: {
     flex: 1,

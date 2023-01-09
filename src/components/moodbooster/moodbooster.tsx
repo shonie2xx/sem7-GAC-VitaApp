@@ -13,6 +13,7 @@ import {
   getAllActiveActivities,
   completeActivity,
   getAllCompletedActivities,
+  getAllMoodboosterRequests,
 } from "../../services/moodboosterService";
 
 import { Card, IconButton, Button, Paragraph } from "react-native-paper";
@@ -28,6 +29,8 @@ import Toast from "react-native-toast-message";
 import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native";
 import PrimaryBtn from "../buttons/PrimaryBtn";
 import SecondaryBtn from "../buttons/SecondaryBtn";
+import InviteFriends from "../../components/challengeFriends/inviteFriends";
+import { MoodboosterContext } from "../../screens/page-home/moodboosterContext";
 
 const Moodbooster = ({ changeMood }) => {
   const [data, setData] = useState([]);
@@ -37,6 +40,8 @@ const Moodbooster = ({ changeMood }) => {
   const [disabledState, setDisabledState] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const { moodboosterRequests, setMoodboosterRequests } =
+    useContext(MoodboosterContext);
   //TOAST AFTER COMPLETE
   const completedToast = (toastData) => {
     Toast.show({
@@ -62,17 +67,21 @@ const Moodbooster = ({ changeMood }) => {
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
-    // console.log("test");
-
     var activities = await getAllActivities(accessToken);
-    // 
+    const allMoodboosterRequests = await getAllMoodboosterRequests(accessToken);
+    if (allMoodboosterRequests.length === 0) {
+      setMoodboosterRequests(0);
+    } else {
+      setMoodboosterRequests(allMoodboosterRequests.length);
+    }
+    // console.log(activeActivities);
+
     setData(await activities);
     setActiveData(await activeActivities);
     if (await activeActivities[0]) {
       setDisabledState(true);
       setLoadingState(false);
     }
-  
   };
 
   useEffect(() => {
@@ -93,23 +102,18 @@ const Moodbooster = ({ changeMood }) => {
   const handleToStart = async (index) => {
     setLoadingState(true);
     await startActivity(data[index].id, accessToken);
-    // await deleteActivity(data[index].id, accessToken);
     setButtonState(!buttonState);
     setDisabledState(true);
-    // console.log(data[index].points)
   };
   const handleToComplete = async (index) => {
-    // console.log(activeData[index].id, accessToken)
     await completeActivity(activeData[index].id, accessToken);
     setButtonState(!buttonState);
     setDisabledState(false);
     completedToast(activeData[index]);
-    // console.log(activeData[index])
     changeMood(activeData[index].moodbooster.points);
   };
   const handleToCancel = async (index) => {
     await cancelActivity(activeData[index].id, accessToken);
-    // await createActivity(activeData[index], accessToken);
     cancelledToast(activeData[index]);
     setButtonState(!buttonState);
     setDisabledState(false);
@@ -134,11 +138,7 @@ const Moodbooster = ({ changeMood }) => {
             </Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
-            <IconButton
-              mode="outlined"
-              icon="account-plus"
-              onPress={() => {}}
-            />
+            <InviteFriends disabled={false} moodboosterId={item.id} />
             <SecondaryBtn
               text={"CANCEL"}
               onPress={() => handleToCancel(index)}
@@ -170,12 +170,7 @@ const Moodbooster = ({ changeMood }) => {
             <Paragraph style={styles.description}>{item.description}</Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
-            <IconButton
-              mode="outlined"
-              icon="account-plus"
-              disabled={disabledState}
-              onPress={() => {}}
-            />
+            <InviteFriends disabled={true} />
             <PrimaryBtn
               text={"START"}
               disabled={disabledState}
