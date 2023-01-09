@@ -9,6 +9,8 @@ import SecondaryBtn from "../../components/buttons/SecondaryBtn";
 import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 import { Item } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
 import * as SecureStore from 'expo-secure-store';
+import ProfilePic from "../../../assets/pfp.svg";
+import Bg from "../../../assets/wave.svg";
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -152,7 +154,7 @@ const PageFriends = () => {
           />
         }
       >
-        <ImageBackground source={wave} style={styles.wave} />
+        <Bg style={styles.wave} />
         <View>
           <Text style={styles.title}>Friends</Text>
           {
@@ -161,7 +163,7 @@ const PageFriends = () => {
                 <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
-                    <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
+                      <ProfilePic />
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
@@ -182,7 +184,7 @@ const PageFriends = () => {
               <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
-                    <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
+                      <ProfilePic />
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
@@ -203,7 +205,7 @@ const PageFriends = () => {
               <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
-                    <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image>
+                     <ProfilePic />    
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
@@ -302,13 +304,7 @@ const styles = StyleSheet.create({
   },
   wave: {
     width: "100%",
-    height: "100%",
     position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: -1,
   },
   wrapperTop: {
     flex: 1,

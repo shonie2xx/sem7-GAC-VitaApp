@@ -8,7 +8,7 @@ import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { __handlePersistedRegistrationInfoAsync } from "expo-notifications/build/DevicePushTokenAutoRegistration.fx";
 import { acceptFrRequest, cancelFrRequest, getFrRequests } from "../../services/friendsService";
-
+import Bg from "../../../assets/wave.svg";
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
@@ -84,6 +84,7 @@ const PageRequests = () => {
 
   return (
     <SafeAreaView style = {styles.container}>
+      
     <ScrollView 
     contentContainerStyle = {styles.screen}
     refreshControl = {
@@ -92,9 +93,10 @@ const PageRequests = () => {
               onRefresh={fetchRequests}
             />
             }
-          >
-      <ImageBackground source={wave} style={styles.wave} />
+          > 
+          <Bg style={styles.wave} />
         <View>
+       
         {requests.length ? requests.map((item, index) => (
          
           <Card style={styles.surface} elevation={1} key={index}>
@@ -139,10 +141,8 @@ const styles = StyleSheet.create({
   
     },
     wave: {
-      height: "100%",
       width: "100%",
-      resizeMode: "center",
-      position: "absolute"
+      position: "absolute",
     },
     title: {
       fontFamily: 'Poppins_600SemiBold', 
