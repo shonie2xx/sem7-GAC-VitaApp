@@ -14,6 +14,8 @@ import {
 } from "@expo-google-fonts/poppins";
 import { getNews } from "../../services/newsService";
 import { AuthContext } from "../../context/AuthContext";
+import Bg from "../../../assets/wave.svg";
+
 const wave = require("../../../assets/wave.png");
 
 const PageNews = ({ navigation, props }) => {
@@ -73,8 +75,8 @@ const PageNews = ({ navigation, props }) => {
   };
 
   return (
-    <ImageBackground source={wave} style={styles.wave}>
       <ScrollView style={styles.screen}>
+        <Bg style={styles.wave}/>
         <Text style={styles.moodtitle}>Latest news</Text>
 
         {news.map((item, index) => (
@@ -92,7 +94,6 @@ const PageNews = ({ navigation, props }) => {
           </View>
         ))}
       </ScrollView>
-    </ImageBackground>
   );
 };
 
