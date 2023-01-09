@@ -11,11 +11,11 @@ export const InAppTabNav = () => {
     const Tab = createBottomTabNavigator();
   
     return (
-      <Tab.Navigator
+      <Tab.Navigator 
+      initialRouteName="Home"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-  
           if (route.name === 'Home') {
             iconName = focused
               ? 'ios-home'

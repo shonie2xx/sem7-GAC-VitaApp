@@ -98,6 +98,7 @@ const challengeFriends = () => {
           <Card.Content>
             {/* <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image> */}
             <Paragraph style={styles.description}>{item.inviterName}</Paragraph>
+            <Text>{item.moodboosterDescription}</Text>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
             <PrimaryBtn

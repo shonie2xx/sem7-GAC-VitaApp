@@ -13,9 +13,6 @@ const AppNav = () => {
       <TestPage />
       {accessToken !== null ? <WelcomeStack /> : <AuthNav />}
     </NavigationContainer>
-    //   <NavigationContainer>
-    //     <WelcomeStack />
-    //   </NavigationContainer>
   );
 };
 

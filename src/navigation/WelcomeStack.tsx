@@ -10,9 +10,10 @@ const WelcomeStack = () => {
 
   return (
     <Stack.Navigator>
-        <Stack.Screen name="CreateCharacter" component={PageCharacter} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="CreateCharacter" component={PageCharacter} options={{ headerShown: false }} /> */}
         <Stack.Screen name="App" component={InAppTabNav} options={{ headerShown: false }} /> 
     </Stack.Navigator>
+    
   );
 }
 
