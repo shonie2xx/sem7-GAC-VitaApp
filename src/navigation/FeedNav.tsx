@@ -16,7 +16,6 @@ const Feed = () => {
             <Stack.Screen name="Feed" component={FeedNav} />
             <Stack.Screen name="Event Details" component={PageEventDetails} options={{ headerShown: true }}/>
             <Stack.Screen name="News Details" component={PageNewsDetails} options={{ headerShown: true }}/>
-            
         </Stack.Navigator>
     )
 }
