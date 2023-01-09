@@ -14,6 +14,7 @@ import TertiaryBtn from "../buttons/TertiaryBtn";
 import { AuthContext } from "../../context/AuthContext";
 import { getFriends } from "../../services/friendsService";
 import { getAllMoodboosterRequests } from "../../services/moodboosterService";
+import { declineMoodboosterRequest } from "../../services/moodboosterService";
 import PrimaryBtn from "../buttons/PrimaryBtn";
 import SecondaryBtn from "../buttons/SecondaryBtn";
 import { Card, Paragraph, IconButton } from "react-native-paper";
@@ -50,12 +51,13 @@ const challengeFriends = () => {
   };
   const handleActivities = async () => {
     const fetchedMoodboosterRequests = await fetchMoodboosterRequests();
-    console.log(fetchedMoodboosterRequests);
+    // console.log(fetchedMoodboosterRequests);
     setFriends(fetchedMoodboosterRequests);
   };
   const handleToDecline= async (user) => {
-
+    const decline = await declineMoodboosterRequest(user.inviteId, accessToken)
     cancelledToast(user.inviterName);
+    handleActivities();
   };
   const handleToAccept= async (user) => {
 

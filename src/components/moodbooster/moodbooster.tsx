@@ -13,6 +13,7 @@ import {
   getAllActiveActivities,
   completeActivity,
   getAllCompletedActivities,
+  getAllMoodboosterRequests,
 } from "../../services/moodboosterService";
 
 import { Card, IconButton, Button, Paragraph } from "react-native-paper";
@@ -63,7 +64,6 @@ const Moodbooster = ({ changeMood }) => {
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
-
     var activities = await getAllActivities(accessToken);
     console.log(activeActivities);
     
@@ -94,23 +94,18 @@ const Moodbooster = ({ changeMood }) => {
   const handleToStart = async (index) => {
     setLoadingState(true);
     await startActivity(data[index].id, accessToken);
-    // await deleteActivity(data[index].id, accessToken);
     setButtonState(!buttonState);
     setDisabledState(true);
-    // console.log(data[index].points)
   };
   const handleToComplete = async (index) => {
-    // console.log(activeData[index].id, accessToken)
     await completeActivity(activeData[index].id, accessToken);
     setButtonState(!buttonState);
     setDisabledState(false);
     completedToast(activeData[index]);
-    // console.log(activeData[index])
     changeMood(activeData[index].moodbooster.points);
   };
   const handleToCancel = async (index) => {
     await cancelActivity(activeData[index].id, accessToken);
-    // await createActivity(activeData[index], accessToken);
     cancelledToast(activeData[index]);
     setButtonState(!buttonState);
     setDisabledState(false);

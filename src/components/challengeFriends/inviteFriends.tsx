@@ -12,14 +12,14 @@ import Modal from "react-native-modal";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import TertiaryBtn from "../buttons/TertiaryBtn";
 import { Card, IconButton, Paragraph } from "react-native-paper";
-import { getAllCompletedActivities } from "../../services/moodboosterService";
+import { getAllMoodboosterRequests, inviteMoodbooster } from "../../services/moodboosterService";
 import { AuthContext } from "../../context/AuthContext";
 import { getFriends } from "../../services/friendsService";
 import { getAllUsers } from "../../services/userService";
 import PrimaryBtn from "../buttons/PrimaryBtn";
 import Toast from "react-native-toast-message";
 
-const challengeFriends = (props) => {
+const inviteFriends = (props) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [mount, setMount] = useState(false);
   const { accessToken } = useContext(AuthContext);
@@ -46,14 +46,15 @@ const challengeFriends = (props) => {
     setFriends(fetchedUsers);
   };
   const handleToInvite = async (user) => {
-    console.log(user.id + " " + props.moodboosterId)
+    const invite = await inviteMoodbooster(accessToken, props.moodboosterId, user.id)
+
     InfoToast(user.name);
   };
   const fetchFriends = async () => {
     try {
       const res = await getAllUsers(accessToken);
 
-      console.log(res);
+      // console.log(res);
       if (res.length === 0) {
         setMoodboosterRequests(0);
       } else {
@@ -109,7 +110,7 @@ const challengeFriends = (props) => {
   );
 };
 
-export default challengeFriends;
+export default inviteFriends;
 
 const styles = StyleSheet.create({
   buttontext: {

@@ -120,8 +120,26 @@ export async function cancelActivity(id, token) {
 }
 
 export async function getAllMoodboosterRequests(token) {
-  console.log(token)
   var response = await axios.get(url + "invites", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
+export async function inviteMoodbooster(token, userMoodboosterId, invitedUserId) {
+
+  const response = await fetch(url + "invite/" + userMoodboosterId + "/" + invitedUserId, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+  return response;
+}
+export async function declineMoodboosterRequest(inviteId, token) {
+console.log(url + "invite/decline/" + inviteId)
+  var response = await axios.delete(url + "invite/decline/" + inviteId, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
