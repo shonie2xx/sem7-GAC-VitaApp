@@ -24,9 +24,10 @@ import { getUser } from "../../services/userService";
 import { AuthContext } from "../../context/AuthContext";
 import ChallengeFriends from "../../components/challengeFriends/challengeFriends";
 import { MoodboosterContext } from "./moodboosterContext";
+import * as SecureStore from "expo-secure-store";
 
 const PageHome = ({ navigation }) => {
-  const { name } = React.useContext(NameContext);
+  const [name, setName] = useState("")
   const [moodboosterRequests, setMoodboosterRequests] = useState(0);
   const [picsource, setPicsource] = useState(
     require("../../../assets/moodperson.svg")
@@ -37,6 +38,8 @@ const PageHome = ({ navigation }) => {
 
   const userMood = async () => {
     var userData = await getUser(accessToken);
+    const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
+    setName(currentUser.name)
     // console.log(userData);
     setMood(userData.mood);
   };
@@ -154,8 +157,9 @@ const styles = StyleSheet.create({
   heading2: {
     fontSize: 24,
     marginTop: 18,
+    marginBottom: 8,
     fontFamily: "Poppins_600SemiBold",
-    color: "#031D29",
+    color: "#052D40",
   },
   homeTop: {
     justifyContent: "center",

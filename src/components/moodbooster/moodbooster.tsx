@@ -57,13 +57,6 @@ const Moodbooster = ({ changeMood }) => {
       text2: toastData.moodbooster.description,
     });
   };
-  // const startedToast = (toastData) => {
-  //   Toast.show({
-  //     type: "info",
-  //     text1: "Started moodbooster!",
-  //     text2: toastData.moodbooster.description,
-  //   });
-  // };
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
@@ -170,7 +163,7 @@ const Moodbooster = ({ changeMood }) => {
             <Paragraph style={styles.description}>{item.description}</Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
-            <InviteFriends disabled={true} />
+            {/* <InviteFriends disabled={true} /> */}
             <PrimaryBtn
               text={"START"}
               disabled={disabledState}

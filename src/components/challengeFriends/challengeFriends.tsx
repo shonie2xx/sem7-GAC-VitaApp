@@ -23,8 +23,6 @@ import { MoodboosterContext } from "../../screens/page-home/moodboosterContext";
 
 const challengeFriends = () => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const [completedData, setCompletedData] = useState([]);
-  const [mount, setMount] = useState(false);
   const { accessToken } = useContext(AuthContext);
   // const [dataState, setDataState] = useState(false);
   const [friends, setFriends] = useState([]);
@@ -97,8 +95,8 @@ const challengeFriends = () => {
         >
           <Card.Content>
             {/* <Image style={styles.pfp} source={require("../../../assets/pfp.png")}></Image> */}
-            <Paragraph style={styles.description}>{item.inviterName}</Paragraph>
-            <Text>{item.moodboosterDescription}</Text>
+            <Paragraph style={styles.title}>{item.inviterName}</Paragraph>
+            <Text style={styles.description}>{item.moodboosterDescription}</Text>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
             <PrimaryBtn
@@ -125,7 +123,7 @@ const challengeFriends = () => {
         <View style={styles.friendsModal}>
           <Text style={styles.friendstitle}>Moodbooster invitations</Text>
           <View style={styles.friendslist}>
-            <FriendsList />
+            { friends.length ? <FriendsList /> : <Text style={styles.modalempty}>No invitations</Text> }
           </View>
           <TertiaryBtn text="DONE" onPress={toggleModalOff} />
         </View>
@@ -188,7 +186,6 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_600SemiBold",
     fontSize: 16,
     color: "#052D40",
-    paddingLeft: 12,
     width: "70%",
   },
   joined: {
@@ -200,7 +197,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    // marginHorizontal: 8,
     marginVertical: 8,
     paddingHorizontal: 12,
     borderWidth: 1,
@@ -209,8 +205,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   wrapperTop: {
-    // flex: 1,
-    // flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
@@ -232,8 +226,14 @@ const styles = StyleSheet.create({
   },
   description: {
     fontFamily: "Poppins_500Medium",
-    fontSize: 16,
-    color: "#031D29",
+    fontSize: 12,
+    color: "#052D40",
+  },
+  modalempty: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 14,
+    color: "#052D40",
+    marginLeft: 10
   },
   surface: {
     marginHorizontal: 8,
