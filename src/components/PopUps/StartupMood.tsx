@@ -11,8 +11,9 @@ import {
 import { AuthContext } from "../../context/AuthContext";
 import { updateUserMood } from "../../services/userService";
 import { TouchableHighlight} from 'react-native'
-import Svg, { Circle } from 'react-native-svg';
-
+import Frowney from '../../../assets/modal_frowney.svg';
+import Neutral from '../../../assets/modal_neutral.svg';
+import Happy from '../../../assets/modal_happy.svg';
 
 const StartupMood = ({changeMood}) => {
   const [modalVisible, setModalVisible] = useState(true);
@@ -51,17 +52,20 @@ const StartupMood = ({changeMood}) => {
               <Pressable
                   style={styles.btn}
                   onPress={() => updateMoodPopUp(1)}>
-                  <Image source={require("../../../assets/modal_frowney.png")} style={styles.emoji}/>
+                  {/* <Image source={require("../../../assets/modal_frowney.svg")} style={styles.emoji}/> */}
+                  <Frowney />
               </Pressable>
               <Pressable
                   style={styles.btn}
                   onPress={() => updateMoodPopUp(5)}>
-                  <Image source={require("../../../assets/modal_neutral.png")} style={styles.emoji}/>
+                  {/* <Image source={require("../../../assets/modal_neutral.svg")} style={styles.emoji}/> */}
+                  <Neutral />
               </Pressable>
               <Pressable
                   style={styles.btn}
                   onPress={() => updateMoodPopUp(10)}>
-                  <Image source={require("../../../assets/modal_happy.png")} style={styles.emoji}/>
+                  {/* <Image source={require("../../../assets/modal_happy.svg")} style={styles.emoji}/> */}
+                  <Happy />
               </Pressable>
           </View>
         </View>
