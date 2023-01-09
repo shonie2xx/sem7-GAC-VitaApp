@@ -42,8 +42,10 @@ const PageLogin = () => {
 
   const handleLogin = async (token) => {
     var firstLogin = await checkUser(token);
-    save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error message
+    save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error messagel
     var user = await getUser(token);
+    save("UserID", user.id )
+    console.log(user.id)
     save("User", JSON.stringify(user)) // user= id, nam, ... , mood
     login(token)
 }

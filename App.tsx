@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { MoodProvider } from "./src/components/PopUps/MoodPointsContext";
 import { NameProvider } from "./src/context/NameContext";
 import * as Linking from 'expo-linking';
+import TestPage from "./src/components/Notifications/TestPage";
 
 const App = () => {
   const url = Linking.useURL();
@@ -19,6 +20,7 @@ const App = () => {
         <NameProvider>
           <AppNav />
         </NameProvider>
+        {/* <TestPage/> */}
       </AuthProvider>
     </MoodProvider>
   );
