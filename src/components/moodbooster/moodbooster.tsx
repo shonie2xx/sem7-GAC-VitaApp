@@ -29,7 +29,8 @@ import Toast from "react-native-toast-message";
 import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native";
 import PrimaryBtn from "../buttons/PrimaryBtn";
 import SecondaryBtn from "../buttons/SecondaryBtn";
-import InviteFriends from "../../components/challengeFriends/inviteFriends"
+import InviteFriends from "../../components/challengeFriends/inviteFriends";
+import { MoodboosterContext } from "../../screens/page-home/moodboosterContext";
 
 const Moodbooster = ({ changeMood }) => {
   const [data, setData] = useState([]);
@@ -39,6 +40,8 @@ const Moodbooster = ({ changeMood }) => {
   const [disabledState, setDisabledState] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const { moodboosterRequests, setMoodboosterRequests } =
+    useContext(MoodboosterContext);
   //TOAST AFTER COMPLETE
   const completedToast = (toastData) => {
     Toast.show({
@@ -65,15 +68,20 @@ const Moodbooster = ({ changeMood }) => {
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
     var activities = await getAllActivities(accessToken);
-    console.log(activeActivities);
-    
+    const allMoodboosterRequests = await getAllMoodboosterRequests(accessToken);
+    if (allMoodboosterRequests.length === 0) {
+      setMoodboosterRequests(0);
+    } else {
+      setMoodboosterRequests(allMoodboosterRequests.length);
+    }
+    // console.log(activeActivities);
+
     setData(await activities);
     setActiveData(await activeActivities);
     if (await activeActivities[0]) {
       setDisabledState(true);
       setLoadingState(false);
     }
-  
   };
 
   useEffect(() => {
@@ -130,9 +138,7 @@ const Moodbooster = ({ changeMood }) => {
             </Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
-          <InviteFriends
-            disabled={false}
-            moodboosterId={item.id}/>
+            <InviteFriends disabled={false} moodboosterId={item.id} />
             <SecondaryBtn
               text={"CANCEL"}
               onPress={() => handleToCancel(index)}
@@ -164,9 +170,7 @@ const Moodbooster = ({ changeMood }) => {
             <Paragraph style={styles.description}>{item.description}</Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
-            <InviteFriends
-            disabled={true}
-            />
+            <InviteFriends disabled={true} />
             <PrimaryBtn
               text={"START"}
               disabled={disabledState}

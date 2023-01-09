@@ -18,6 +18,7 @@ import { getFriends } from "../../services/friendsService";
 import { getAllUsers } from "../../services/userService";
 import PrimaryBtn from "../buttons/PrimaryBtn";
 import Toast from "react-native-toast-message";
+import { MoodboosterContext } from "../../screens/page-home/moodboosterContext";
 
 const inviteFriends = (props) => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -25,7 +26,7 @@ const inviteFriends = (props) => {
   const { accessToken } = useContext(AuthContext);
   // const [dataState, setDataState] = useState(false);
   const [friends, setFriends] = useState([]);
-  const [moodboosterRequests, setMoodboosterRequests] = useState(0);
+  const {moodboosterRequests, setMoodboosterRequests} = useContext(MoodboosterContext);
 
   const InfoToast = (toastData) => {
     Toast.show({
@@ -47,7 +48,7 @@ const inviteFriends = (props) => {
   };
   const handleToInvite = async (user) => {
     const invite = await inviteMoodbooster(accessToken, props.moodboosterId, user.id)
-
+    // setMoodboosterRequests()
     InfoToast(user.name);
   };
   const fetchFriends = async () => {
@@ -55,11 +56,11 @@ const inviteFriends = (props) => {
       const res = await getAllUsers(accessToken);
 
       // console.log(res);
-      if (res.length === 0) {
-        setMoodboosterRequests(0);
-      } else {
-        setMoodboosterRequests(res.length);
-      }
+      // if (res.length === 0) {
+      //   setMoodboosterRequests(0);
+      // } else {
+      //   setMoodboosterRequests(res.length);
+      // }
       return res;
     } catch (err) {
       console.log(err);

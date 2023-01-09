@@ -19,6 +19,7 @@ import PrimaryBtn from "../buttons/PrimaryBtn";
 import SecondaryBtn from "../buttons/SecondaryBtn";
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import Toast from "react-native-toast-message";
+import { MoodboosterContext } from "../../screens/page-home/moodboosterContext";
 
 const challengeFriends = () => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -27,8 +28,8 @@ const challengeFriends = () => {
   const { accessToken } = useContext(AuthContext);
   // const [dataState, setDataState] = useState(false);
   const [friends, setFriends] = useState([]);
-  const [moodboosterRequests, setMoodboosterRequests] = useState(0);
-
+  // const [moodboosterRequests, setMoodboosterRequests] = useState(0);
+  const {moodboosterRequests, setMoodboosterRequests} = useContext(MoodboosterContext);
   const cancelledToast = (toastData) => {
     Toast.show({
       type: "error",
@@ -44,7 +45,7 @@ const challengeFriends = () => {
 
   const toggleModalOn = () => {
     setModalVisible(!isModalVisible);
-    setMount(!mount);
+    handleActivities();
   };
   const toggleModalOff = () => {
     setModalVisible(!isModalVisible);
@@ -67,7 +68,6 @@ const challengeFriends = () => {
     try {
       const res = await getAllMoodboosterRequests(accessToken);
 
-      console.log(res);
       if (res.length === 0) {
         setMoodboosterRequests(0);
       } else {
@@ -79,7 +79,7 @@ const challengeFriends = () => {
     }
   };
   useEffect(() => {
-    handleActivities();
+
   }, []);
 
   const FriendsList = () => (

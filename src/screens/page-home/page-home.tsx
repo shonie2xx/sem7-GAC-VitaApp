@@ -23,10 +23,11 @@ import {
 import { getUser } from "../../services/userService";
 import { AuthContext } from "../../context/AuthContext";
 import ChallengeFriends from "../../components/challengeFriends/challengeFriends";
+import { MoodboosterContext } from "./moodboosterContext";
 
 const PageHome = ({ navigation }) => {
   const { name } = React.useContext(NameContext);
-
+  const [moodboosterRequests, setMoodboosterRequests] = useState(0);
   const [picsource, setPicsource] = useState(
     require("../../../assets/moodperson.svg")
   );
@@ -36,7 +37,7 @@ const PageHome = ({ navigation }) => {
 
   const userMood = async () => {
     var userData = await getUser(accessToken);
-    console.log(userData);
+    // console.log(userData);
     setMood(userData.mood);
   };
 
@@ -51,10 +52,8 @@ const PageHome = ({ navigation }) => {
     if (userMoodConditions > 7) {
       return <Moodperson />;
     } else if (userMoodConditions <= 7 && userMoodConditions >= 4) {
-      console.log(userMood);
       return <Moodperson_neutral />;
     } else if (userMoodConditions < 4)  {
-      console.log(userMood);
       return <Moodperson_sad />;
     }
   };
@@ -70,6 +69,7 @@ const PageHome = ({ navigation }) => {
   }
 
   return (
+    <MoodboosterContext.Provider value={ {moodboosterRequests, setMoodboosterRequests} }>
     <View style={styles.screen}>
       <StartupMood changeMood={userMood} />
       <View style={styles.top}>
@@ -93,6 +93,7 @@ const PageHome = ({ navigation }) => {
       </View>
       <Moodbooster changeMood={userMood} />
     </View>
+    </MoodboosterContext.Provider>
   );
 };
 
