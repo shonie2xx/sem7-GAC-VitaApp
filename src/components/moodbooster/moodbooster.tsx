@@ -1,34 +1,22 @@
-import { Surface } from "react-native-paper";
 import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
-  FlatList,
-  LayoutAnimation,
+  RefreshControl,
 } from "react-native";
 import {
   getAllActivities,
   startActivity,
   cancelActivity,
   getAllActiveActivities,
-  createActivity,
-  deleteActivity,
   completeActivity,
   getAllCompletedActivities,
+  getAllMoodboosterRequests,
 } from "../../services/moodboosterService";
 
-// import { HStack, Banner, Button } from "@react-native-material/core";
-import axios from "axios";
-import {
-  Avatar,
-  Card,
-  IconButton,
-  Button,
-  Title,
-  Paragraph,
-} from "react-native-paper";
+import { Card, IconButton, Button, Paragraph } from "react-native-paper";
 import {
   useFonts,
   Poppins_600SemiBold,
@@ -36,24 +24,57 @@ import {
   Poppins_500Medium,
 } from "@expo-google-fonts/poppins";
 
-import { protectedResources } from "../../../authConfig";
 import { AuthContext } from "../../context/AuthContext";
-import CardActions from "react-native-paper/lib/typescript/components/Card/CardActions";
+import Toast from "react-native-toast-message";
+import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native";
+import PrimaryBtn from "../buttons/PrimaryBtn";
+import SecondaryBtn from "../buttons/SecondaryBtn";
+import InviteFriends from "../../components/challengeFriends/inviteFriends";
+import { MoodboosterContext } from "../../screens/page-home/moodboosterContext";
 
-const Moodbooster = (mood) => {
+const Moodbooster = ({ changeMood }) => {
   const [data, setData] = useState([]);
   const [activeData, setActiveData] = useState([]);
-  const [completedData, setCompletedData] = useState([]);
+
   const [buttonState, setButtonState] = useState(false);
   const [disabledState, setDisabledState] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const { moodboosterRequests, setMoodboosterRequests } =
+    useContext(MoodboosterContext);
+  //TOAST AFTER COMPLETE
+  const completedToast = (toastData) => {
+    Toast.show({
+      type: "success",
+      text1: "Completed moodbooster!",
+      text2: toastData.moodbooster.description,
+    });
+  };
+  const cancelledToast = (toastData) => {
+    Toast.show({
+      type: "error",
+      text1: "Cancelled moodbooster!",
+      text2: toastData.moodbooster.description,
+    });
+  };
+  // const startedToast = (toastData) => {
+  //   Toast.show({
+  //     type: "info",
+  //     text1: "Started moodbooster!",
+  //     text2: toastData.moodbooster.description,
+  //   });
+  // };
 
   const handleActivities = async () => {
     var activeActivities = await getAllActiveActivities(accessToken);
-    // console.log(activeActivities[0].activity.id);
-
     var activities = await getAllActivities(accessToken);
-    // var completedActivities = await getAllCompletedActivities(accessToken);
+    const allMoodboosterRequests = await getAllMoodboosterRequests(accessToken);
+    if (allMoodboosterRequests.length === 0) {
+      setMoodboosterRequests(0);
+    } else {
+      setMoodboosterRequests(allMoodboosterRequests.length);
+    }
+    // console.log(activeActivities);
 
     setData(await activities);
     setActiveData(await activeActivities);
@@ -61,7 +82,6 @@ const Moodbooster = (mood) => {
       setDisabledState(true);
       setLoadingState(false);
     }
-    // setCompletedData(await completedActivities);
   };
 
   useEffect(() => {
@@ -82,19 +102,19 @@ const Moodbooster = (mood) => {
   const handleToStart = async (index) => {
     setLoadingState(true);
     await startActivity(data[index].id, accessToken);
-    // await deleteActivity(data[index].id, accessToken);
     setButtonState(!buttonState);
     setDisabledState(true);
   };
   const handleToComplete = async (index) => {
-    // console.log(activeData[index].id, accessToken)
     await completeActivity(activeData[index].id, accessToken);
     setButtonState(!buttonState);
     setDisabledState(false);
+    completedToast(activeData[index]);
+    changeMood(activeData[index].moodbooster.points);
   };
   const handleToCancel = async (index) => {
     await cancelActivity(activeData[index].id, accessToken);
-    // await createActivity(activeData[index], accessToken);
+    cancelledToast(activeData[index]);
     setButtonState(!buttonState);
     setDisabledState(false);
   };
@@ -114,37 +134,20 @@ const Moodbooster = (mood) => {
         >
           <Card.Content>
             <Paragraph style={styles.description}>
-              {item.activity.description}
+              {item.moodbooster.description}
             </Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
-            <IconButton
-              mode="outlined"
-              icon="account-plus"
-              onPress={() => {}}
-            />
-            <Button
-              mode="outlined"
-              textColor="#FA9901"
-              labelStyle={{
-                fontFamily: "Poppins_600SemiBold",
-                textTransform: "uppercase",
-              }}
+            <InviteFriends disabled={false} moodboosterId={item.id} />
+            <SecondaryBtn
+              text={"CANCEL"}
               onPress={() => handleToCancel(index)}
-            >
-              <Text style={styles.btntext}>Cancel</Text>
-            </Button>
-            <Button
-              mode="contained"
-              buttonColor="#419FD9"
-              labelStyle={{
-                fontFamily: "Poppins_600SemiBold",
-                textTransform: "uppercase",
-              }}
+            ></SecondaryBtn>
+            <PrimaryBtn
+              text={"COMPLETE"}
+              disabled={false}
               onPress={() => handleToComplete(index)}
-            >
-              <Text style={styles.btntext}>Complete</Text>
-            </Button>
+            ></PrimaryBtn>
           </Card.Actions>
         </Card>
       ))}
@@ -164,58 +167,47 @@ const Moodbooster = (mood) => {
           key={index}
         >
           <Card.Content>
-            <Paragraph style={styles.description}>
-              {item.description}
-            </Paragraph>
+            <Paragraph style={styles.description}>{item.description}</Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
-            <IconButton
-              mode="outlined"
-              icon="account-plus"
+            <InviteFriends disabled={true} />
+            <PrimaryBtn
+              text={"START"}
               disabled={disabledState}
-              onPress={() => {}}
-            />
-            <Button
-              mode="contained"
-              disabled={disabledState}
-              loading={loadingState}
-              buttonColor="#419FD9"
-              labelStyle={{
-                fontFamily: "Poppins_600SemiBold",
-                textTransform: "uppercase",
-              }}
               onPress={() => handleToStart(index)}
-            >
-              <Text style={styles.btntext}>Start</Text>
-            </Button>
+            ></PrimaryBtn>
           </Card.Actions>
         </Card>
       ))}
     </View>
   );
-  const CompletedCard = () => (
-    //can be used to show completed moodboosters
-    <View>
-      {completedData.map((item, index) => (
-        <Card style={styles.surface} mode="outlined" key={index}>
-          <Card.Title
-            title={item.activity.title}
-            subtitle={item.activity.category.source.date}
-            titleStyle={{ fontFamily: "Poppins_400Regular" }}
-          />
-        </Card>
-      ))}
-    </View>
-  );
+
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={handleActivities} />
+      }
+    >
       <ActiveCards />
-      <MainCard />
-      {/* <CompletedCard />  */}
+      {data[0] ? (
+        <MainCard />
+      ) : (
+        <ContentLoader
+          speed={2}
+          width={400}
+          height={460}
+          viewBox="0 0 400 460"
+          backgroundColor="#e6e6e6"
+          foregroundColor="#d6d6d6"
+        >
+          <Rect x="10" y="0" rx="2" ry="2" width="350" height="100" />
+          <Rect x="10" y="110" rx="2" ry="2" width="320" height="100" />
+          <Rect x="10" y="220" rx="2" ry="2" width="340" height="100" />
+        </ContentLoader>
+      )}
     </ScrollView>
   );
 };
-
 const styles = StyleSheet.create({
   buttons: {
     flex: 1,
@@ -229,8 +221,6 @@ const styles = StyleSheet.create({
     color: "#031D29",
   },
   surface: {
-    // borderRadius: 20,
-    // paddingHorizontal: 16,
     marginHorizontal: 8,
     marginVertical: 8,
     fontFamily: "Poppins_600SemiBold",
@@ -246,22 +236,3 @@ const styles = StyleSheet.create({
 });
 
 export default Moodbooster;
-
-// {todos[index].started &&(
-
-//   <Card.Actions >
-//     <Button
-//         mode="outlined"
-//         textColor="#FA9901"
-//         labelStyle={{
-//           fontFamily: "Poppins_600SemiBold",
-//           textTransform: "uppercase",
-//           // color: "#FA9901"
-
-//         }}
-//         onPress={() => handleToCancel(index)}
-//       >
-//         <Text style={styles.btntext}>Cancel</Text>
-//       </Button>
-//   </Card.Actions>
-// )}

@@ -111,7 +111,8 @@ const PageCharacter = ({ navigation }) => {
         nameinput: {
             marginTop: 16,
             marginBottom: 16,
-        },
+            borderRadius: 99,
+    },
     })
 
     export default PageCharacter;

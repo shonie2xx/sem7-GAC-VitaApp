@@ -4,15 +4,16 @@ import AppNav from "./src/navigation/AppNav";
 import React, { useState, useEffect } from "react";
 import { MoodProvider } from "./src/components/PopUps/MoodPointsContext";
 import { NameProvider } from "./src/context/NameContext";
-import * as Linking from 'expo-linking';
+import * as Linking from "expo-linking";
+import Toast from "react-native-toast-message";
 import TestPage from "./src/components/Notifications/TestPage";
 
 const App = () => {
   const url = Linking.useURL();
 
   const onScreenLoad = () => {
-    console.log(url)
-  }
+    console.log(url);
+  };
 
   return (
     <MoodProvider>
@@ -22,10 +23,9 @@ const App = () => {
         </NameProvider>
         {/* <TestPage/> */}
       </AuthProvider>
+      <Toast /> 
     </MoodProvider>
   );
-}
-
+};
+//TOAST has to be last child otherwise it won't work!
 export default App;
-
-

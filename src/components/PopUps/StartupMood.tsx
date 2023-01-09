@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Alert, Modal, StyleSheet, Text, View, Image } from "react-native";
 import { Button } from "react-native-paper";
 import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
-import { useFonts, Poppins_500Medium, Poppins_700Bold, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
+import {
+  useFonts,
+  Poppins_500Medium,
+  Poppins_700Bold,
+  Poppins_600SemiBold,
+} from "@expo-google-fonts/poppins";
+import { AuthContext } from "../../context/AuthContext";
+import { updateUserMood } from "../../services/userService";
+import { TouchableHighlight} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import {
@@ -11,6 +19,9 @@ SetModalVisable,
 SetDate,
 GetDate
 } from "../../services/userService";
+import Frowney from '../../../assets/modal_frowney.svg';
+import Neutral from '../../../assets/modal_neutral.svg';
+import Happy from '../../../assets/modal_happy.svg';
 
 const StartupMood = () => {
   const [masterVisable, setMasterVisabke] = useState(true);
@@ -36,25 +47,46 @@ const StartupMood = () => {
     };
   });
 
+=======
+import React, { useContext, useState } from "react";
+import { Alert, Modal, StyleSheet, Text, View, Image, Platform, Pressable } from "react-native";
+import { Button } from "react-native-paper";
+import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
+import {
+  useFonts,
+  Poppins_500Medium,
+  Poppins_700Bold,
+  Poppins_600SemiBold,
+} from "@expo-google-fonts/poppins";
+import { AuthContext } from "../../context/AuthContext";
+import { updateUserMood } from "../../services/userService";
+import { TouchableHighlight} from 'react-native'
+import Frowney from '../../../assets/modal_frowney.svg';
+import Neutral from '../../../assets/modal_neutral.svg';
+import Happy from '../../../assets/modal_happy.svg';
 
-  function updateMoodPopUp(points) {
+const StartupMood = ({changeMood}) => {
+  const [modalVisible, setModalVisible] = useState(true);
+  const { accessToken } = useContext(AuthContext);
+>>>>>>> 82186c90184f5fabf8be5ec76407a777095f59ca
+
+  const updateMoodPopUp = async (points) => {
     setModalVisible(!modalVisible);
-    updateMood(points)
-    console.log(points)
+    await updateUserMood(accessToken, points);
+    changeMood(points)
   };
 
   let [fontsLoaded] = useFonts({
     Poppins_500Medium,
     Poppins_700Bold,
-    Poppins_600SemiBold
+    Poppins_600SemiBold,
   });
-  
+
   if (!fontsLoaded) {
     return null;
   }
 
   return (
-
     <Modal
       animationType="slide"
       transparent={true}
@@ -68,27 +100,24 @@ const StartupMood = () => {
         <View style={styles.modalView}>
           <Text style={styles.modalText}>How are we feeling today?</Text>
           <View style={{ flexDirection: "row" }}>
-              <Button
+              <Pressable
                   style={styles.btn}
-                  mode="contained"
-                  buttonColor="#419FD9"
-                  labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(1)}>
-                  <Image source={require("../../../assets/modal_frowney.png")} style={styles.emoji}/>
-              </Button>
-              <Button
+                  onPress={() => updateMoodPopUp(1)}>
+                  {/* <Image source={require("../../../assets/modal_frowney.svg")} style={styles.emoji}/> */}
+                  <Frowney />
+              </Pressable>
+              <Pressable
                   style={styles.btn}
-                  mode="contained"
-                  buttonColor="#419FD9"
-                  labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(5)}>
-                  <Image source={require("../../../assets/modal_neutral.png")} style={styles.emoji}/>
-              </Button>
-              <Button
+                  onPress={() => updateMoodPopUp(5)}>
+                  {/* <Image source={require("../../../assets/modal_neutral.svg")} style={styles.emoji}/> */}
+                  <Neutral />
+              </Pressable>
+              <Pressable
                   style={styles.btn}
-                  mode="contained"
-                  buttonColor="#419FD9"
-                  labelStyle={{ fontFamily: 'Poppins_600SemiBold' }} onPress={() => updateMoodPopUp(10)}>
-                  <Image source={require("../../../assets/modal_happy.png")} style={styles.emoji}/>
-              </Button>
+                  onPress={() => updateMoodPopUp(10)}>
+                  {/* <Image source={require("../../../assets/modal_happy.svg")} style={styles.emoji}/> */}
+                  <Happy />
+              </Pressable>
           </View>
         </View>
       </View>
@@ -108,25 +137,20 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 32,
     alignItems: "center",
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity:  0.17,
-    shadowRadius: 3.05,
-    elevation: 4
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
   },
   btn: {
-    margin: 8,
-    borderRadius: 99,
-    justifyContent: "center",
-    alignItems: "center",
+    margin: 16,
+    justifyContent: "space-between",
+    height: 48,
+    width: 48,
+    paddingBottom: 32
   },
-  buttonOpen: {
+  PressableOpen: {
     backgroundColor: 'rgba(0,0,0,0.5)'
   },
-  buttonClose: {
+  PressableClose: {
     backgroundColor: "#2196F3",
   },
   modalText: {
@@ -134,16 +158,17 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: "center",
     color: "#031D29",
-    fontFamily: 'Poppins_700Bold'
+    fontFamily: "Poppins_700Bold",
   },
   emoji: {
-    width: 42,
-    height: 42,
+    flex: 1,
+    // flex: Platform.OS === 'ios' ? 1 : null,
+    justifyContent: "center",
+    alignItems: "center",
+    minWidth: 42,
+    minHeight: 42,
+    resizeMode: "stretch"
   }
 });
 
 export default StartupMood;
-
-function componentDidMount() {
-  throw new Error("Function not implemented.");
-}

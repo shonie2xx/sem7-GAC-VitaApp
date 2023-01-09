@@ -4,6 +4,7 @@ import PageHome from '../screens/page-home/page-home';
 import PageFriends from '../screens/page-friends/page-friends';
 import FeedNav from './FeedNav';
 import React from "react";
+import FriendsNav from './FriendsNav';
 
 export const InAppTabNav = () => {
     
@@ -34,7 +35,7 @@ export const InAppTabNav = () => {
       >
         <Tab.Screen name="Feed" component={FeedNav} options={{ headerShown: true }}/>
         <Tab.Screen name="Home" component={PageHome} options={{ headerShown: true }}/>
-        <Tab.Screen name="Friends" component={PageFriends} options={{ headerShown: true }}/>
+        <Tab.Screen name="Friends" component={FriendsNav} options={{ headerShown: true }}/>
       </Tab.Navigator>
     )
   }

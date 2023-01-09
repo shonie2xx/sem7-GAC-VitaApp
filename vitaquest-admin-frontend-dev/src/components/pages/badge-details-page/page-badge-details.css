@@ -1,0 +1,30 @@
+#page-badge-details {
+  gap: 30px;
+}
+
+#badge-info {
+  gap: 8px;
+}
+
+#badge-info h2,
+#badge-info p {
+  text-align: center;
+}
+
+#badge-info #badge-image {
+  object-fit: contain;
+  height: 10.5625rem;
+  width: auto;
+}
+
+#badge-info p {
+  color: var(--tertiary--text--light);
+}
+
+#badge-progress {
+  max-width: 600px;
+}
+
+#progress-bar {
+  height: 0.875rem;
+}

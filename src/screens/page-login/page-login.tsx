@@ -48,6 +48,7 @@ const PageLogin = () => {
     console.log(user.id)
     save("User", JSON.stringify(user)) // user= id, nam, ... , mood
     login(token)
+    console.log("token", token);
 }
 
   React.useEffect(() => {

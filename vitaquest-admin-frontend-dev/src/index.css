@@ -1,0 +1,196 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+body {
+  margin: 0;
+  font-family: Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  width: 100%;
+
+  /* Color styles */
+  --primary-10--light: rgba(22, 118, 243, 0.10000000149011612);
+  --primary--light: rgba(250, 153, 1, 1);
+  --primary--text--light: rgba(250, 153, 1, 1);
+  --primary--contrast: rgba(255, 255, 255, 1);
+  --error--light: rgba(255, 66, 56, 1);
+  --error--text--light: rgba(245, 36, 25, 1);
+  --error--contrast: rgba(255, 255, 255, 1);
+  --success--light: rgba(21, 193, 93, 1);
+  --success--text--light: rgba(0, 163, 68, 1);
+  --success--contrast: rgba(255, 255, 255, 1);
+  --base--light: rgba(255, 255, 255, 1);
+  --base---contrast-5--light: rgba(255, 255, 255, 1);
+  --contrast-100--light: rgba(25, 36, 52, 1);
+  --contrast-90--light: rgba(24, 39, 58, 0.9399999976158142);
+  --contrast-80--light: rgba(26, 41, 61, 0.8299999833106995);
+  --contrast-70--light: rgba(27, 43, 65, 0.7200000286102295);
+  --contrast-60--light: rgba(28, 46, 69, 0.6000000238418579);
+  --contrast-50--light: rgba(28, 48, 74, 0.5);
+  --contrast-40--light: rgba(28, 50, 79, 0.3799999952316284);
+  --contrast-30--light: rgba(28, 52, 84, 0.25999999046325684);
+  --contrast-20--light: rgba(28, 55, 90, 0.1599999964237213);
+  --contrast-10--light: rgba(26, 56, 96, 0.10000000149011612);
+  --contrast-5--light: rgba(25, 59, 103, 0.05000000074505806);
+  --heading--text--light: rgba(5, 45, 64, 1);
+  --body--text--light: rgba(5, 45, 64, 0.9399999976158142);
+  --secondary--text--light: rgba(10, 81, 114, 1);
+  --tertiary--text--light: rgba(28, 48, 74, 0.5);
+  --disabled--text--light: rgba(28, 52, 84, 0.25999999046325684);
+  --icon--light: rgba(250, 153, 1, 1);
+  --base--dark: rgba(34, 51, 72, 1);
+  --base---contrast-5--dark: rgba(34, 51, 72, 1);
+  --contrast-100--dark: rgba(245, 249, 255, 1);
+  --contrast-90--dark: rgba(235, 244, 255, 0.8999999761581421);
+  --contrast-80--dark: rgba(226, 238, 254, 0.800000011920929);
+  --contrast-70--dark: rgba(217, 232, 252, 0.699999988079071);
+  --contrast-60--dark: rgba(209, 227, 250, 0.6000000238418579);
+  --contrast-50--dark: rgba(201, 221, 248, 0.5);
+  --contrast-40--dark: rgba(193, 216, 245, 0.4099999964237213);
+  --contrast-30--dark: rgba(186, 210, 242, 0.3199999928474426);
+  --contrast-20--dark: rgba(180, 205, 238, 0.23000000417232513);
+  --contrast-10--dark: rgba(173, 200, 235, 0.14000000059604645);
+  --contrast-5--dark: rgba(192, 213, 242, 0.05999999865889549);
+  --heading--text--dark: rgba(245, 249, 255, 1);
+  --body--text--dark: rgba(235, 244, 255, 0.8999999761581421);
+  --secondary--text--dark: rgba(217, 232, 252, 0.699999988079071);
+  --icon--dark: rgba(209, 227, 250, 0.6000000238418579);
+  --tertiary--text--dark: rgba(201, 221, 248, 0.5);
+  --disabled--text--dark: rgba(186, 210, 242, 0.3199999928474426);
+  --primary--dark: rgba(42, 127, 239, 1);
+  --primary--text--dark: rgba(102, 168, 255, 1);
+  --error--dark: rgba(246, 84, 76, 1);
+  --error--text--dark: rgba(255, 95, 87, 1);
+  --success--dark: rgba(37, 177, 96, 1);
+  --success--text--dark: rgba(18, 222, 103, 1);
+  --card-border: #f5f5f5;
+
+  /* Text-size styles */
+  --heading-1: 40px;
+  --heading-2: 28px;
+  --heading-3: 22px;
+  --heading-4: 18px;
+  --heading-5: 16px;
+  --heading-6: 13px;
+  --normal-body-text: 16px;
+  --small-body-text: 14px;
+  --extra-small-body-text: 13px;
+  --field-label: 14px;
+  --input-field: 16px;
+  --list-items: 16px;
+  --grid--normal-body-text: 16px;
+  --grid-compact--normal-body-text: 16px;
+  --details--summary: 16px;
+  --details-small--summary: 14px;
+  --avatar-small--abbreviation: 11px;
+  --button-primary--text: 16px;
+  --button--text: 16px;
+
+  /* Effect styles */
+  --shadow--x-s: 0px 1px 4px rgba(28, 48, 74, 0.5);
+  --shadow--s: 0px 5px 15px rgba(0, 0, 0, 0.05);
+  --shadow--m: 0px 2px 6px rgba(28, 55, 90, 0.16),
+    0px 8px 24px rgba(28, 50, 79, 0.38);
+  --shadow--l: 0px 3px 18px rgba(28, 55, 90, 0.16),
+    0px 12px 48px rgba(28, 50, 79, 0.38);
+  --shadow--x-l: 0px 4px 24px rgba(28, 55, 90, 0.16),
+    0px 18px 64px rgba(28, 50, 79, 0.38);
+
+  /* Vaadin colors */
+  --lumo-font-family: Poppins;
+  --lumo-primary-color: var(--primary--light);
+  --lumo-primary-contrast: var(--primary--contrast);
+  --lumo-font-size-m: var(--button-primary--text);
+  --lumo-icon-size-m: 20px;
+  --lumo-size-m: 2.5rem;
+  --_lumo-button-color: var(--tertiary--text--light);
+}
+
+#root {
+  height: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+vaadin-button {
+  font-weight: 400;
+  min-width: 0;
+}
+
+vaadin-icon {
+  font-size: var(--lumo-icon-size-s);
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading--text--light);
+}
+
+h1 {
+  font-size: var(--heading-1);
+}
+
+h2 {
+  font-size: var(--heading-2);
+}
+
+h3 {
+  font-size: var(--heading-3);
+}
+
+h4 {
+  font-size: var(--heading-4);
+}
+
+h5 {
+  font-size: var(--heading-5);
+}
+
+p {
+  color: var(--body--text--light);
+  font-size: var(--normal-body-text);
+}
+
+p.small {
+  font-size: var(--small-body-text);
+}
+
+p.extra-small {
+  font-size: var(--extra-small-body-text);
+}
+
+.text-secondary {
+  color: var(--secondary--text--light);
+}
+
+.text-tertiary {
+  color: var(--tertiary--text--light);
+}
+
+.page {
+  padding: 2.5rem 1rem;
+  min-height: 100vh;
+}
+
+.card-list {
+  gap: 0.9375rem;
+}
