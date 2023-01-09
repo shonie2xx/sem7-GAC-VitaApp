@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PageHome from '../screens/page-home/page-home';
 import PageFriends from '../screens/page-friends/page-friends';
-import FeedNav from './FeedNav';
+import Feed from './FeedNav';
 import React from "react";
 import FriendsNav from './FriendsNav';
 
@@ -33,7 +33,7 @@ export const InAppTabNav = () => {
         tabBarInactiveTintColor: 'gray',
       })}
       >
-        <Tab.Screen name="Feed" component={FeedNav} options={{ headerShown: true }}/>
+        <Tab.Screen name="Feed" component={Feed} options={{ headerShown: false }}/>
         <Tab.Screen name="Home" component={PageHome} options={{ headerShown: true }}/>
         <Tab.Screen name="Friends" component={FriendsNav} options={{ headerShown: true }}/>
       </Tab.Navigator>

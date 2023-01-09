@@ -92,9 +92,6 @@ const PageEvent = ({ navigation, props }) => {
     if (response.status === 200) {
       // alert
 
-      // refresh
-      console.log("event joined");
-      
     }
   };
 
@@ -103,8 +100,6 @@ const PageEvent = ({ navigation, props }) => {
     if (response.status === 200) {
       // alert
 
-      // refresh
-      console.log("event left");
     }
   };
 
@@ -193,6 +188,7 @@ export default PageEvent;
 
 const styles = StyleSheet.create({
   screen: {
+    flex: 1,
     backgroundColor: "white",
   },
   card: {

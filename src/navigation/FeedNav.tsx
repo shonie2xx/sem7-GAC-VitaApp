@@ -10,6 +10,17 @@ import PageNewsDetails from '../screens/page-news-details/page-news-details';
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
+const Feed = () => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Feed" component={FeedNav} />
+            <Stack.Screen name="Event Details" component={PageEventDetails} options={{ headerShown: true }}/>
+            <Stack.Screen name="News Details" component={PageNewsDetails} options={{ headerShown: true }}/>
+            
+        </Stack.Navigator>
+    )
+}
+
 const FeedNav = () => {
     return (
         <Tab.Navigator
@@ -25,28 +36,10 @@ const FeedNav = () => {
                     height: 3,
                 },
             })}>
-            <Tab.Screen name="Event" component={EventStackScreen} />
-            <Tab.Screen name="News" component={NewsStackScreen} />
+            <Tab.Screen name="Event" component={PageEvent} />
+            <Tab.Screen name="News" component={PageNews} />
         </Tab.Navigator>
     );
 };
 
-const EventStackScreen = () => {
-    return (
-        <Stack.Navigator>
-            <Stack.Screen name="Events" component={PageEvent} options={{ headerShown: false }} />
-            <Stack.Screen name="Event Details" component={PageEventDetails} options={{ headerShown: true }}/>
-        </Stack.Navigator>
-    )
-}
-
-const NewsStackScreen = () => {
-    return (
-        <Stack.Navigator>
-            <Stack.Screen name="News Page" component={PageNews} options={{ headerShown: false }} />
-            <Stack.Screen name="News Details" component={PageNewsDetails} />
-        </Stack.Navigator>
-    )
-}
-
-export default FeedNav;
+export default Feed;

@@ -42,11 +42,11 @@ const PageLogin = () => {
 
   const handleLogin = async (token) => {
     var firstLogin = await checkUser(token);
-    save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error message
+    await save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error message
     var user = await getUser(token);
-    save("User", JSON.stringify(user)) // user= id, nam, ... , mood
+    await save("User", JSON.stringify(user)) // user= id, nam, ... , mood
+    await save("token", token);
     login(token)
-    console.log("token", token);
 }
 
   React.useEffect(() => {
