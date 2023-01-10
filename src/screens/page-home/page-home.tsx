@@ -39,7 +39,7 @@ import TertiaryBtn from "../../components/buttons/TertiaryBtn";
 
 const PageHome = ({ navigation }) => {
   const [name, setName] = useState("");
-  const [moodboosterRequests, setMoodboosterRequests] = useState(0);
+  const [requestData, setRequestData] = useState(0);
   const [picsource, setPicsource] = useState(
     require("../../../assets/moodperson.svg")
   );
@@ -112,7 +112,7 @@ const PageHome = ({ navigation }) => {
 
   return (
     <MoodboosterContext.Provider
-      value={{ moodboosterRequests, setMoodboosterRequests }}
+      value={{ requestData, setRequestData }}
     >
       <View style={styles.screen}>
         <StartupMood changeMood={userMood} />

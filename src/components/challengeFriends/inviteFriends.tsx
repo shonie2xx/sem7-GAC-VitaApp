@@ -40,27 +40,28 @@ const inviteFriends = (props) => {
   };
 
   const toggleModalOn = () => {
+    handleActivities();
     setModalVisible(!isModalVisible);
-    setMount(!mount);
   };
   const toggleModalOff = () => {
     setModalVisible(!isModalVisible);
   };
   const handleActivities = async () => {
     const fetchedUsers = await fetchFriends();
+    console.log(fetchedUsers)
     setFriends(fetchedUsers);
   };
   const handleToInvite = async (user) => {
     const invite = await inviteMoodbooster(
       accessToken,
       props.moodboosterId,
-      user.id
+      user.userId
     );
     InfoToast(user.name);
   };
   const fetchFriends = async () => {
     try {
-      const res = await getAllUsers(accessToken);
+      const res = await getFriends(accessToken);
 
       return res;
     } catch (err) {
