@@ -49,9 +49,10 @@ const PageFriends = () => {
     const fds = JSON.stringify(arrayinvites);
     const withoutFriends = users.filter(user => !abs.includes(user.id) && user.id !== currentUser.id);
     const otherPeops = withoutFriends.filter(user => !fds.includes(user.id));
-    setOtherPeople(otherPeops);
+    
     console.log("otherPeops: " + JSON.stringify(otherPeops));
-
+    setOtherPeople(otherPeops);
+    
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, [] )
