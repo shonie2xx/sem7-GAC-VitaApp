@@ -23,10 +23,10 @@ const PageNewsDetails = ({ route }) => {
         </View>
 
         <Text style={styles.description}>{item.description}</Text>
-        <Image
+        {/* <Image
           source={require("../../../assets/header.png")}
           style={styles.contentimage}
-        ></Image>
+        ></Image> */}
       </View>
     </ScrollView>
   );

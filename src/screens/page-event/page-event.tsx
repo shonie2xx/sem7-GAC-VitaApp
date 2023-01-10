@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   View,
@@ -25,28 +25,38 @@ import * as SecureStore from "expo-secure-store";
 const wave = require("../../../assets/wave.png");
 
 const PageEvent = ({ navigation, props }) => {
-  const [events, setEvents] = useState([]);
   const wave = require("../../../assets/wave.png");
   const { accessToken } = useContext(AuthContext);
   const [isJoined, setIsJoined] = useState(false);
 
-  useEffect(() => {
-    handleData();
-  }, []);
+  const [notJoinedEvents, setNotJoinedEvents] = useState([]);
+  const [joinedEvents, setJoinedEvents] = useState([]);
 
-  const handleData = async () => {
-    try {
-      getEvents(accessToken)
-        .then((res) => res.data)
-        .then((data) => {
-          console.log(data);
-          setEvents(data);
-          // console.log(data);
-        });
-    } catch (err) {
-      console.log("error fetching events : ", err);
-    }
-  };
+  
+
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    events_Callback()
+  }, [events]);
+
+  const events_Callback = useCallback( async () => {
+    const arrayevents = await getEvents(accessToken);
+    setEvents(arrayevents.data);
+  }, [])
+
+  useEffect( () => {
+    joined_notjoined()
+  }, [events])
+
+  const joined_notjoined = async () => {
+    const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
+    const notjoined = events.filter( event => !event.userIds.includes(currentUser.id)) //filter 
+    setNotJoinedEvents(notjoined);
+    const joined = events.filter( event => event.userIds.includes(currentUser.id)) //filter 
+    setJoinedEvents(joined)
+  }
+  
 
   const parseDate = (dateString) => {
     // Parse the date string using the Date constructor
@@ -77,42 +87,23 @@ const PageEvent = ({ navigation, props }) => {
     navigation.navigate("Event Details", { item });
   };
 
-  const handleJoinEvent = async (id) => {
+  const joinEventOnPress = async (id) => {
     const response = await joinEvent(accessToken, id);
     if (response.status === 200) {
       // alert
 
-      // refresh
-      console.log("event joined");
-      handleData();
     }
   };
 
-  const handleLeaveEvent = async (id) => {
+  const leaveEventOnPress = async (id) => {
     const response = await leaveEvent(accessToken, id);
     if (response.status === 200) {
       // alert
 
-      // refresh
-      console.log("event left");
-      handleData();
     }
   };
 
-  const checkJoinedEvents = async (event_id) => {
-    const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
-    events.forEach((event) => {
-      if (event.id === event_id) {
-        if (event.userIds.includes(currentUser.id)) {
-          console.log(event_id, "event is joined");
-          return true;
-        } else {
-          console.log(event_id, "event is not joined");
-          return false;
-        }
-      }
-    });
-  };
+
   // fonts
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
@@ -127,8 +118,7 @@ const PageEvent = ({ navigation, props }) => {
       <ScrollView style={styles.screen}>
         <Bg style={styles.wave}/>
         <Text style={styles.moodtitle}>Signed Up</Text>
-
-        {events.map((item, index) => (
+        {joinedEvents.length ? joinedEvents.map((item, index) => (
           <View key={index} style={styles.card}>
             <TouchableOpacity
               onPress={() => handleOnPress(item)}
@@ -151,20 +141,44 @@ const PageEvent = ({ navigation, props }) => {
                   color="#031D29"
                 />
               </View>
-              {checkJoinedEvents(item.id) ? (
-                <PrimaryBtn
+              <PrimaryBtn
                   text={"LEAVE"}
-                  onPress={() => handleLeaveEvent(item.id)}
+                  onPress={() => leaveEventOnPress(item.id)}
                 ></PrimaryBtn>
-              ) : (
-                <PrimaryBtn
-                  text={"JOIN"}
-                  onPress={() => handleJoinEvent(item.id)}
-                ></PrimaryBtn>
-              )}
             </View>
           </View>
-        ))}
+        )) : <Text>Haven't signed up for events yet.</Text>}
+    <Text style={styles.moodtitle}>Available</Text>
+    {notJoinedEvents ? notJoinedEvents.map((item, index) => (
+          <View key={index} style={styles.card}>
+            <TouchableOpacity
+              onPress={() => handleOnPress(item)}
+              style={{ width: "100%" }}
+            >
+              <View style={styles.wrapperTop}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.date}>{parseDate(item.date)}</Text>
+              </View>
+              <Text style={styles.description}>{item.description}</Text>
+            </TouchableOpacity>
+
+            <View style={styles.wrapperBottom}>
+              <View style={styles.joined}>
+                <Text style={styles.description}>{item.userIds.length}/20</Text>
+                <Ionicons
+                  style={styles.icon}
+                  name="people"
+                  size={24}
+                  color="#031D29"
+                />
+              </View>
+              <PrimaryBtn
+                  text="JOIN"
+                  onPress={() => joinEventOnPress(item.id)}
+                ></PrimaryBtn>
+            </View>
+          </View>
+        )) : <Text>No events to join!</Text>}
       </ScrollView>
   );
 };
@@ -173,6 +187,7 @@ export default PageEvent;
 
 const styles = StyleSheet.create({
   screen: {
+    flex: 1,
     backgroundColor: "white",
   },
   card: {
