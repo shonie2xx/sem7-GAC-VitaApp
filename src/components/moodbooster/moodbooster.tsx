@@ -64,7 +64,7 @@ const Moodbooster = ({ changeMood }) => {
     const allMoodboosterRequests = await getAllMoodboosterRequests(accessToken);
     if (allMoodboosterRequests.length === 0) {
       setRequestData(0);
-    } else {
+    } else { 
       setRequestData(allMoodboosterRequests.length);
     }
     // console.log(activeActivities);

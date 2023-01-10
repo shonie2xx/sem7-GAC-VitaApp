@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     height: "95%",
   },
   heading2: {
-    fontSize: 24,
+    fontSize: 20,
     marginTop: 18,
     marginBottom: 8,
     fontFamily: "Poppins_600SemiBold",
@@ -270,7 +270,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     width: "50%",
-    // backgroundColor: "black",
   },
   modalIcons: {
     paddingLeft: 4,
