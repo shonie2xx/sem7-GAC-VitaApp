@@ -6,19 +6,33 @@ import PageEventDetails from '../screens/page-event-details/page-event-details';
 import { buildCodeAsync } from 'expo-auth-session/build/PKCE';
 import { useIsFocused } from '@react-navigation/native';
 import PageNewsDetails from '../screens/page-news-details/page-news-details';
+import {
+    useFonts,
+    Poppins_600SemiBold,
+    Poppins_400Regular,
+  } from "@expo-google-fonts/poppins";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
+
+
 const FeedNav = () => {
+    
+    let [fontsLoaded] = useFonts({
+    Poppins_600SemiBold,
+    Poppins_400Regular,
+  });
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 tabBarActiveTintColor: "#031D29",
                 tabBarInactiveTintColor: "#031D29",
                 tabBarLabelStyle: {
-                    fontSize: 18,
-                    fontWeight: useIsFocused ? 'bold' : '400',
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    textTransform: 'none'
                 },
                 tabBarIndicatorStyle: {
                     backgroundColor: '#FA9901',

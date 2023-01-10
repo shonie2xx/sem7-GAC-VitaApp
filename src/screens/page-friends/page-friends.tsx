@@ -167,12 +167,12 @@ const PageFriends = () => {
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn text={"REMOVE"} onPress={() => handleRemoveFriend(item.id)}></SecondaryBtn>
+                  <PrimaryBtn text={"REMOVE"} onPress={() => handleRemoveFriend(item.id)}></PrimaryBtn>
                 </View>
               </View>
               ))
               :
-              <Text>No friends yet! Make some friends by sending a friend request!</Text>}
+              <Text style={styles.text}>No friends yet, make some friends by sending a friend request!</Text>}
         </View>
 
         <View>
@@ -188,12 +188,12 @@ const PageFriends = () => {
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn text={"Cancel"} onPress={() => handleCancelRequest(item.id)}></SecondaryBtn>
+                  <PrimaryBtn text={"Cancel"} onPress={() => handleCancelRequest(item.id)}></PrimaryBtn>
                 </View>
               </View>
             ))
             : (
-              <Text>No invitations sended</Text>
+              <Text style={styles.text}>You have not sent any invitations.</Text>
             )}
             </View>
         <View>
@@ -209,7 +209,7 @@ const PageFriends = () => {
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn text={"INVITE"} onPress={() => handleAddFriends(item.id)}></SecondaryBtn>
+                  <PrimaryBtn text={"INVITE"} onPress={() => handleAddFriends(item.id)}></PrimaryBtn>
                 </View>
               </View>
             ))
@@ -236,7 +236,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-
   },
   surface: {
     borderRadius: 5,
@@ -268,7 +267,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderWidth: 1,
     borderColor: "#CCCCCC",
-    borderRadius: 999,
+    borderRadius: 8,
     backgroundColor: "white",
   },
   joined: {
@@ -329,17 +328,18 @@ const styles = StyleSheet.create({
     color: "#031D29",
     paddingLeft: 20,
   },
-  btnPrimary: {
-    backgroundColor: "#419FD9",
-    borderRadius: 999,
-    paddingHorizontal: 24,
-    paddingVertical: 8,
-  },
-  btnSecondary: {},
   buttontext: {
     fontFamily: "Poppins_600SemiBold",
     fontSize: 12,
     margin: 8,
     color: "white",
   },
+  text: {
+    fontFamily: "Poppins_500Medium",
+    margin: 0,
+    padding: 0,
+    fontSize: 12,
+    color: "#052D40",
+    paddingLeft: 12,
+  }
 });

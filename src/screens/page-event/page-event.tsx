@@ -65,11 +65,9 @@ const PageEvent = ({ navigation, props }) => {
       minute: "2-digit",
     });
 
-    // Use string formatting to add the "th"
-    const formattedDate = `${day}${
-      day === 1 ? "st" : day === 2 ? "nd" : day === 3 ? "rd" : "th"
-    } ${month} ${year} at ${time}`;
-
+    const formattedDate = `${day}${" "}${month
+      .slice(0, 3)
+      .toUpperCase()}${" "}${year}`;
     return formattedDate;
   };
 

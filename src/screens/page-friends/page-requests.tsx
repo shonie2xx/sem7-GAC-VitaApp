@@ -107,7 +107,7 @@ const PageRequests = () => {
             </Card.Actions>
           </Card>
           
-        )) : <Text>No requests yet!</Text>}
+        )) : <Text style={styles.text}>No requests yet!</Text>}
       </View>
       </ScrollView>
   </SafeAreaView>
@@ -150,6 +150,14 @@ const styles = StyleSheet.create({
       margin: 8, 
       color: '#031D29', 
       paddingLeft: 16
+    },
+    text: {
+      fontFamily: "Poppins_500Medium",
+      margin: 0,
+      padding: 0,
+      fontSize: 12,
+      color: "#052D40",
+      paddingLeft: 12,
     }
   });
   
