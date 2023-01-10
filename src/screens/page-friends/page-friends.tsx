@@ -53,9 +53,6 @@ const PageFriends = () => {
     datafetching();
   }, []);
 
-  useEffect(() => {
-    filterarrays();
-  }, [invites]);
 
   const datafetching = useCallback(async () => {
     getAllUsers(accessToken)
