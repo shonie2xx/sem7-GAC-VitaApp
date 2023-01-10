@@ -71,7 +71,7 @@ const PageHome = ({ navigation }) => {
   return (
     <MoodboosterContext.Provider value={ {moodboosterRequests, setMoodboosterRequests} }>
     <View style={styles.screen}>
-      <StartupMood changeMood={userMood} />
+      <StartupMood changeMood={userMood}/>
       <View style={styles.top}>
         <ImageBackground source={wave} style={styles.wave}>
           <View style={styles.homeTop}>

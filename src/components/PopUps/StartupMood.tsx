@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Alert, Modal, StyleSheet, Text, View, Image } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { Alert, Modal, StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { Button } from "react-native-paper";
 import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
 import {
@@ -23,23 +23,20 @@ import Frowney from '../../../assets/modal_frowney.svg';
 import Neutral from '../../../assets/modal_neutral.svg';
 import Happy from '../../../assets/modal_happy.svg';
 
-const StartupMood = () => {
-  const [masterVisable, setMasterVisabke] = useState(true);
-  const [lastDate, setLastDate] = useState("");
-  const [currentDate, setCurrentDate] = useState("");
+
+const StartupMood = ({changeMood}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const { accessToken } = useContext(AuthContext);
   const mood = useMoodPoints()
   const updateMood = useMoodPointsUpdate()
   const date = new Date();
 
-  useEffect(() => {
-    function IsModalVisable() {
-      if(GetDate.toString() !== date.toDateString()){
-        SetDate(date.toDateString())
-        setLastDate(date.toDateString)
+  useEffect( () => {
+    async function IsModalVisable() {
+      if(await GetDate(accessToken).toString() !== date.toDateString()){
+        await SetDate(accessToken, date.toDateString())
         SetModalVisable(true);
         
-
       }
       else{
         SetModalVisable(false);
@@ -47,28 +44,6 @@ const StartupMood = () => {
     };
   });
 
-=======
-import React, { useContext, useState } from "react";
-import { Alert, Modal, StyleSheet, Text, View, Image, Platform, Pressable } from "react-native";
-import { Button } from "react-native-paper";
-import { useMoodPoints, useMoodPointsUpdate } from "./MoodPointsContext";
-import {
-  useFonts,
-  Poppins_500Medium,
-  Poppins_700Bold,
-  Poppins_600SemiBold,
-} from "@expo-google-fonts/poppins";
-import { AuthContext } from "../../context/AuthContext";
-import { updateUserMood } from "../../services/userService";
-import { TouchableHighlight} from 'react-native'
-import Frowney from '../../../assets/modal_frowney.svg';
-import Neutral from '../../../assets/modal_neutral.svg';
-import Happy from '../../../assets/modal_happy.svg';
-
-const StartupMood = ({changeMood}) => {
-  const [modalVisible, setModalVisible] = useState(true);
-  const { accessToken } = useContext(AuthContext);
->>>>>>> 82186c90184f5fabf8be5ec76407a777095f59ca
 
   const updateMoodPopUp = async (points) => {
     setModalVisible(!modalVisible);
