@@ -67,12 +67,12 @@ const PageLogin = () => {
 
   const handleLogin = async (token) => {
     var firstLogin = await checkUser(token);
-    save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error messagel
+    await save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error message
     var user = await getUser(token);
-    save("User", JSON.stringify(user)); // user= id, nam, ... , mood
-    login(token);
-    console.log("token", token);
-  };
+    await save("User", JSON.stringify(user)) // user= id, nam, ... , mood
+    await save("token", token);
+    login(token)
+}
 
   React.useEffect(() => {
     console.log("url", url);

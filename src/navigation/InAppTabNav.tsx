@@ -2,13 +2,23 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PageHome from '../screens/page-home/page-home';
 import PageFriends from '../screens/page-friends/page-friends';
-import FeedNav from './FeedNav';
+import Feed from './FeedNav';
 import React from "react";
 import FriendsNav from './FriendsNav';
+import {
+  useFonts,
+  Poppins_600SemiBold,
+  Poppins_400Regular,
+} from "@expo-google-fonts/poppins";
 
 export const InAppTabNav = () => {
     
     const Tab = createBottomTabNavigator();
+
+    let [fontsLoaded] = useFonts({
+      Poppins_600SemiBold,
+      Poppins_400Regular,
+    });
   
     return (
       <Tab.Navigator 
@@ -16,12 +26,12 @@ export const InAppTabNav = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === 'Home') {
+          if (route.name === 'Boosters') {
             iconName = focused
-              ? 'ios-home'
-              : 'ios-home-outline';
+              ? 'trending-up'
+              : 'trending-up-outline';
           } else if (route.name === 'Feed') {
-            iconName = focused ? 'ios-wifi' : 'ios-wifi-outline';
+            iconName = focused ? 'newspaper' : 'newspaper-outline';
           } else if (route.name === 'Friends') {
             iconName = focused ? 'ios-person' : 'ios-person-outline';
           }
@@ -31,11 +41,20 @@ export const InAppTabNav = () => {
         },
         tabBarActiveTintColor: '#0A5172',
         tabBarInactiveTintColor: 'gray',
+        tabBarLabelStyle: {
+          fontFamily: "Poppins_600SemiBold",
+          fontSize: 11
+        },
+        tabBarStyle: {
+          
+        },
       })}
       >
-        <Tab.Screen name="Feed" component={FeedNav} options={{ headerShown: true }}/>
-        <Tab.Screen name="Home" component={PageHome} options={{ headerShown: true }}/>
+        <Tab.Screen name="Feed" component={Feed} options={{ headerShown: false }}/>
+        <Tab.Screen name="Boosters" component={PageHome} options={{ headerShown: true }}/>
         <Tab.Screen name="Friends" component={FriendsNav} options={{ headerShown: true }}/>
       </Tab.Navigator>
     )
   }
+
+  

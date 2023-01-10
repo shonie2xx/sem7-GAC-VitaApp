@@ -7,8 +7,9 @@ export const AuthProvider = ({children}) => {
     
     const [accessToken, setAccessToken] = useState(null);
 
+
     const login = async (token) => {
-        setAccessToken(token)
+        setAccessToken(token);
     }
     
     const logout = async () => {

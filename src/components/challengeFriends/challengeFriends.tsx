@@ -27,7 +27,7 @@ const challengeFriends = () => {
   // const [dataState, setDataState] = useState(false);
   const [friends, setFriends] = useState([]);
   // const [moodboosterRequests, setMoodboosterRequests] = useState(0);
-  const { moodboosterRequests, setMoodboosterRequests } =
+  const { requestData, setRequestData } =
     useContext(MoodboosterContext);
   const cancelledToast = (toastData) => {
     Toast.show({
@@ -69,9 +69,9 @@ const challengeFriends = () => {
       const res = await getAllMoodboosterRequests(accessToken);
 
       if (res.length === 0) {
-        setMoodboosterRequests(0);
+        setRequestData(0);
       } else {
-        setMoodboosterRequests(res.length);
+        setRequestData(res.length);
       }
       return res;
     } catch (err) {
@@ -116,7 +116,7 @@ const challengeFriends = () => {
   return (
     <View>
       <TouchableOpacity onPress={toggleModalOn} style={styles.friendsbtn}>
-        <Text style={styles.buttontext}>{moodboosterRequests}</Text>
+        <Text style={styles.buttontext}>{requestData}</Text>
         <Ionicons style={styles.icon} name="people" size={24} color="#052D40" />
       </TouchableOpacity>
       <Modal isVisible={isModalVisible} style={styles.modal}>

@@ -40,7 +40,7 @@ const Moodbooster = ({ changeMood }) => {
   const [disabledState, setDisabledState] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const { moodboosterRequests, setMoodboosterRequests } =
+  const { requestData, setRequestData } =
     useContext(MoodboosterContext);
   //TOAST AFTER COMPLETE
   const completedToast = (toastData) => {
@@ -63,9 +63,9 @@ const Moodbooster = ({ changeMood }) => {
     var activities = await getAllActivities(accessToken);
     const allMoodboosterRequests = await getAllMoodboosterRequests(accessToken);
     if (allMoodboosterRequests.length === 0) {
-      setMoodboosterRequests(0);
+      setRequestData(0);
     } else {
-      setMoodboosterRequests(allMoodboosterRequests.length);
+      setRequestData(allMoodboosterRequests.length);
     }
     // console.log(activeActivities);
 
@@ -75,11 +75,14 @@ const Moodbooster = ({ changeMood }) => {
       setDisabledState(true);
       setLoadingState(false);
     }
+    else {
+      setDisabledState(false);
+    }
   };
 
   useEffect(() => {
     handleActivities();
-  }, [buttonState]);
+  }, [requestData]);
   const { accessToken } = useContext(AuthContext);
 
   let [fontsLoaded] = useFonts({
@@ -95,12 +98,12 @@ const Moodbooster = ({ changeMood }) => {
   const handleToStart = async (index) => {
     setLoadingState(true);
     await startActivity(data[index].id, accessToken);
-    setButtonState(!buttonState);
+    handleActivities();
     setDisabledState(true);
   };
   const handleToComplete = async (index) => {
     await completeActivity(activeData[index].id, accessToken);
-    setButtonState(!buttonState);
+    handleActivities();
     setDisabledState(false);
     completedToast(activeData[index]);
     changeMood(activeData[index].moodbooster.points);
@@ -108,7 +111,7 @@ const Moodbooster = ({ changeMood }) => {
   const handleToCancel = async (index) => {
     await cancelActivity(activeData[index].id, accessToken);
     cancelledToast(activeData[index]);
-    setButtonState(!buttonState);
+    handleActivities();
     setDisabledState(false);
   };
 
@@ -163,7 +166,6 @@ const Moodbooster = ({ changeMood }) => {
             <Paragraph style={styles.description}>{item.description}</Paragraph>
           </Card.Content>
           <Card.Actions style={styles.buttons}>
-            {/* <InviteFriends disabled={true} /> */}
             <PrimaryBtn
               text={"START"}
               disabled={disabledState}
