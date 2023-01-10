@@ -35,12 +35,18 @@ export async function checkUser(token) {
   return response.data;
 }
 
+
 export async function SetModalVisable(token, isModalVisable) {
-  
-  var response = await axios.post(url + "modalvisible/" + {isModalVisable}, {
-    headers: { Authorization: `Bearer ${token}` },
+  const res = await fetch(url + "modalvisible/" + isModalVisable, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${ token }`,
+    },
   });
-  return response.data;
+return await res.json();
+
 }
 
 export async function GetModalVisable(token) {
@@ -59,12 +65,18 @@ export async function GetDate(token) {
   return response.data;
 }
 
+
 export async function SetDate(token, date) {
-  
-  var response = await axios.post(url + "modalvisible/" + {date}, {
-    headers: { Authorization: `Bearer ${token}` },
+  const res = await fetch(url + "date/" + date, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${ token }`,
+    },
   });
-  return response.data;
+return await res.json();
+
 }
 
 // export async function updateUserMood(token, points) {

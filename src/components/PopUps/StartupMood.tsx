@@ -10,45 +10,57 @@ import {
 } from "@expo-google-fonts/poppins";
 import { AuthContext } from "../../context/AuthContext";
 import { updateUserMood } from "../../services/userService";
-import { TouchableHighlight} from 'react-native';
+import { TouchableHighlight } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import {
-GetModalVisable,
-SetModalVisable,
-SetDate,
-GetDate
+  GetModalVisable,
+  SetModalVisable,
+  SetDate,
+  GetDate
 } from "../../services/userService";
 import Frowney from '../../../assets/modal_frowney.svg';
 import Neutral from '../../../assets/modal_neutral.svg';
 import Happy from '../../../assets/modal_happy.svg';
 
 
-const StartupMood = ({changeMood}) => {
-  const [modalVisible, setModalVisible] = useState(false);
+const StartupMood = ({ changeMood }) => {
   const { accessToken } = useContext(AuthContext);
+  const [modalVisible, setModalVisible] = useState(true);
   const mood = useMoodPoints()
   const updateMood = useMoodPointsUpdate()
   const date = new Date();
 
-  useEffect( () => {
-    async function IsModalVisable() {
-      if(await GetDate(accessToken).toString() !== date.toDateString()){
-        await SetDate(accessToken, date.toDateString())
-        SetModalVisable(true);
-        
-      }
-      else{
-        SetModalVisable(false);
-      }
-    };
-  });
+  useEffect(() => {
+    // IsModalVisable();
 
+  }), [];
+
+  async function IsModalVisable() {
+    const test = GetDate(accessToken)
+    console.log(test[1] + date.toDateString())
+
+    if (test.toString() !== date.toDateString()) {
+      await SetDate(accessToken, date.toDateString())
+      SetModalVisable(accessToken, true);
+      setModalVisible(true)
+      console.log(GetDate(accessToken) + "1");
+      console.log(date.toDateString() + "2")
+
+    }
+    else {
+      SetModalVisable(accessToken, false);
+      setModalVisible(false)
+    }
+  };
 
   const updateMoodPopUp = async (points) => {
-    setModalVisible(!modalVisible);
+
+    setModalVisible(false);
+    await SetModalVisable(accessToken, false);
     await updateUserMood(accessToken, points);
     changeMood(points)
+    console.log(modalVisible);
   };
 
   let [fontsLoaded] = useFonts({
@@ -69,30 +81,31 @@ const StartupMood = ({changeMood}) => {
       onRequestClose={() => {
         Alert.alert("Modal has been closed.");
         setModalVisible(!modalVisible);
+
       }}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text style={styles.modalText}>How are we feeling today?</Text>
           <View style={{ flexDirection: "row" }}>
-              <Pressable
-                  style={styles.btn}
-                  onPress={() => updateMoodPopUp(1)}>
-                  {/* <Image source={require("../../../assets/modal_frowney.svg")} style={styles.emoji}/> */}
-                  <Frowney />
-              </Pressable>
-              <Pressable
-                  style={styles.btn}
-                  onPress={() => updateMoodPopUp(5)}>
-                  {/* <Image source={require("../../../assets/modal_neutral.svg")} style={styles.emoji}/> */}
-                  <Neutral />
-              </Pressable>
-              <Pressable
-                  style={styles.btn}
-                  onPress={() => updateMoodPopUp(10)}>
-                  {/* <Image source={require("../../../assets/modal_happy.svg")} style={styles.emoji}/> */}
-                  <Happy />
-              </Pressable>
+            <Pressable
+              style={styles.btn}
+              onPress={() => updateMoodPopUp(1)}>
+              {/* <Image source={require("../../../assets/modal_frowney.svg")} style={styles.emoji}/> */}
+              <Frowney />
+            </Pressable>
+            <Pressable
+              style={styles.btn}
+              onPress={() => updateMoodPopUp(5)}>
+              {/* <Image source={require("../../../assets/modal_neutral.svg")} style={styles.emoji}/> */}
+              <Neutral />
+            </Pressable>
+            <Pressable
+              style={styles.btn}
+              onPress={() => updateMoodPopUp(10)}>
+              {/* <Image source={require("../../../assets/modal_happy.svg")} style={styles.emoji}/> */}
+              <Happy />
+            </Pressable>
           </View>
         </View>
       </View>
