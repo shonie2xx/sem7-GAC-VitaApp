@@ -1,4 +1,4 @@
-import { View, Text,StyleSheet, ScrollView, ImageBackground, SafeAreaView, RefreshControl } from "react-native";
+import { View, Text,StyleSheet, ScrollView, ImageBackground, SafeAreaView, RefreshControl, Image } from "react-native";
 import {
   Card,
   Button,
@@ -83,6 +83,10 @@ const PageRequests = () => {
     }
 
   return (
+    <View style={styles.screen}>
+    <View>
+    <Image source={wave} style={styles.wave}/>
+    </View>
     <SafeAreaView style = {styles.container}>
       
     <ScrollView 
@@ -94,7 +98,6 @@ const PageRequests = () => {
             />
             }
           > 
-          <Bg style={styles.wave} />
         <View>
        
         {requests.length ? requests.map((item, index) => (
@@ -111,6 +114,7 @@ const PageRequests = () => {
       </View>
       </ScrollView>
   </SafeAreaView>
+  </View>
   );
 };
 
@@ -123,6 +127,7 @@ const styles = StyleSheet.create({
   },
   screen: {
     backgroundColor: "white",
+    flex: 1,
   },
     buttons: {
       flex: 1,
@@ -143,6 +148,7 @@ const styles = StyleSheet.create({
     wave: {
       width: "100%",
       position: "absolute",
+      height: 200,
     },
     title: {
       fontFamily: 'Poppins_600SemiBold', 

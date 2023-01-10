@@ -122,11 +122,11 @@ const PageEvent = ({ navigation, props }) => {
   }
 
   return (
-    <View style={{ flex:1, backgroundColor: 'transparent' }}>
+    <View style={styles.screen}>
       <View>
       <Image source={wave} style={styles.wave}/>
       </View>
-      <ScrollView style={styles.screen}>
+      <ScrollView>
         <Text style={styles.moodtitle}>Signed Up</Text>
 
         {events.map((item, index) => (
@@ -175,6 +175,7 @@ export default PageEvent;
 
 const styles = StyleSheet.create({
   screen: {
+    flex: 1,
     backgroundColor: "white",
   },
   card: {

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
+  Image
 } from "react-native";
 import {
   useFonts,
@@ -16,13 +17,12 @@ import { getNews } from "../../services/newsService";
 import { AuthContext } from "../../context/AuthContext";
 import Bg from "../../../assets/wave.svg";
 
-const wave = require("../../../assets/wave.png");
+
 
 const PageNews = ({ navigation, props }) => {
-  
   const [news, setNews] = useState([]);
   const { accessToken } = useContext(AuthContext);
-
+  const wave = require("../../../assets/wave.png");
   useEffect(() => {
     handleData();
   }, [])
@@ -69,15 +69,16 @@ const PageNews = ({ navigation, props }) => {
     return formattedDate;
   };
 
-  const wave = require("../../../assets/wave.png");
-
   const handleOnPress = (item: any) => {
     navigation.navigate("News Details", { item });
   };
 
   return (
+    <View style={styles.screen}>
+    <View>
+    <Image source={wave} style={styles.wave}/>
+    </View>
       <ScrollView style={styles.screen}>
-        <Bg style={styles.wave}/>
         <Text style={styles.moodtitle}>Latest news</Text>
 
         {news.map((item, index) => (
@@ -95,6 +96,7 @@ const PageNews = ({ navigation, props }) => {
           </View>
         ))}
       </ScrollView>
+      </View>
   );
 };
 
@@ -102,6 +104,7 @@ export default PageNews;
 
 const styles = StyleSheet.create({
   screen: {
+    flex: 1,
     backgroundColor: "white",
   },
   card: {
@@ -146,13 +149,9 @@ const styles = StyleSheet.create({
   },
   wave: {
     width: "100%",
-    height: "100%",
+    height: 200,
     position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: -1,
+
   },
   wrapperTop: {
     flex: 1,

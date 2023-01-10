@@ -144,6 +144,10 @@ const PageFriends = () => {
   }
 
   return (
+    <View style={styles.screen}>
+    <View>
+    <Image source={wave} style={styles.wave}/>
+    </View>
     <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.screen}
@@ -154,7 +158,6 @@ const PageFriends = () => {
           />
         }
       >
-        <Bg style={styles.wave} />
         <View>
           <Text style={styles.title}>Friends</Text>
           {
@@ -222,6 +225,7 @@ const PageFriends = () => {
 
       </ScrollView>
     </SafeAreaView>
+    </View>
   );
 };
 
@@ -256,7 +260,8 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
   },
   screen: {
-    backgroundColor: "white",
+    backgroundColor: "transparent",
+    flex: 1,
   },
   card: {
     flex: 1,
@@ -304,6 +309,7 @@ const styles = StyleSheet.create({
   wave: {
     width: "100%",
     position: "absolute",
+    height: 200,
   },
   wrapperTop: {
     flex: 1,
