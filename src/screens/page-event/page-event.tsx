@@ -8,6 +8,7 @@ import {
   ScrollView,
   ImageBackground,
   Pressable,
+  Image
 } from "react-native";
 
 import {
@@ -22,7 +23,6 @@ import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 import { AuthContext } from "../../context/AuthContext";
 import * as SecureStore from "expo-secure-store";
 // import { EventCards } from "../../components/NewsPage/EventCards";
-const wave = require("../../../assets/wave.png");
 
 const PageEvent = ({ navigation, props }) => {
   const [events, setEvents] = useState([]);
@@ -122,8 +122,11 @@ const PageEvent = ({ navigation, props }) => {
   }
 
   return (
+    <View style={{ flex:1, backgroundColor: 'transparent' }}>
+      <View>
+      <Image source={wave} style={styles.wave}/>
+      </View>
       <ScrollView style={styles.screen}>
-        <Bg style={styles.wave}/>
         <Text style={styles.moodtitle}>Signed Up</Text>
 
         {events.map((item, index) => (
@@ -164,6 +167,7 @@ const PageEvent = ({ navigation, props }) => {
           </View>
         ))}
       </ScrollView>
+      </View>
   );
 };
 
@@ -215,6 +219,8 @@ const styles = StyleSheet.create({
   },
   wave: {
     position: "absolute",
+    height: 200,
+    width: "100%"
   },
   wrapperTop: {
     flex: 1,
