@@ -82,7 +82,7 @@ const Moodbooster = ({ changeMood }) => {
 
   useEffect(() => {
     handleActivities();
-  }, [requestData]);
+  }, []);
   const { accessToken } = useContext(AuthContext);
 
   let [fontsLoaded] = useFonts({
