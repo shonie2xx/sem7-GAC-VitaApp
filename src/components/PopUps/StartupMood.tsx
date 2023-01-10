@@ -26,29 +26,30 @@ import Happy from '../../../assets/modal_happy.svg';
 
 const StartupMood = ({ changeMood }) => {
   const { accessToken } = useContext(AuthContext);
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const mood = useMoodPoints()
   const updateMood = useMoodPointsUpdate()
   const date = new Date();
 
   useEffect(() => {
-    // IsModalVisable();
+    IsModalVisable();
 
   }), [];
 
   async function IsModalVisable() {
-    const test = GetDate(accessToken)
+    const test = await GetDate(accessToken)
     console.log(test[1] + date.toDateString())
 
     if (test.toString() !== date.toDateString()) {
       await SetDate(accessToken, date.toDateString())
       SetModalVisable(accessToken, true);
       setModalVisible(true)
-      console.log(GetDate(accessToken) + "1");
+      console.log(await GetDate(accessToken) + "1");
       console.log(date.toDateString() + "2")
 
     }
     else {
+      console.log("BAHH")
       SetModalVisable(accessToken, false);
       setModalVisible(false)
     }
