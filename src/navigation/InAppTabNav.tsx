@@ -46,7 +46,7 @@ export const InAppTabNav = () => {
           fontSize: 11
         },
         tabBarStyle: {
-          height: 56,
+          
         },
       })}
       >
