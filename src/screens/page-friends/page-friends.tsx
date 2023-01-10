@@ -21,74 +21,40 @@ const PageFriends = () => {
 
   const { accessToken } = useContext(AuthContext);
 
-  //const [users, setUsers] = useState([]);
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([])
   const [otherPeople, setOtherPeople] = useState([]);
   const [invites, setInvites] = useState([]);
 
-  const [refreshing, setRefreshing] = useState(false);
-
- 
   useEffect(() => {
-    handleData();
+    datafetching()
   }, [])
 
-  const fetchUsers = async () => {
-    try {
-      const res = await getAllUsers(accessToken);
-      //setUsers(res);
-      return res;
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
-  const fetchFriends = async () => {
-    try {
-      const res = await getFriends(accessToken);
-      //setFriends(res);
-      return res;
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const fetchSendedRequests = async () => {
-    try {
-      const res = await getSendedRequests(accessToken);
-      return res;
-    } catch (err) {
-      console.log("sended requests failed with :", err)
-    }
-  }
-
-  const handleData = async () => {
-    // fetch all data
-
-    const fetchedUsers = await fetchUsers();
-    const fetchedFriends = await fetchFriends();
-
-    const fetchedSendedRequests = await fetchSendedRequests();
-    
+  
+  const datafetching = useCallback( async () => {
     const currentUser =  JSON.parse(await SecureStore.getItemAsync("User"));
-    // console.log(currentUser.id);
-    // check for users and filter friends and non friends
-    if (fetchedUsers.length > 0) {
 
-      const withoutFriends = fetchedUsers.filter(user => !fetchedFriends.includes(user.id) && user.id !== currentUser.id) // filter friends from users
-      
-      if (withoutFriends.length > 0) {
-        const toRemove = fetchedSendedRequests.map(user => user.friendId);
-        const filteredRequests = withoutFriends.filter(user => !toRemove.includes(user.id))
-        setOtherPeople(filteredRequests);
-        setInvites(fetchedSendedRequests);
-      } else {
-        setOtherPeople(withoutFriends);
-      }
-    }
+    const arrayusers = await getAllUsers(accessToken);
+    setUsers(arrayusers);
+    const arrayfriends = await getFriends(accessToken);
+    setFriends(arrayfriends);
+    const arrayinvites = await getSendedRequests(accessToken);
+    setInvites(arrayinvites);
+
+    const abs = JSON.stringify(arrayfriends);
+    const fds = JSON.stringify(arrayinvites);
+    const withoutFriends = users.filter(user => !abs.includes(user.id) && user.id !== currentUser.id);
+    const otherPeops = withoutFriends.filter(user => !fds.includes(user.id));
+    setOtherPeople(otherPeops);
+    console.log("otherPeops: " + JSON.stringify(otherPeops));
+
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
-  }
+  }, [] )
 
   const handleAddFriends = async (id: any) => {
     try {
@@ -97,9 +63,7 @@ const PageFriends = () => {
       if (res.ok) {
         //alert
 
-        //filter other people array
-        setOtherPeople(otherPeople.filter(user => user.id !== id)); // filter friends from users
-        handleData()
+        //setOtherPeople(otherPeople.filter(user => user.id !== id)); // filter friends from users
       }
       // console.log(res.status)
     } catch (err) {
@@ -114,7 +78,7 @@ const PageFriends = () => {
         //alert
 
         //filter friends array
-        setFriends(friends.filter(item => item.id !== id))
+        //setFriends(friends.filter(item => item.id !== id))
       }
     } catch (err) {
       console.log("can't remove friend", err);
@@ -125,8 +89,8 @@ const PageFriends = () => {
     try {
       const res = await cancelFrRequest(accessToken, id);
       if(res.status === 200) {
-        setInvites(invites.filter(item => item.id !== id));
-        handleData();
+        //setInvites(invites.filter(item => item.id !== id));
+        //handleData();
       }
     }
     catch (err) {
@@ -150,7 +114,7 @@ const PageFriends = () => {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={handleData}
+            onRefresh={datafetching}
           />
         }
       >
