@@ -193,17 +193,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  card: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 8,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: "#CCCCCC",
-    borderRadius: 8,
-    backgroundColor: "white",
-  },
   wrapperTop: {
     alignItems: "center",
     justifyContent: "space-between",
@@ -237,7 +226,7 @@ const styles = StyleSheet.create({
   },
   surface: {
     marginHorizontal: 8,
-    marginVertical: 8,
+    marginVertical: 4,
     fontFamily: "Poppins_600SemiBold",
     backgroundColor: "#FFFFFF",
   },

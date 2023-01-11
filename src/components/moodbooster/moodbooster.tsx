@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   },
   surface: {
     marginHorizontal: 8,
-    marginVertical: 8,
+    marginVertical: 4,
     fontFamily: "Poppins_600SemiBold",
     backgroundColor: "#FFFFFF",
   },

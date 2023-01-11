@@ -36,8 +36,8 @@ import SecondaryBtn from "../../components/buttons/SecondaryBtn";
 import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 import { Item } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
 import * as SecureStore from "expo-secure-store";
-import ProfilePic from "../../../assets/pfp.svg";
-import Bg from "../../../assets/wave.svg";
+import ProfilePic from "../../../assets/moodperson_neutral.svg";
+
 import {
   Query,
   useMutation,
@@ -45,38 +45,43 @@ import {
   useQueryClient,
   useQueryErrorResetBoundary,
 } from "react-query";
+import TertiaryBtn from "../../components/buttons/TertiaryBtn";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
 const PageFriends = () => {
-  const wave = require("../../../assets/wave.png");
-
   const { accessToken } = useContext(AuthContext);
 
   const [refreshing, setRefreshing] = useState(false);
 
   const [otherPeople, setOtherPeople] = useState([]);
 
-  const currentUser = useQuery("currentUser", async () => JSON.parse(await SecureStore.getItemAsync("User")))
+  const currentUser = useQuery("currentUser", async () =>
+    JSON.parse(await SecureStore.getItemAsync("User"))
+  );
 
   const queryClient = useQueryClient();
-  
+
   const friends: any = useQuery("friends", () => getFriends(accessToken), {
     onError: (error) => {
       console.log("error", error);
     },
   });
-  
-  const invites : any = useQuery("invites", () => getSendedRequests(accessToken), {
-    onError: (error) => {
-      console.log("error", error);
-    },
-  });
-  
-  const users : any = useQuery("users", () => getAllUsers(accessToken), {
-    enabled: (!!currentUser && !!friends.data && !!invites.data),
+
+  const invites: any = useQuery(
+    "invites",
+    () => getSendedRequests(accessToken),
+    {
+      onError: (error) => {
+        console.log("error", error);
+      },
+    }
+  );
+
+  const users: any = useQuery("users", () => getAllUsers(accessToken), {
+    enabled: !!currentUser && !!friends.data && !!invites.data,
     onSuccess: (users) => {
       //const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
       const otherPeps = users.filter(
@@ -93,37 +98,41 @@ const PageFriends = () => {
       console.log("error", error);
     },
   });
-  
-  const mutation = useMutation((id) => addFriend(accessToken ,id))
-  const mutationCancelInvites = useMutation( (id) => cancelFrRequest(accessToken, id))
+
+  const mutation = useMutation((id) => addFriend(accessToken, id));
+  const mutationCancelInvites = useMutation((id) =>
+    cancelFrRequest(accessToken, id)
+  );
 
   const sendInvite = async (id) => {
     try {
-      const oldInvited = [...invites.data]
-      const oldOtherPeople = [...otherPeople]
+      const oldInvited = [...invites.data];
+      const oldOtherPeople = [...otherPeople];
       const newOtherPeople = otherPeople.filter((user) => user.id !== id);
       console.log("new other people", newOtherPeople);
       let newInvited = [];
-      if(Array.isArray(invites.data)) {
-        newInvited = [...invites.data, otherPeople.find(user => user.id == id)];
+      if (Array.isArray(invites.data)) {
+        newInvited = [
+          ...invites.data,
+          otherPeople.find((user) => user.id == id),
+        ];
+      } else {
+        newInvited = [...newInvited, otherPeople.find((user) => user.id == id)];
       }
-      else {
-        newInvited = [...newInvited, otherPeople.find(user => user.id == id)];
-      }
-    
-      console.log("new invited", newInvited)
+
+      console.log("new invited", newInvited);
       //const res = useMutation("friends",  )
 
-      queryClient.setQueryData(["invites"], newInvited)
-      setOtherPeople( newOtherPeople);
+      queryClient.setQueryData(["invites"], newInvited);
+      setOtherPeople(newOtherPeople);
 
-      mutation.mutate (id, {
+      mutation.mutate(id, {
         onError: (error) => {
           console.log("error", error);
-          queryClient.setQueryData(["invites"], oldInvited)
+          queryClient.setQueryData(["invites"], oldInvited);
           setOtherPeople(oldOtherPeople);
-        }
-      })
+        },
+      });
     } catch (err) {
       console.log("Adding friend failed", err);
     }
@@ -155,16 +164,20 @@ const PageFriends = () => {
     //   console.log("request couldn't be cancelled", err);
     // }
     try {
-      const oldOtherPeople = [...otherPeople]
-      const oldInvited = [...invites.data]
-      
-      
-      const newInvites = invites.data.filter((user) => user.friendId !== userInvite.friendId);
-      console.log("invites", invites)
-      console.log("user invite", newInvites)
+      const oldOtherPeople = [...otherPeople];
+      const oldInvited = [...invites.data];
+
+      const newInvites = invites.data.filter(
+        (user) => user.friendId !== userInvite.friendId
+      );
+      console.log("invites", invites);
+      console.log("user invite", newInvites);
       //let newOtherPeople = [];
 
-      const newOtherPeople = [...otherPeople, invites.data.find( (user) => user.friendId == userInvite.friendId)];
+      const newOtherPeople = [
+        ...otherPeople,
+        invites.data.find((user) => user.friendId == userInvite.friendId),
+      ];
       // if(Array.isArray(invites.data)) {
       //   console.log("IF");
       //   newOtherPeople = [...otherPeople, invites.data.find(user => user.id == userInvite.friendId)];
@@ -173,20 +186,20 @@ const PageFriends = () => {
       //   console.log("else");
       //   newOtherPeople = [...otherPeople, otherPeople.find(user => user.id == userInvite.friendId)];
       // }
-    
+
       //console.log("new invited", newInvited)
       //const res = useMutation("friends",  )
 
-      queryClient.setQueryData(["invites"], newInvites)
+      queryClient.setQueryData(["invites"], newInvites);
       setOtherPeople(newOtherPeople);
 
-      mutationCancelInvites.mutate (userInvite.id, {
+      mutationCancelInvites.mutate(userInvite.id, {
         onError: (error) => {
           console.log("error", error);
-          queryClient.setQueryData(["invites"], oldInvited)
+          queryClient.setQueryData(["invites"], oldInvited);
           setOtherPeople(oldOtherPeople);
-        }
-      })
+        },
+      });
     } catch (err) {
       console.log("Cancel friend invite failed", err);
     }
@@ -212,7 +225,7 @@ const PageFriends = () => {
           />
         }
       >
-        <Bg style={styles.wave} />
+        {/* <Image style={styles.pfp} source={require("../../../assets/pfp.png")} /> */}
         <View>
           <Text style={styles.title}>Friends</Text>
           {!friends.isLoading ? (
@@ -220,14 +233,17 @@ const PageFriends = () => {
               <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
-                    <ProfilePic />
+                    <Image
+                      style={styles.pfp}
+                      source={require("../../../assets/pfp.png")}
+                    />
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn
+                  <TertiaryBtn
                     text={"REMOVE"}
                     onPress={() => deleteFriend(item.id)}
-                  ></SecondaryBtn>
+                  ></TertiaryBtn>
                 </View>
               </View>
             ))
@@ -245,12 +261,15 @@ const PageFriends = () => {
               <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
-                    <ProfilePic />
+                    <Image
+                      style={styles.pfp}
+                      source={require("../../../assets/pfp.png")}
+                    />
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
                   <SecondaryBtn
-                    text={"Cancel"}
+                    text={"CANCEL"}
                     onPress={() => cancelInvite(item)}
                   ></SecondaryBtn>
                 </View>
@@ -267,14 +286,17 @@ const PageFriends = () => {
               <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
-                    <ProfilePic />
+                    <Image
+                      style={styles.pfp}
+                      source={require("../../../assets/pfp.png")}
+                    ></Image>
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn
+                  <PrimaryBtn
                     text={"INVITE"}
                     onPress={() => sendInvite(item.id)}
-                  ></SecondaryBtn>
+                  ></PrimaryBtn>
                 </View>
               </View>
             ))
@@ -327,7 +349,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderWidth: 1,
     borderColor: "#CCCCCC",
-    borderRadius: 999,
+    borderRadius: 8,
     backgroundColor: "white",
   },
   joined: {
@@ -337,11 +359,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "Poppins_600SemiBold",
-    margin: 0,
-    padding: 0,
-    fontSize: 18,
+    fontSize: 16,
     color: "#052D40",
     paddingLeft: 12,
+    width: "70%",
   },
   description: {
     fontFamily: "Poppins_500Medium",

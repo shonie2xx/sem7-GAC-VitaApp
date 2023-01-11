@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // marginHorizontal: 8,
-    marginVertical: 8,
+    marginVertical: 4,
     paddingHorizontal: 12,
     borderWidth: 1,
     borderColor: "#CCCCCC",
