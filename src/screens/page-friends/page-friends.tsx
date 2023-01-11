@@ -37,7 +37,7 @@ import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 import { Item } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
 import * as SecureStore from "expo-secure-store";
 import ProfilePic from "../../../assets/moodperson_neutral.svg";
-
+import Bg from "../../../assets/wave.svg";
 import {
   Query,
   useMutation,
@@ -226,6 +226,7 @@ const PageFriends = () => {
         }
       >
         {/* <Image style={styles.pfp} source={require("../../../assets/pfp.png")} /> */}
+        <Bg style={styles.wave}/>
         <View>
           <Text style={styles.title}>Friends</Text>
           {!friends.isLoading ? (
