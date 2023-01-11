@@ -65,13 +65,13 @@ const PageFriends = () => {
   
   const friends: any = useQuery("friends", () => getFriends(accessToken), {
     onError: (error) => {
-      console.log("error", error);
+      console.log("friends get req error", error);
     },
   });
   
   const invites : any = useQuery("invites", () => getSendedRequests(accessToken), {
     onError: (error) => {
-      console.log("error", error);
+      console.log("invites request error", error);
     },
   });
   
@@ -85,7 +85,7 @@ const PageFriends = () => {
           !invites.data.find((invite) => invite.friendId == user.id) &&
           user.id !== currentUser.data.id
       );
-      console.log("other people", otherPeps);
+      //console.log("other people", otherPeps);
       //console.log("other people", otherPeps)
       setOtherPeople(otherPeps);
     },
@@ -101,17 +101,20 @@ const PageFriends = () => {
     try {
       const oldInvited = [...invites.data]
       const oldOtherPeople = [...otherPeople]
+      
       const newOtherPeople = otherPeople.filter((user) => user.id !== id);
-      console.log("new other people", newOtherPeople);
+      //console.log("new other people", newOtherPeople);
+
       let newInvited = [];
       if(Array.isArray(invites.data)) {
         newInvited = [...invites.data, otherPeople.find(user => user.id == id)];
+        //console.log(" new invited: ", newInvited);
       }
       else {
         newInvited = [...newInvited, otherPeople.find(user => user.id == id)];
       }
     
-      console.log("new invited", newInvited)
+      //console.log("new invited", newInvited)
       //const res = useMutation("friends",  )
 
       queryClient.setQueryData(["invites"], newInvited)
@@ -142,51 +145,61 @@ const PageFriends = () => {
     }
   };
 
+
   const cancelInvite = async (userInvite) => {
-    // try {
-    //   console.log("ID OF CANCELATION", id);
-    //   const res = await cancelFrRequest(accessToken, id);
-
-    //   //filterarrays();
-
-    //   if (res.status === 200) {
-    //   }
-    // } catch (err) {
-    //   console.log("request couldn't be cancelled", err);
-    // }
+  
     try {
-      const oldOtherPeople = [...otherPeople]
       const oldInvited = [...invites.data]
+      const oldOtherPeople = [...otherPeople]
       
-      
-      const newInvites = invites.data.filter((user) => user.friendId !== userInvite.friendId);
-      console.log("invites", invites)
-      console.log("user invite", newInvites)
-      //let newOtherPeople = [];
+      const newOtherPeople = [...otherPeople, userInvite];
 
-      const newOtherPeople = [...otherPeople, invites.data.find( (user) => user.friendId == userInvite.friendId)];
-      // if(Array.isArray(invites.data)) {
-      //   console.log("IF");
-      //   newOtherPeople = [...otherPeople, invites.data.find(user => user.id == userInvite.friendId)];
-      // }
-      // else {
-      //   console.log("else");
-      //   newOtherPeople = [...otherPeople, otherPeople.find(user => user.id == userInvite.friendId)];
-      // }
-    
-      //console.log("new invited", newInvited)
-      //const res = useMutation("friends",  )
+      console.log("comes to function user invite " + JSON.stringify(userInvite))
+      //const newInvites = [];
+      let newInvited = [];
+      console.log("old invited", oldInvited)
 
-      queryClient.setQueryData(["invites"], newInvites)
-      setOtherPeople(newOtherPeople);
-
-      mutationCancelInvites.mutate (userInvite.id, {
-        onError: (error) => {
-          console.log("error", error);
-          queryClient.setQueryData(["invites"], oldInvited)
-          setOtherPeople(oldOtherPeople);
+      console.log("E GO", oldInvited.map((user) => user.id === userInvite.id))
+      oldInvited.map((user) => {
+        if (user.id === userInvite.id) {
+          newInvited = oldInvited.filter((user) => user.id !== userInvite.id)
+          mutationCancelInvites.mutate (userInvite.id, {
+            onError: (error) => {
+              console.log("error", error);
+              queryClient.setQueryData(["invites"], oldInvited)
+              setOtherPeople(oldOtherPeople);
+            }})
+        } else if (user.id === userInvite.friendId) {
+          newInvited = oldInvited.filter((user) => user.id !== userInvite.friendId)
+          mutationCancelInvites.mutate (userInvite.friendId, {
+            onError: (error) => {
+              console.log("error", error);
+              queryClient.setQueryData(["invites"], oldInvited)
+              setOtherPeople(oldOtherPeople);
+            }})
+        } else if (user.friendId === userInvite.id) {
+          newInvited = oldInvited.filter((user) => user.friendId !== userInvite.id)
+          mutationCancelInvites.mutate (userInvite.id, {
+            onError: (error) => {
+              console.log("error", error);
+              queryClient.setQueryData(["invites"], oldInvited)
+              setOtherPeople(oldOtherPeople);
+            }})
+        } else if (user.friendId === userInvite.friendId) {
+          newInvited = oldInvited.filter((user) => user.friendId !== userInvite.friendId);
+          mutationCancelInvites.mutate (userInvite.friendId, {
+            onError: (error) => {
+              console.log("error", error);
+              queryClient.setQueryData(["invites"], oldInvited)
+              setOtherPeople(oldOtherPeople);
+            }})
         }
       })
+      
+      queryClient.setQueryData(["invites"], newInvited)
+      setOtherPeople(newOtherPeople);
+
+      
     } catch (err) {
       console.log("Cancel friend invite failed", err);
     }
@@ -240,8 +253,8 @@ const PageFriends = () => {
 
         <View>
           <Text style={styles.title}>Invited</Text>
-          {!invites.isLoading ? (
-            invites.data.map((item, index) => (
+          {!users.isLoading ? (
+            users.data.map((item, index) => (
               <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
