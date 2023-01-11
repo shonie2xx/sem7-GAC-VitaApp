@@ -6,6 +6,9 @@ import { MoodProvider } from "./src/components/PopUps/MoodPointsContext";
 import { NameProvider } from "./src/context/NameContext";
 import * as Linking from "expo-linking";
 import Toast from "react-native-toast-message";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 const App = () => {
   const url = Linking.useURL();
@@ -15,14 +18,16 @@ const App = () => {
   };
 
   return (
-    <MoodProvider>
-      <AuthProvider>
-        <NameProvider>
-          <AppNav />
-        </NameProvider>
-      </AuthProvider>
-      <Toast /> 
-    </MoodProvider>
+    <QueryClientProvider client={queryClient}>
+      <MoodProvider>
+        <AuthProvider>
+          <NameProvider>
+            <AppNav />
+          </NameProvider>
+        </AuthProvider>
+        <Toast />
+      </MoodProvider>
+    </QueryClientProvider>
   );
 };
 //TOAST has to be last child otherwise it won't work!
