@@ -25,26 +25,23 @@ export default function TestPage() {
   const responseListener = useRef();
 
   
-  // const notificationListener = useRef();
-  // const responseListener = useRef();
-  
-  // const [notification, setNotification] = useState(false);
-  // useEffect(() => {
-  //   registerForPushNotification().then(token=>console.log(token));
 
-  //   // notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-  //   //   setNotification(notification);
-  //   // });
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token=>console.log(token));
 
-  //   // responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-  //   //   console.log(response);
-  //   // });
+    // notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    //   setNotification(notification);
+    // });
 
-  //   return () => {
-  //     Notifications.removeNotificationSubscription(notificationListener.current);
-  //     Notifications.removeNotificationSubscription(responseListener.current);
-  //   };
-  // }, [])
+    // responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    //   console.log(response);
+    // });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, [])
 
   // async function registerForPushNotification(){
   //   const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS);

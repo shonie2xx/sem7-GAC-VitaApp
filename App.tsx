@@ -7,6 +7,7 @@ import { NameProvider } from "./src/context/NameContext";
 import * as Linking from "expo-linking";
 import Toast from "react-native-toast-message";
 import TestPage from "./src/components/Notifications/TestPage";
+import "react-native-url-polyfill/auto";
 
 const App = () => {
   const url = Linking.useURL();
@@ -21,7 +22,7 @@ const App = () => {
         <NameProvider>
           <AppNav />
         </NameProvider>
-        {/* <TestPage/> */}
+        <TestPage/>
       </AuthProvider>
       <Toast /> 
     </MoodProvider>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { protectedResources } from "../../authConfig";
-
+import "react-native-url-polyfill/auto";
 
 
 const url = protectedResources.apiUser.endpoint;
@@ -76,6 +76,21 @@ export async function SetDate(token, date) {
     },
   });
 return await res.json();
+
+}
+
+export async function SetExpo(token, expoToken) {
+  const res = await fetch(url + "setexpo/" + expoToken, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${ token }`,
+    },
+  });
+  console.log("RESPONSEE!!" + JSON.stringify(res))
+return await res.data;
+// return await res.json();
 
 }
 
