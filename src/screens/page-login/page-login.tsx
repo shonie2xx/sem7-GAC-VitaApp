@@ -60,8 +60,6 @@ const PageLogin = () => {
   // Save values under keys in SecurStore
   async function save(key, value) {
     await SecureStore.setItemAsync(key, value);
-    console.log("key", key);
-    console.log("value", value);
   }
 
   const { login } = useContext(AuthContext);
@@ -86,12 +84,10 @@ const PageLogin = () => {
 }
 
   React.useEffect(() => {
-    console.log("url", url);
     if (response && response.type === "success") {
       const access_token = response.params.access_token;
 
       if (access_token != null) {
-        // console.log("access_token: ", access_token);
         handleLogin(access_token);
       } else {
         // handle redirect error
@@ -114,9 +110,6 @@ const PageLogin = () => {
     <View style={styles.container}>
       <Intrologo style={styles.welcome} />
       <View style={styles.bottomcontainer}>
-        {/* <View style={styles.welcomecontainer}>
-          <Text>Welcome</Text>
-        </View> */}
         <TouchableOpacity
           style={styles.loginbutton}
           onPress={() => {

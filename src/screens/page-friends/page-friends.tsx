@@ -1,107 +1,200 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground, Pressable, SafeAreaView, RefreshControl, Image } from "react-native";
-import { useFonts, Poppins_600SemiBold, Poppins_400Regular } from '@expo-google-fonts/poppins';
-import { useEffect, useState, useContext, useRef, useCallback } from "react";
-import { addFriend, getFriends, getSendedRequests, removeFriend, cancelFrRequest } from "../../services/friendsService";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  ImageBackground,
+  Pressable,
+  SafeAreaView,
+  RefreshControl,
+  Image,
+} from "react-native";
+import {
+  useFonts,
+  Poppins_600SemiBold,
+  Poppins_400Regular,
+} from "@expo-google-fonts/poppins";
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useRef,
+  useCallback,
+} from "react";
+import {
+  addFriend,
+  getFriends,
+  getSendedRequests,
+  removeFriend,
+  cancelFrRequest,
+} from "../../services/friendsService";
 import { getAllUsers } from "../../services/userService";
 import { AuthContext } from "../../context/AuthContext";
 import { __handlePersistedRegistrationInfoAsync } from "expo-notifications/build/DevicePushTokenAutoRegistration.fx";
 import SecondaryBtn from "../../components/buttons/SecondaryBtn";
 import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 import { Item } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 import ProfilePic from "../../../assets/pfp.svg";
 import Bg from "../../../assets/wave.svg";
+import {
+  Query,
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useQueryErrorResetBoundary,
+} from "react-query";
 
 const wait = (timeout) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 const PageFriends = () => {
   const wave = require("../../../assets/wave.png");
 
   const { accessToken } = useContext(AuthContext);
 
-
   const [refreshing, setRefreshing] = useState(false);
 
-  const [users, setUsers] = useState([]);
-  const [friends, setFriends] = useState([])
   const [otherPeople, setOtherPeople] = useState([]);
-  const [invites, setInvites] = useState([]);
 
-  useEffect(() => {
-    datafetching()
-  }, [])
+  const currentUser = useQuery("currentUser", async () => JSON.parse(await SecureStore.getItemAsync("User")))
 
-
+  const queryClient = useQueryClient();
   
-  const datafetching = useCallback( async () => {
-    const currentUser =  JSON.parse(await SecureStore.getItemAsync("User"));
+  const friends: any = useQuery("friends", () => getFriends(accessToken), {
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
+  
+  const invites : any = useQuery("invites", () => getSendedRequests(accessToken), {
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
+  
+  const users : any = useQuery("users", () => getAllUsers(accessToken), {
+    enabled: (!!currentUser && !!friends.data && !!invites.data),
+    onSuccess: (users) => {
+      //const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
+      const otherPeps = users.filter(
+        (user) =>
+          !friends.data.find((friend) => friend.friendId == user.id) &&
+          !invites.data.find((invite) => invite.friendId == user.id) &&
+          user.id !== currentUser.data.id
+      );
+      console.log("other people", otherPeps);
+      //console.log("other people", otherPeps)
+      setOtherPeople(otherPeps);
+    },
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
+  
+  const mutation = useMutation((id) => addFriend(accessToken ,id))
+  const mutationCancelInvites = useMutation( (id) => cancelFrRequest(accessToken, id))
 
-    const arrayusers = await getAllUsers(accessToken);
-    setUsers(arrayusers);
-    const arrayfriends = await getFriends(accessToken);
-    setFriends(arrayfriends);
-    const arrayinvites = await getSendedRequests(accessToken);
-    setInvites(arrayinvites);
-
-    const abs = JSON.stringify(arrayfriends);
-    const fds = JSON.stringify(arrayinvites);
-    const withoutFriends = users.filter(user => !abs.includes(user.id) && user.id !== currentUser.id);
-    const otherPeops = withoutFriends.filter(user => !fds.includes(user.id));
-    
-    console.log("otherPeops: " + JSON.stringify(otherPeops));
-    setOtherPeople(otherPeops);
-    
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, [] )
-
-  const handleAddFriends = async (id: any) => {
+  const sendInvite = async (id) => {
     try {
-      const res = await addFriend(accessToken, id);
-      console.log("response add friend", res.status)
-      if (res.ok) {
-        //alert
-
-        //setOtherPeople(otherPeople.filter(user => user.id !== id)); // filter friends from users
+      const oldInvited = [...invites.data]
+      const oldOtherPeople = [...otherPeople]
+      const newOtherPeople = otherPeople.filter((user) => user.id !== id);
+      console.log("new other people", newOtherPeople);
+      let newInvited = [];
+      if(Array.isArray(invites.data)) {
+        newInvited = [...invites.data, otherPeople.find(user => user.id == id)];
       }
-      // console.log(res.status)
-    } catch (err) {
-      console.log("Adding friend failed", err)
-    }
-  }
+      else {
+        newInvited = [...newInvited, otherPeople.find(user => user.id == id)];
+      }
+    
+      console.log("new invited", newInvited)
+      //const res = useMutation("friends",  )
 
-  const handleRemoveFriend = async (id) => {
+      queryClient.setQueryData(["invites"], newInvited)
+      setOtherPeople( newOtherPeople);
+
+      mutation.mutate (id, {
+        onError: (error) => {
+          console.log("error", error);
+          queryClient.setQueryData(["invites"], oldInvited)
+          setOtherPeople(oldOtherPeople);
+        }
+      })
+    } catch (err) {
+      console.log("Adding friend failed", err);
+    }
+  };
+
+  const deleteFriend = async (id) => {
     try {
       const res = await removeFriend(accessToken, id);
-      if (res.status === 200) {
-        //alert
 
-        //filter friends array
-        //setFriends(friends.filter(item => item.id !== id))
+      //filterarrays();
+
+      if (res.status === 200) {
       }
     } catch (err) {
       console.log("can't remove friend", err);
     }
-  }
+  };
 
-  const handleCancelRequest = async (id) => {
+  const cancelInvite = async (userInvite) => {
+    // try {
+    //   console.log("ID OF CANCELATION", id);
+    //   const res = await cancelFrRequest(accessToken, id);
+
+    //   //filterarrays();
+
+    //   if (res.status === 200) {
+    //   }
+    // } catch (err) {
+    //   console.log("request couldn't be cancelled", err);
+    // }
     try {
-      const res = await cancelFrRequest(accessToken, id);
-      if(res.status === 200) {
-        //setInvites(invites.filter(item => item.id !== id));
-        //handleData();
-      }
+      const oldOtherPeople = [...otherPeople]
+      const oldInvited = [...invites.data]
+      
+      
+      const newInvites = invites.data.filter((user) => user.friendId !== userInvite.friendId);
+      console.log("invites", invites)
+      console.log("user invite", newInvites)
+      //let newOtherPeople = [];
+
+      const newOtherPeople = [...otherPeople, invites.data.find( (user) => user.friendId == userInvite.friendId)];
+      // if(Array.isArray(invites.data)) {
+      //   console.log("IF");
+      //   newOtherPeople = [...otherPeople, invites.data.find(user => user.id == userInvite.friendId)];
+      // }
+      // else {
+      //   console.log("else");
+      //   newOtherPeople = [...otherPeople, otherPeople.find(user => user.id == userInvite.friendId)];
+      // }
+    
+      //console.log("new invited", newInvited)
+      //const res = useMutation("friends",  )
+
+      queryClient.setQueryData(["invites"], newInvites)
+      setOtherPeople(newOtherPeople);
+
+      mutationCancelInvites.mutate (userInvite.id, {
+        onError: (error) => {
+          console.log("error", error);
+          queryClient.setQueryData(["invites"], oldInvited)
+          setOtherPeople(oldOtherPeople);
+        }
+      })
+    } catch (err) {
+      console.log("Cancel friend invite failed", err);
     }
-    catch (err) {
-      console.log("request couldn't be cancelled", err)
-    }
-  }
+  };
 
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
-    Poppins_400Regular
+    Poppins_400Regular,
   });
 
   if (!fontsLoaded) {
@@ -115,76 +208,80 @@ const PageFriends = () => {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={datafetching}
+            onRefresh={queryClient.invalidateQueries}
           />
         }
       >
         <Bg style={styles.wave} />
         <View>
           <Text style={styles.title}>Friends</Text>
-          {
-            friends.length ?
-              friends.map((item, index) => (
-                <View style={styles.card} key={index}>
+          {!friends.isLoading ? (
+            friends.data.map((item, index) => (
+              <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
-                      <ProfilePic />
+                    <ProfilePic />
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn text={"REMOVE"} onPress={() => handleRemoveFriend(item.id)}></SecondaryBtn>
+                  <SecondaryBtn
+                    text={"REMOVE"}
+                    onPress={() => deleteFriend(item.id)}
+                  ></SecondaryBtn>
                 </View>
               </View>
-              ))
-              :
-              <Text>No friends yet! Make some friends by sending a friend request!</Text>}
+            ))
+          ) : (
+            <Text>
+              No friends yet! Make some friends by sending a friend request!
+            </Text>
+          )}
         </View>
 
         <View>
           <Text style={styles.title}>Invited</Text>
-          {invites.length
-            ?
-            invites.map((item, index) => (
-
+          {!invites.isLoading ? (
+            invites.data.map((item, index) => (
               <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
-                      <ProfilePic />
+                    <ProfilePic />
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn text={"Cancel"} onPress={() => handleCancelRequest(item.id)}></SecondaryBtn>
+                  <SecondaryBtn
+                    text={"Cancel"}
+                    onPress={() => cancelInvite(item)}
+                  ></SecondaryBtn>
                 </View>
               </View>
             ))
-            : (
-              <Text>No invitations sended</Text>
-            )}
-            </View>
+          ) : (
+            <Text>No invitations sended</Text>
+          )}
+        </View>
         <View>
           <Text style={styles.title}>Other people</Text>
-          {otherPeople.length
-            ?
+          {otherPeople.length > 0 ? (
             otherPeople.map((item, index) => (
-
               <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
-                     <ProfilePic />    
+                    <ProfilePic />
                     <Text style={styles.title}>{item.name}</Text>
                   </View>
 
-                  <SecondaryBtn text={"INVITE"} onPress={() => handleAddFriends(item.id)}></SecondaryBtn>
+                  <SecondaryBtn
+                    text={"INVITE"}
+                    onPress={() => sendInvite(item.id)}
+                  ></SecondaryBtn>
                 </View>
               </View>
             ))
-            : (
-              <Text>No users</Text>
-            )}
+          ) : (
+            <Text>No users</Text>
+          )}
         </View>
-
-
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -201,18 +298,15 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-
   },
   surface: {
     borderRadius: 5,
     paddingRight: 10,
     marginHorizontal: 10,
     marginVertical: 6,
-    fontFamily: 'Poppins_600SemiBold'
+    fontFamily: "Poppins_600SemiBold",
   },
-  touchcard: {
-
-  },
+  touchcard: {},
   pfp: {
     height: 45,
     width: 45,

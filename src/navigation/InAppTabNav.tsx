@@ -22,7 +22,7 @@ export const InAppTabNav = () => {
   
     return (
       <Tab.Navigator 
-      initialRouteName="Home"
+      initialRouteName="Boosters"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;

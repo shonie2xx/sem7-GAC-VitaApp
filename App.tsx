@@ -8,6 +8,9 @@ import * as Linking from "expo-linking";
 import Toast from "react-native-toast-message";
 import TestPage from "./src/components/Notifications/TestPage";
 import "react-native-url-polyfill/auto";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 const App = () => {
   const url = Linking.useURL();
@@ -17,15 +20,17 @@ const App = () => {
   };
 
   return (
-    <MoodProvider>
-      <AuthProvider>
-        <NameProvider>
-          <AppNav />
-        </NameProvider>
-        <TestPage/>
+    <QueryClientProvider client={queryClient}>
+      <MoodProvider>
+        <AuthProvider>
+          <NameProvider>
+            <AppNav />
+          </NameProvider>
+          <TestPage/>
       </AuthProvider>
-      <Toast /> 
-    </MoodProvider>
+        <Toast />
+      </MoodProvider>
+    </QueryClientProvider>
   );
 };
 //TOAST has to be last child otherwise it won't work!
