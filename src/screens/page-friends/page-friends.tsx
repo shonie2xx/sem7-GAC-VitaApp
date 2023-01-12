@@ -162,6 +162,7 @@ const PageFriends = () => {
       console.log("E GO", oldInvited.map((user) => user.id === userInvite.id))
       oldInvited.map((user) => {
         if (user.id === userInvite.id) {
+
           newInvited = oldInvited.filter((user) => user.id !== userInvite.id)
           mutationCancelInvites.mutate (userInvite.id, {
             onError: (error) => {
@@ -253,8 +254,8 @@ const PageFriends = () => {
 
         <View>
           <Text style={styles.title}>Invited</Text>
-          {!users.isLoading ? (
-            users.data.map((item, index) => (
+          {!invites.isLoading ? (
+            invites.data.map((item, index) => (
               <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
                   <View style={styles.joined}>
