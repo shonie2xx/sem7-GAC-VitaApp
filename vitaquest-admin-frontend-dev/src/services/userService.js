@@ -17,7 +17,6 @@ export async function getUser(token) {
 }
 
 export async function checkUser(token) {
-  console.log(url + "login/check")
   var response = await axios.get(url + "login/check", {
     headers: { Authorization: `Bearer ${token}` },
   });

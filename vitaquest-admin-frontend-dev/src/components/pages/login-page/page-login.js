@@ -2,7 +2,7 @@ import React from "react";
 import "./page-login.css";
 import "@vaadin/login";
 import { MsalContext } from "@azure/msal-react";
-import { LoginRequest } from "../../../authConfig.js";
+import { loginRequest } from "../../../authConfig.js";
 import "../../card.css"
 
 class PageLogin extends React.Component {
@@ -42,7 +42,7 @@ class PageLogin extends React.Component {
               </p>
               <button
                 className="login-button"
-                onClick={() => this.context.instance.loginRedirect(LoginRequest)}
+                onClick={() => this.context.instance.loginRedirect(loginRequest)}
               >
                 Login
               </button>

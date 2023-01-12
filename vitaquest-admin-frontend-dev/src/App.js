@@ -28,7 +28,6 @@ import PageChallenges from "./components/pages/challenges-page/page-challenges";
 
 function App() {
   const ProtectedRoute = ({ children }) => {
-    console.log(useIsAuthenticated())
     if (!useIsAuthenticated()) {
       return <PageLogin />;
     }

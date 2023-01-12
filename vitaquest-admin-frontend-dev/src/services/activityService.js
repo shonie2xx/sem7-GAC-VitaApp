@@ -36,6 +36,7 @@ export async function addCategory(token, name) {
 }
 
 export async function addActivity(token, activity) {
+  console.log(token + activity)
   var response = await axios.post(url, activity, {
     headers: { Authorization: `Bearer ${token}` },
   });
