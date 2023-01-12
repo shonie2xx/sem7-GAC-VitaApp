@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "yannick0430",
+    "name": "GAC AndroidTestBuild",
     "scheme": "gacprjscheme",
     "slug": "gacproject",
     "version": "1.0.0",
@@ -22,13 +22,21 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.bulky.gacproject",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.bulky.gacproject"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b2ac8e6d-c795-4f83-ace1-8ae1056f6d31"
+      }
     }
   }
 }
