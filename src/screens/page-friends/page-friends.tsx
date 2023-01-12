@@ -61,12 +61,15 @@ const PageFriends = () => {
   const currentUser = useQuery("currentUser", async () =>
     JSON.parse(await SecureStore.getItemAsync("User"))
   );
+  const currentUser = useQuery("currentUser", async () =>
+    JSON.parse(await SecureStore.getItemAsync("User"))
+  );
 
   const queryClient = useQueryClient();
 
   const friends: any = useQuery("friends", () => getFriends(accessToken), {
     onError: (error) => {
-      console.log("error", error);
+      console.log("friends get req error", error);
     },
   });
 
@@ -75,7 +78,7 @@ const PageFriends = () => {
     () => getSendedRequests(accessToken),
     {
       onError: (error) => {
-        console.log("error", error);
+        console.log("invites request error", error);
       },
     }
   );
@@ -90,7 +93,7 @@ const PageFriends = () => {
           !invites.data.find((invite) => invite.friendId == user.id) &&
           user.id !== currentUser.data.id
       );
-      console.log("other people", otherPeps);
+      //console.log("other people", otherPeps);
       //console.log("other people", otherPeps)
       setOtherPeople(otherPeps);
     },
@@ -103,26 +106,17 @@ const PageFriends = () => {
   const mutationCancelInvites = useMutation((id) =>
     cancelFrRequest(accessToken, id)
   );
+  const mutationDeleteFriend = useMutation( (id) => removeFriend(accessToken, id))
 
   const sendInvite = async (id) => {
     try {
       const oldInvited = [...invites.data];
       const oldOtherPeople = [...otherPeople];
+      const oldInvited = [...invites.data];
+      const oldOtherPeople = [...otherPeople];
       const newOtherPeople = otherPeople.filter((user) => user.id !== id);
-      console.log("new other people", newOtherPeople);
-      let newInvited = [];
-      if (Array.isArray(invites.data)) {
-        newInvited = [
-          ...invites.data,
-          otherPeople.find((user) => user.id == id),
-        ];
-      } else {
-        newInvited = [...newInvited, otherPeople.find((user) => user.id == id)];
-      }
-
-      console.log("new invited", newInvited);
-      //const res = useMutation("friends",  )
-
+      const newInvited = await getSendedRequests(accessToken);
+      
       queryClient.setQueryData(["invites"], newInvited);
       setOtherPeople(newOtherPeople);
 
@@ -130,76 +124,67 @@ const PageFriends = () => {
         onError: (error) => {
           console.log("error", error);
           queryClient.setQueryData(["invites"], oldInvited);
+          queryClient.setQueryData(["invites"], oldInvited);
           setOtherPeople(oldOtherPeople);
         },
+        onSuccess: () => queryClient.invalidateQueries("invites"),
       });
     } catch (err) {
       console.log("Adding friend failed", err);
     }
   };
 
-  const deleteFriend = async (id) => {
+  const deleteFriend = async (friend) => {
     try {
-      const res = await removeFriend(accessToken, id);
+      //const res = await removeFriend(accessToken, id);
 
-      //filterarrays();
+      const oldFriends = [...friends.data];
+      const oldOtherPeople = [...otherPeople];
 
-      if (res.status === 200) {
-      }
+      console.log(friend);
+      const newOtherPeople = [...oldOtherPeople, users.data.find((user) => user.id === friend.userId)];
+      const newFriends = oldFriends.filter( (user) => user.id !== friend.id);
+      
+      setOtherPeople(newOtherPeople)
+      queryClient.setQueryData(["friends"], newFriends);
+      
+      mutationDeleteFriend.mutate(friend.id, {
+        onError: (error) => {
+          console.log("error", error);
+          queryClient.setQueryData(["friends"], oldFriends);
+          setOtherPeople(oldOtherPeople);
+        },
+      })
+      
     } catch (err) {
       console.log("can't remove friend", err);
     }
   };
 
   const cancelInvite = async (userInvite) => {
-    // try {
-    //   console.log("ID OF CANCELATION", id);
-    //   const res = await cancelFrRequest(accessToken, id);
-
-    //   //filterarrays();
-
-    //   if (res.status === 200) {
-    //   }
-    // } catch (err) {
-    //   console.log("request couldn't be cancelled", err);
-    // }
     try {
-      const oldOtherPeople = [...otherPeople];
       const oldInvited = [...invites.data];
+      const oldOtherPeople = [...otherPeople];
 
-      const newInvites = invites.data.filter(
-        (user) => user.friendId !== userInvite.friendId
-      );
-      console.log("invites", invites);
-      console.log("user invite", newInvites);
-      //let newOtherPeople = [];
+      const user_users = users.data.find( (user) => user.id === userInvite.friendId);
+      const newOtherPeople = [...otherPeople, user_users];
 
-      const newOtherPeople = [
-        ...otherPeople,
-        invites.data.find((user) => user.friendId == userInvite.friendId),
-      ];
-      // if(Array.isArray(invites.data)) {
-      //   console.log("IF");
-      //   newOtherPeople = [...otherPeople, invites.data.find(user => user.id == userInvite.friendId)];
-      // }
-      // else {
-      //   console.log("else");
-      //   newOtherPeople = [...otherPeople, otherPeople.find(user => user.id == userInvite.friendId)];
-      // }
-
-      //console.log("new invited", newInvited)
-      //const res = useMutation("friends",  )
-
-      queryClient.setQueryData(["invites"], newInvites);
+      let newInvited = [];
+      
+      newInvited = oldInvited.filter((user) => user.friendId !== userInvite.friendId);
+      
+      queryClient.setQueryData(["invites"], newInvited);
       setOtherPeople(newOtherPeople);
 
       mutationCancelInvites.mutate(userInvite.id, {
         onError: (error) => {
           console.log("error", error);
           queryClient.setQueryData(["invites"], oldInvited);
+          queryClient.setQueryData(["invites"], oldInvited);
           setOtherPeople(oldOtherPeople);
         },
       });
+      
     } catch (err) {
       console.log("Cancel friend invite failed", err);
     }
@@ -221,7 +206,7 @@ const PageFriends = () => {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={queryClient.invalidateQueries}
+            onRefresh={() => queryClient.invalidateQueries()}
           />
         }
       >
@@ -243,6 +228,8 @@ const PageFriends = () => {
 
                   <TertiaryBtn
                     text={"REMOVE"}
+                    onPress={() => deleteFriend(item)}
+                  ></SecondaryBtn>
                     onPress={() => deleteFriend(item.id)}
                   ></TertiaryBtn>
                 </View>

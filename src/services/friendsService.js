@@ -19,13 +19,12 @@ export async function addFriend(token, id) {
         'Authorization': `Bearer ${token}`,
       },
     });
-    console.log(res);
     return res;
 }
 
 
-export async function removeFriend(token, friendId) {
-    var response = await axios.delete(url + "/remove/" + friendId, {
+export async function removeFriend(token, id) {
+    var response = await axios.delete(url + "/remove/" + id, {
         headers: { Authorization: `Bearer ${token}` },
     });
     return response;
@@ -50,15 +49,15 @@ export async function acceptFrRequest(token, friendReqId) {
     return res;
 }
 
-export async function cancelFrRequest(token, friendReqId) {
-    const response = await axios.delete(url + "/requests/cancel/" + friendReqId, {
+export async function cancelFrRequest(token, reqId) {
+    var response = await axios.delete(url + "/requests/cancel/" + reqId, {
         headers: { Authorization: `Bearer ${token}` },
     });
     return response;
 }
 
 export async function getSendedRequests(token) {
-    const response = await axios.get(url + "/sendedrequests", {
+    var response = await axios.get(url + "/sendedrequests", {
         headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
