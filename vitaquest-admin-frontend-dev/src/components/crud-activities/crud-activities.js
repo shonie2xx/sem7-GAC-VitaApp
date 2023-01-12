@@ -14,6 +14,8 @@ import {
   deleteActivityById,
 } from "../../services/activityService";
 import { LoaderSpinner } from "../loader-spinner/loader-spinner";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 class CrudActivities extends React.Component {
   constructor(props) {

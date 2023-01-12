@@ -19,12 +19,6 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import StartupMood from "../../components/PopUps/StartupMood";
 import {
-  useMoodPoints,
-  useMoodPointsUpdate,
-} from "../../components/PopUps/MoodPointsContext";
-import * as Notifications from "expo-notifications";
-import { NameContext } from "../../context/NameContext";
-import {
   useFonts,
   Poppins_500Medium,
   Poppins_700Bold,
@@ -40,9 +34,6 @@ import TertiaryBtn from "../../components/buttons/TertiaryBtn";
 const PageHome = ({ navigation }) => {
   const [name, setName] = useState("");
   const [requestData, setRequestData] = useState(0);
-  const [picsource, setPicsource] = useState(
-    require("../../../assets/moodperson.svg")
-  );
   const [isModalVisible, setModalVisible] = useState(false);
   const wave = require("../../../assets/wave.png");
 
