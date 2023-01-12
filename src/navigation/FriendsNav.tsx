@@ -22,7 +22,7 @@ const FriendsNav = () => {
                     height: 3,
                 },
             })}>
-            <Tab.Screen name="Friends" component={PageFriends} />
+            <Tab.Screen name="People" component={PageFriends} />
             <Tab.Screen name="Requests" component={PageRequests} />
         </Tab.Navigator>
     );

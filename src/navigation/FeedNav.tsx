@@ -13,14 +13,14 @@ const Stack = createNativeStackNavigator();
 const Feed = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Feed" component={FeedNav} />
+            <Stack.Screen name="Feed" component={FeedTab} />
             <Stack.Screen name="Event Details" component={PageEventDetails} options={{ headerShown: true }}/>
             <Stack.Screen name="News Details" component={PageNewsDetails} options={{ headerShown: true }}/>
         </Stack.Navigator>
     )
 }
 
-const FeedNav = () => {
+const FeedTab = () => {
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
