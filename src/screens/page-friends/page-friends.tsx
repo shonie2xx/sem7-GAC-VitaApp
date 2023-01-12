@@ -61,9 +61,6 @@ const PageFriends = () => {
   const currentUser = useQuery("currentUser", async () =>
     JSON.parse(await SecureStore.getItemAsync("User"))
   );
-  const currentUser = useQuery("currentUser", async () =>
-    JSON.parse(await SecureStore.getItemAsync("User"))
-  );
 
   const queryClient = useQueryClient();
 
@@ -110,8 +107,6 @@ const PageFriends = () => {
 
   const sendInvite = async (id) => {
     try {
-      const oldInvited = [...invites.data];
-      const oldOtherPeople = [...otherPeople];
       const oldInvited = [...invites.data];
       const oldOtherPeople = [...otherPeople];
       const newOtherPeople = otherPeople.filter((user) => user.id !== id);
@@ -228,8 +223,6 @@ const PageFriends = () => {
 
                   <TertiaryBtn
                     text={"REMOVE"}
-                    onPress={() => deleteFriend(item)}
-                  ></SecondaryBtn>
                     onPress={() => deleteFriend(item.id)}
                   ></TertiaryBtn>
                 </View>
