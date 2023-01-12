@@ -136,7 +136,8 @@ const PageFriends = () => {
       const oldFriends = [...friends.data];
       const oldOtherPeople = [...otherPeople];
 
-      const newOtherPeople = [...oldOtherPeople, users.find((user) => user.id === friend.friendId)];
+      console.log(friend);
+      const newOtherPeople = [...oldOtherPeople, users.data.find((user) => user.id === friend.userId)];
       const newFriends = oldFriends.filter( (user) => user.id !== friend.id);
       
       setOtherPeople(newOtherPeople)
@@ -160,7 +161,6 @@ const PageFriends = () => {
       const oldInvited = [...invites.data];
       const oldOtherPeople = [...otherPeople];
 
-      const users_array = [...users.data];
       const user_users = users.data.find( (user) => user.id === userInvite.friendId);
       const newOtherPeople = [...otherPeople, user_users];
 
@@ -200,7 +200,7 @@ const PageFriends = () => {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={() => queryClient.invalidateQueries}
+            onRefresh={() => queryClient.invalidateQueries()}
           />
         }
       >
