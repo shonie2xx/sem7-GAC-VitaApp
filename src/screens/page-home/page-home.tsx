@@ -44,7 +44,7 @@ const PageHome = ({ navigation }) => {
     const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
     setName(currentUser.name);
     setMood(userData.mood);
-    // console.log(mood)
+
   };
   const toggleModalOn = () => {
     setChangeMood(mood);
@@ -79,6 +79,7 @@ const PageHome = ({ navigation }) => {
 
   useEffect(() => {
     userMood();
+    console.log(mood)
   }, []);
 
   const ChangePic = () => {
@@ -266,6 +267,7 @@ const styles = StyleSheet.create({
   modalIcons: {
     paddingLeft: 4,
   },
+  
 });
 
 export default PageHome;

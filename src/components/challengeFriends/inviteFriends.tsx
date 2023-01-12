@@ -107,7 +107,11 @@ const inviteFriends = (props) => {
         <View style={styles.friendsModal}>
           <Text style={styles.friendstitle}>Invite friends</Text>
           <View style={styles.friendslist}>
-            <FriendsList />
+          {friends.length ? (
+              <FriendsList />
+            ) : (
+              <Text style={styles.modalempty}>No friends added</Text>
+            )}
           </View>
           <TertiaryBtn text="DONE" onPress={toggleModalOff} />
         </View>
@@ -205,5 +209,11 @@ const styles = StyleSheet.create({
     borderColor: "#CCCCCC",
     borderRadius: 999,
     backgroundColor: "green",
+  },
+  modalempty: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 14,
+    color: "#052D40",
+    marginLeft: 10,
   },
 });
