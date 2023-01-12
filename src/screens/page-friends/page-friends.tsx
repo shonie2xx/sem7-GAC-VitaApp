@@ -207,7 +207,7 @@ const PageFriends = () => {
         <Bg style={styles.wave} />
         <View>
           <Text style={styles.title}>Friends</Text>
-          {!friends.isLoading ? (
+          {!friends.isLoading && friends.data.length > 0 ? (
             friends.data.map((item, index) => (
               <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
@@ -224,15 +224,15 @@ const PageFriends = () => {
               </View>
             ))
           ) : (
-            <Text>
-              No friends yet! Make some friends by sending a friend request!
+            <Text style={styles.description}>
+              No friends yet!
             </Text>
           )}
         </View>
 
         <View>
           <Text style={styles.title}>Invited</Text>
-          {!invites.isLoading ? (
+          {!invites.isLoading && invites.data.length > 0 ? (
             invites.data.map((item, index) => (
               <View style={styles.card} key={index}>
                 <View style={styles.wrapperTop}>
@@ -249,7 +249,7 @@ const PageFriends = () => {
               </View>
             ))
           ) : (
-            <Text>No invitations sended</Text>
+            <Text style={styles.description}>No invitations sended!</Text>
           )}
         </View>
         <View>
@@ -271,7 +271,7 @@ const PageFriends = () => {
               </View>
             ))
           ) : (
-            <Text>No users</Text>
+            <Text style={styles.description}>No users?</Text>
           )}
         </View>
       </ScrollView>
@@ -342,6 +342,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#052D40",
     paddingVertical: 4,
+    paddingLeft: 12,
   },
   date: {
     fontFamily: "Poppins_700Bold",
