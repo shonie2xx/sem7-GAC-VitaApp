@@ -223,7 +223,7 @@ const PageFriends = () => {
 
                   <TertiaryBtn
                     text={"REMOVE"}
-                    onPress={() => deleteFriend(item.id)}
+                    onPress={() => deleteFriend(item)}
                   ></TertiaryBtn>
                 </View>
               </View>
