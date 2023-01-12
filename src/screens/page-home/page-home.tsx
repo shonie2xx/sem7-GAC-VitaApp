@@ -44,6 +44,7 @@ const PageHome = ({ navigation }) => {
     const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
     setName(currentUser.name);
     setMood(userData.mood);
+    // console.log(mood)
   };
   const toggleModalOn = () => {
     setChangeMood(mood);

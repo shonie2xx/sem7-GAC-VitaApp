@@ -35,8 +35,6 @@ import { MoodboosterContext } from "../../screens/page-home/moodboosterContext";
 const Moodbooster = ({ changeMood }) => {
   const [data, setData] = useState([]);
   const [activeData, setActiveData] = useState([]);
-
-  const [buttonState, setButtonState] = useState(false);
   const [disabledState, setDisabledState] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -78,6 +76,7 @@ const Moodbooster = ({ changeMood }) => {
     else {
       setDisabledState(false);
     }
+    changeMood();
   };
 
   useEffect(() => {
