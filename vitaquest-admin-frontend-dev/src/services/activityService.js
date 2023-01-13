@@ -7,6 +7,7 @@ export async function getAllActivities(token) {
   var response = await axios.get(url + "all", {
     headers: { Authorization: `Bearer ${token}` },
   });
+  console.log("activities: ", response.data);
   return response.data;
 }
 
