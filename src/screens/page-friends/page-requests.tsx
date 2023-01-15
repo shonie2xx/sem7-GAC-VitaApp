@@ -136,11 +136,11 @@ const PageRequests = () => {
                 <Card.Actions style={styles.buttons}>
                   <SecondaryBtn
                     text={"DECLINE"}
-                    onPress={() => handleAcceptRequest(item.id)}
+                    onPress={() => handleCancelRequest(item.id)}
                   ></SecondaryBtn>
                   <PrimaryBtn
                     text={"ACCEPT"}
-                    onPress={() => handleCancelRequest(item.id)}
+                    onPress={() => handleAcceptRequest(item.id)}
                   ></PrimaryBtn>
                 </Card.Actions>
               </Card>
