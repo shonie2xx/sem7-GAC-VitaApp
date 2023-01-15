@@ -15,7 +15,7 @@ import {
   ResponseType,
 } from "expo-auth-session";
 import * as SecureStore from "expo-secure-store";
-import { checkUser, getUser } from "../../services/userService";
+import { checkUser, getUser, SetExpo } from "../../services/userService";
 import { AuthContext } from "../../context/AuthContext";
 import * as Linking from "expo-linking";
 import Intrologo from "../../../assets/intrologo.svg";
@@ -25,6 +25,7 @@ import {
   Poppins_700Bold,
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
+import * as Notifications from 'expo-notifications';
 
 // WebBrowser.maybeCompleteAuthSession();
 
@@ -64,11 +65,21 @@ const PageLogin = () => {
   const { login } = useContext(AuthContext);
 
   const handleLogin = async (token) => {
-    var firstLogin = await checkUser(token);
+    const firstLogin = await checkUser(token);
     await save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error message
-    var user = await getUser(token);
+    const user = await getUser(token);
     await save("User", JSON.stringify(user)) // user= id, nam, ... , mood
     await save("token", token);
+    const expoToken = (await Notifications.getExpoPushTokenAsync()).data;
+    const cleanedToken = expoToken.replace("ExponentPushToken[", "").replace("]", "");
+    console.log("CLEANEDDD" + cleanedToken);
+    await save("expoToken", expoToken);
+    await SetExpo(token, cleanedToken);
+    console.log("EXPOOOOO!!!!" + expoToken.toString())
+    console.log("TOOOKENNN!!!!" + token)
+
+
+    // console.log("TOKEN!!!!!!!:" + await Notifications.getDevicePushTokenAsync())
     login(token)
 }
 

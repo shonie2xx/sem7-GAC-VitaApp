@@ -1,10 +1,19 @@
 import axios from "axios";
 import { protectedResources } from "../../authConfig";
+import "react-native-url-polyfill/auto";
+
 
 const url = protectedResources.apiUser.endpoint;
 
 export async function getAllUsers(token) {
   var response = await axios.get(url + "public/page/0", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
+
+export async function setUserExpoPushToken(token) {
+  var response = await axios.get(url + "all", {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
@@ -26,6 +35,65 @@ export async function checkUser(token) {
   return response.data;
 }
 
+
+export async function SetModalVisable(token, isModalVisable) {
+  const res = await fetch(url + "modalvisible/" + isModalVisable, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${ token }`,
+    },
+  });
+return await res.json();
+
+}
+
+export async function GetModalVisable(token) {
+  
+  var response = await axios.get(url + "modalvisible", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
+
+export async function GetDate(token) {
+  
+  var response = await axios.get(url + "date", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
+
+
+export async function SetDate(token, date) {
+  const res = await fetch(url + "date/" + date, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${ token }`,
+    },
+  });
+return await res.json();
+
+}
+
+export async function SetExpo(token, expoToken) {
+  const res = await fetch(url + "setexpo/" + expoToken, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${ token }`,
+    },
+  });
+  console.log("RESPONSEE!!" + JSON.stringify(res))
+return await res.data;
+// return await res.json();
+
+}
+
 // export async function updateUserMood(token, points) {
 //   console.log(url + "setmood/" + points)
 //   console.log(token)
@@ -45,4 +113,5 @@ export async function updateUserMood(token, points) {
     },
   });
 return await res.json();
+
 }

@@ -1,7 +1,6 @@
 //import {useIsAuthenticated} from "@azure/msal-react"
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import PageCharacter from '../screens/page-create-character/page-create-character'
 import { InAppTabNav } from "./InAppTabNav";
 import PageEventDetails from '../screens/page-event-details/page-event-details';
 
