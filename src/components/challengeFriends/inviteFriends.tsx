@@ -48,7 +48,7 @@ const inviteFriends = (props) => {
   };
   const handleActivities = async () => {
     const fetchedUsers = await fetchFriends();
-    console.log(fetchedUsers)
+    // console.log(fetchedUsers)
     setFriends(fetchedUsers);
   };
   const handleToInvite = async (user) => {
@@ -69,7 +69,7 @@ const inviteFriends = (props) => {
     }
   };
   useEffect(() => {
-    handleActivities();
+
   }, []);
 
   const FriendsList = () => (
@@ -78,10 +78,10 @@ const inviteFriends = (props) => {
         <View style={styles.card} key={index}>
           <View style={styles.wrapperTop}>
             <View style={styles.joined}>
-              {/* <Image
+              <Image
                 style={styles.pfp}
                 source={require("../../../assets/pfp.png")}
-              ></Image> */}
+              ></Image>
               <Text style={styles.title}>{item.name}</Text>
             </View>
 
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // marginHorizontal: 8,
-    marginVertical: 8,
+    marginVertical: 4,
     paddingHorizontal: 12,
     borderWidth: 1,
     borderColor: "#CCCCCC",

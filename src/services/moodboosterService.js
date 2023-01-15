@@ -96,7 +96,7 @@ export async function increaseMood(id, token) {
 //   return response.data;
 // }
 
-export async function getAllCompletedActivities(token) {
+export async function getAllCompletedActivities(token, currentpage) {
   var response = await axios.get(url + "completed", {
     headers: { Authorization: `Bearer ${token}` },
   });

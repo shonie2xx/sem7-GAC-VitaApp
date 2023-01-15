@@ -35,8 +35,6 @@ import { MoodboosterContext } from "../../screens/page-home/moodboosterContext";
 const Moodbooster = ({ changeMood }) => {
   const [data, setData] = useState([]);
   const [activeData, setActiveData] = useState([]);
-
-  const [buttonState, setButtonState] = useState(false);
   const [disabledState, setDisabledState] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -64,7 +62,7 @@ const Moodbooster = ({ changeMood }) => {
     const allMoodboosterRequests = await getAllMoodboosterRequests(accessToken);
     if (allMoodboosterRequests.length === 0) {
       setRequestData(0);
-    } else {
+    } else { 
       setRequestData(allMoodboosterRequests.length);
     }
     // console.log(activeActivities);
@@ -78,11 +76,12 @@ const Moodbooster = ({ changeMood }) => {
     else {
       setDisabledState(false);
     }
+    changeMood();
   };
 
   useEffect(() => {
     handleActivities();
-  }, [requestData]);
+  }, []);
   const { accessToken } = useContext(AuthContext);
 
   let [fontsLoaded] = useFonts({
@@ -217,7 +216,7 @@ const styles = StyleSheet.create({
   },
   surface: {
     marginHorizontal: 8,
-    marginVertical: 8,
+    marginVertical: 4,
     fontFamily: "Poppins_600SemiBold",
     backgroundColor: "#FFFFFF",
   },

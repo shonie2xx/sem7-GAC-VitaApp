@@ -19,12 +19,6 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import StartupMood from "../../components/PopUps/StartupMood";
 import {
-  useMoodPoints,
-  useMoodPointsUpdate,
-} from "../../components/PopUps/MoodPointsContext";
-import * as Notifications from "expo-notifications";
-import { NameContext } from "../../context/NameContext";
-import {
   useFonts,
   Poppins_500Medium,
   Poppins_700Bold,
@@ -40,9 +34,6 @@ import TertiaryBtn from "../../components/buttons/TertiaryBtn";
 const PageHome = ({ navigation }) => {
   const [name, setName] = useState("");
   const [requestData, setRequestData] = useState(0);
-  const [picsource, setPicsource] = useState(
-    require("../../../assets/moodperson.svg")
-  );
   const [isModalVisible, setModalVisible] = useState(false);
   const wave = require("../../../assets/wave.png");
 
@@ -53,6 +44,7 @@ const PageHome = ({ navigation }) => {
     const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
     setName(currentUser.name);
     setMood(userData.mood);
+    // console.log(mood)
   };
   const toggleModalOn = () => {
     setChangeMood(mood);
@@ -233,7 +225,7 @@ const styles = StyleSheet.create({
     height: "95%",
   },
   heading2: {
-    fontSize: 24,
+    fontSize: 20,
     marginTop: 18,
     marginBottom: 8,
     fontFamily: "Poppins_600SemiBold",
@@ -270,7 +262,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     width: "50%",
-    // backgroundColor: "black",
   },
   modalIcons: {
     paddingLeft: 4,
