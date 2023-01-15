@@ -32,6 +32,7 @@ const StartupMood = ({ changeMood }) => {
   const date = new Date();
 
   useEffect(() => {
+
     IsModalVisable();
 
   }), [];
@@ -42,16 +43,20 @@ const StartupMood = ({ changeMood }) => {
 
     if (test.toString() !== date.toDateString()) {
       await SetDate(accessToken, date.toDateString())
+
       SetModalVisable(accessToken, true);
       setModalVisible(true)
       console.log(await GetDate(accessToken) + "1");
       console.log(date.toDateString() + "2")
 
     }
+
     else {
-      console.log("BAHH")
-      SetModalVisable(accessToken, false);
-      setModalVisible(false)
+      if(modalVisible === false){
+        console.log("BAHH")
+        SetModalVisable(accessToken, false);
+        setModalVisible(false)
+      }
     }
   };
 
