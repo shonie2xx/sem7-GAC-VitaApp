@@ -29,13 +29,6 @@ export default function TestPage() {
   useEffect(() => {
     registerForPushNotificationsAsync().then(token=>console.log(token));
 
-    // notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-    //   setNotification(notification);
-    // });
-
-    // responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-    //   console.log(response);
-    // });
 
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);
@@ -43,40 +36,8 @@ export default function TestPage() {
     };
   }, [])
 
-  // async function registerForPushNotification(){
-  //   const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-  //   if (status != 'granted') {
-  //     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-  //     // finalStatus = status;
-  //   }
-  //   if (status !== 'granted') {
-  //     alert('Failed to get push token for push notification!');
-  //     return;
-  //   }
-  //   const token = (await Notifications.getExpoPushTokenAsync()).data;
-  //   setExpoPushToken(token);
-  //   return token
-  // }
   return (
-    // <View
-    //   style={{
-    //     flex: 1,
-    //     alignItems: 'center',
-    //     justifyContent: 'space-around',
-    //   }}>
-    //   <Text>Your expo push token: {expoPushToken}</Text>
-    //   <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-    //     {/* <Text>Title: {notification && notification.request.content.title} </Text>
-    //     <Text>Body: {notification && notification.request.content.body}</Text>
-    //     <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text> */}
-    //   </View>
-    //   <Button
-    //     title="Press to schedule a notification"
-    //     onPress={async () => {
-    //       await schedulePushNotification();
-    //     }}
-    //   />
-    // </View>
+
    <View></View>
   );
 }

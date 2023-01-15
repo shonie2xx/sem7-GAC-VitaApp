@@ -41,9 +41,9 @@ const StartupMood = ({ changeMood }) => {
     const test = await GetDate(accessToken)
     console.log(test[1] + date.toDateString())
 
+
     if (test.toString() !== date.toDateString()) {
       await SetDate(accessToken, date.toDateString())
-
       SetModalVisable(accessToken, true);
       setModalVisible(true)
       console.log(await GetDate(accessToken) + "1");
@@ -53,7 +53,7 @@ const StartupMood = ({ changeMood }) => {
 
     else {
       if(modalVisible === false){
-        console.log("BAHH")
+        console.log("Model Gone")
         SetModalVisable(accessToken, false);
         setModalVisible(false)
       }
