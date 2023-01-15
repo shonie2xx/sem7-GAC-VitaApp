@@ -46,6 +46,7 @@ import {
   useQueryErrorResetBoundary,
 } from "react-query";
 import TertiaryBtn from "../../components/buttons/TertiaryBtn";
+var _ = require('lodash');
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -83,16 +84,14 @@ const PageFriends = () => {
   const users: any = useQuery("users", () => getAllUsers(accessToken), {
     enabled: !!currentUser && !!friends.data && !!invites.data,
     onSuccess: (users) => {
-      //const currentUser = JSON.parse(await SecureStore.getItemAsync("User"));
-      const otherPeps = users.filter(
-        (user) =>
-          !friends.data.find((friend) => friend.friendId == user.id) &&
-          !invites.data.find((invite) => invite.friendId == user.id) &&
-          user.id !== currentUser.data.id
-      );
-      //console.log("other people", otherPeps);
-      //console.log("other people", otherPeps)
-      setOtherPeople(otherPeps);
+      const usersCopy = [...users];
+      const userIds = usersCopy.map(user => user.id);
+      const friendIds = friends.data.map(friend => friend.userId);
+      const inviteIds = invites.data.map(invite => invite.friendId);
+      const currentUserId = [currentUser.data.id];
+      const otherPeopleIds = _.difference(userIds, friendIds, inviteIds, currentUser.data.id, currentUserId);
+      const otherPeople = users.filter(user => otherPeopleIds.includes(user.id));
+      setOtherPeople(otherPeople);
     },
     onError: (error) => {
       console.log("error", error);
@@ -257,7 +256,7 @@ const PageFriends = () => {
               </View>
             ))
           ) : (
-            <Text style={styles.description}>No invitations sended!</Text>
+            <Text style={styles.description}>No invitations send!</Text>
           )}
         </View>
         <View>
