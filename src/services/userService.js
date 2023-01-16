@@ -6,7 +6,7 @@ import "react-native-url-polyfill/auto";
 const url = protectedResources.apiUser.endpoint;
 
 export async function getAllUsers(token) {
-  var response = await axios.get(url + "public/page/0", {
+  var response = await axios.get(url + "public/all", {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
