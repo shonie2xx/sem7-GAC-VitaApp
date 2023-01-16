@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  ImageBackground,
 } from "react-native";
 import {
   useFonts,
@@ -15,8 +14,7 @@ import {
 import { getNews } from "../../services/newsService";
 import { AuthContext } from "../../context/AuthContext";
 import Bg from "../../../assets/wave.svg";
-
-const wave = require("../../../assets/wave.png");
+import parseDate from "../../services/dataParser";
 
 const PageNews = ({ navigation, props }) => {
   
@@ -32,7 +30,6 @@ const PageNews = ({ navigation, props }) => {
       getNews(accessToken).then(res => res.data).then(data => {
         setNews(data);
       })
-      console.log("news", news);
     } catch (err) {
       console.log("error fetching events : ", err);
     }
@@ -46,26 +43,6 @@ const PageNews = ({ navigation, props }) => {
 
   if (!fontsLoaded) {
     return null;
-  }
-  const parseDate = (dateString) => {
-
-    // Parse the date string using the Date constructor
-    const date = new Date(dateString);
-
-    // Use the getDate method to get the day
-    const day = date.getDate();
-
-    // Use the toLocaleString method to get the month and year
-    const month = date.toLocaleString("en-US", { month: "long" });
-    const year = date.toLocaleString("en-US", { year: "numeric" });
-
-    // Use the toLocaleString method to get the time
-    const time = date.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit"});
-
-    // Use string formatting to add the "th"
-    const formattedDate = `${day}${day === 1 ? "st" : day === 2 ? "nd" : day === 3 ? "rd" : "th"} ${month} ${year} at ${time}`;
-
-    return formattedDate;
   }
 
   const wave = require("../../../assets/wave.png");

@@ -1,13 +1,21 @@
 # Semester 7 - Mobile app
 
 ## Project description
-This project is 
+Group project developed from Stan, Aleksandar, Yannick and Vincent for GAC.
 
 ### Tech stack
-In this repo you can find the
+React Native Expo
  
- 
-## About the repository
+## Structure
+src:
+ - components
+ - context
+ - navigation
+ - screens
+ - services
+ - Tests
+App.tsx
+index.js
 
 
 # Config

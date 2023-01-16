@@ -88,20 +88,8 @@ export async function SetExpo(token, expoToken) {
       'Authorization': `Bearer ${ token }`,
     },
   });
-  console.log("RESPONSEE!!" + JSON.stringify(res))
 return await res.data;
-// return await res.json();
-
 }
-
-// export async function updateUserMood(token, points) {
-//   console.log(url + "setmood/" + points)
-//   console.log(token)
-//   var response = await axios.post(url + "setmood/" + points, {
-//     headers: { Authorization: `Bearer ${token}` },
-//   });
-//   return response.data;
-// }
 
 export async function updateUserMood(token, points) {
   const res = await fetch(url + "setmood/" + points, {

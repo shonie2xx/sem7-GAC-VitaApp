@@ -1,4 +1,5 @@
 import { View, Text, ImageBackground, StyleSheet, Image, ScrollView } from "react-native";
+import parseDate from "../../services/dataParser";
 
 const PageEventDetails = ({ route, props }) => {
   const { item } = route.params;
@@ -12,7 +13,7 @@ const PageEventDetails = ({ route, props }) => {
       <View style={styles.wrapper}>
         <View style={styles.wrapperTop}>
             <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.date}>{item.date}</Text>
+        <Text style={styles.date}>{parseDate(item.date)}</Text>
         </View>
 
         <Text style={styles.description}>{item.description}</Text>

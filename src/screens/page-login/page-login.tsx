@@ -3,11 +3,8 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
-  Image,
   TouchableOpacity,
 } from "react-native";
-// import * as WebBrowser from 'expo-web-browser';
 import {
   makeRedirectUri,
   useAuthRequest,
@@ -27,7 +24,6 @@ import {
 } from "@expo-google-fonts/poppins";
 import * as Notifications from 'expo-notifications';
 
-// WebBrowser.maybeCompleteAuthSession();
 
 const PageLogin = () => {
   // Endpoint
@@ -64,6 +60,7 @@ const PageLogin = () => {
 
   const { login } = useContext(AuthContext);
 
+  //login function
   const handleLogin = async (token) => {
     const firstLogin = await checkUser(token);
     await save("FirstLogin", JSON.stringify(firstLogin)); //stringified because it gives an error message
@@ -72,14 +69,8 @@ const PageLogin = () => {
     await save("token", token);
     const expoToken = (await Notifications.getExpoPushTokenAsync()).data;
     const cleanedToken = expoToken.replace("ExponentPushToken[", "").replace("]", "");
-    console.log("CLEANEDDD" + cleanedToken);
     await save("expoToken", expoToken);
     await SetExpo(token, cleanedToken);
-    console.log("EXPOOOOO!!!!" + expoToken.toString())
-    console.log("TOOOKENNN!!!!" + token)
-
-
-    // console.log("TOKEN!!!!!!!:" + await Notifications.getDevicePushTokenAsync())
     login(token)
 }
 

@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import parseDate from "../../services/dataParser";
 
 const PageNewsDetails = ({ route }) => {
   const { item } = route.params;
@@ -19,14 +20,9 @@ const PageNewsDetails = ({ route }) => {
       <View style={styles.wrapper}>
         <View style={styles.wrapperTop}>
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.date}>{item.date}</Text>
+          <Text style={styles.date}>{parseDate(item.date)}</Text>
         </View>
-
         <Text style={styles.description}>{item.description}</Text>
-        {/* <Image
-          source={require("../../../assets/header.png")}
-          style={styles.contentimage}
-        ></Image> */}
       </View>
     </ScrollView>
   );
