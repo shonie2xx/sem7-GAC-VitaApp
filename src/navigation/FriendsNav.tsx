@@ -14,8 +14,9 @@ const FriendsNav = () => {
                 tabBarActiveTintColor: "#031D29",
                 tabBarInactiveTintColor: "#031D29",
                 tabBarLabelStyle: {
-                    fontSize: 18,
-                    fontWeight: useIsFocused ? 'bold' : '400',
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    textTransform: 'none'
                 },
                 tabBarIndicatorStyle: {
                     backgroundColor: '#FA9901',

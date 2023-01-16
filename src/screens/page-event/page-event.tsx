@@ -145,7 +145,7 @@ const PageEvent = ({ navigation, props }) => {
                 ></PrimaryBtn>
             </View>
           </View>
-        )) : <Text>Haven't signed up for events yet.</Text>}
+        )) : <Text style={styles.text}>Haven't signed up for events yet.</Text>}
     <Text style={styles.moodtitle}>Available</Text>
     {notJoinedEvents ? notJoinedEvents.map((item, index) => (
           <View key={index} style={styles.card}>
@@ -266,5 +266,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     margin: 8,
     color: "white",
+  },
+  text: {
+    fontFamily: "Poppins_500Medium",
+    margin: 0,
+    padding: 0,
+    fontSize: 12,
+    color: "#052D40",
+    paddingVertical: 4,
+    paddingLeft: 16
   },
 });
