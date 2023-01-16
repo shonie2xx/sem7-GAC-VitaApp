@@ -42,8 +42,8 @@ export const msalConfig = {
     auth: {
         clientId: "50f18b4e-1a58-4004-b6b8-5a15e3a2e863", // This is the ONLY mandatory field that you need to supply.
         authority: "https://login.microsoftonline.com/913b1a98-9696-4db5-b548-9e17b6d3fc68", // Defaults to "https://login.microsoftonline.com/common"
-        redirectUri: process.env.NODE_ENV === 'production' ? "https://vitaapp-admin-frontend.web.app/" : "https://localhost:3000", // You must register this URI on Azure Portal/App Registration. Defaults to window.location.origin
-        postLogoutRedirectUri: process.env.NODE_ENV === 'production' ? "https://vitaapp-admin-frontend.web.app/" : "https://localhost:3000", // Indicates the page to navigate after logout.
+        redirectUri: process.env.NODE_ENV === 'production' ? "https://vitaappadmin.azurewebsites.net/" : "https://localhost:3000", // You must register this URI on Azure Portal/App Registration. Defaults to window.location.origin
+        postLogoutRedirectUri: process.env.NODE_ENV === 'production' ? "https://vitaappadmin.azurewebsites.net/" : "https://localhost:3000", // Indicates the page to navigate after logout.
         navigateToLoginRequestUrl: false, // If "true", will navigate back to the original request location before processing the auth code response.
     },
     cache: {
@@ -71,11 +71,11 @@ export const protectedResources = {
         scopes: ["api://fbb04eec-10f5-4677-b91e-b366a1e0303a/MoodBooster.All"], // e.g. api://xxxxxx/access_as_user
     },
     apiUser: {
-        endpoint: "http://vitaappgw.northeurope.cloudapp.azure.com/user/",
+        endpoint: "https://vitaappgw.northeurope.cloudapp.azure.com/user/",
         scopes: ["api://82b5a9e1-eaa2-4ee8-a3a0-7d3c41a4a1b5/User.All"]
     },
     apiBadge: {
-        endpoint: "http://vitaappgw.northeurope.cloudapp.azure.com/badge/",
+        endpoint: "https://vitaappgw.northeurope.cloudapp.azure.com/badge/",
         scopes: ["api://787cafa0-a56b-429c-a0a2-d67f139b2c64/Badge.All"]
     },
     apiChallenge: {
@@ -87,7 +87,7 @@ export const protectedResources = {
         scopes: ["api://349fa8f3-bea0-4ee5-8205-e301e3d3f197/News.All"]
     },
     apiEvent: {
-        endpoint: "http://vitaappgw.northeurope.cloudapp.azure.com/event/",
+        endpoint: "https://vitaappgw.northeurope.cloudapp.azure.com/event/",
         scopes: ["api://a12710a0-aefb-414a-9fc0-2fb3792e7aa5/Event.All"]
     }
 }
