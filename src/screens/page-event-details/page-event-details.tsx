@@ -17,10 +17,6 @@ const PageEventDetails = ({ route, props }) => {
         </View>
 
         <Text style={styles.description}>{item.description}</Text>
-        {/* <Image
-        source={require("../../../assets/header.png")}
-        style={styles.contentimage}
-      ></Image> */}
       </View>
     </ScrollView>
   );
