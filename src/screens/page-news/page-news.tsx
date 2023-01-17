@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 import {
   useFonts,
@@ -52,7 +53,13 @@ const PageNews = ({ navigation, props }) => {
   };
 
   return (
-      <ScrollView style={styles.screen}>
+      <ScrollView style={styles.screen}
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+        onRefresh={() => getNews()}
+        />
+      }>
         <Bg style={styles.wave}/>
         <Text style={styles.moodtitle}>Latest news</Text>
 

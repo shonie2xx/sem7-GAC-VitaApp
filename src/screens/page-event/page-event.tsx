@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 
 import {
@@ -81,7 +82,13 @@ const PageEvent = ({ navigation, props }) => {
   }
 
   return (
-      <ScrollView style={styles.screen}>
+      <ScrollView style={styles.screen} 
+      refreshControl={
+        <RefreshControl
+        refreshing={false}
+        onRefresh={() => getEvents()}
+        />
+      }>
         <Bg style={styles.wave}/>
         <Text style={styles.moodtitle}>Signed Up</Text>
         {joinedEvents.length ? joinedEvents.map((item, index) => (
