@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
-  getAllActivities, createActivity, deleteActivityById
-} from "../../services/moodboosterService";
+  getNews, createNews, deleteNewsById
+} from "../../services/newsService";
 import { CButton, CListGroup, CModalTitle, CListGroupItem, CModal, CModalHeader, CModalBody, CModalFooter, CFormTextarea, CInput, CInputGroup, CFormInput, CFormLabel } from '@coreui/react'
 import {
   useMsal,
 } from "@azure/msal-react";
 import { loginRequest } from "../../authConfig";
 
-const Moodboosters = () => {
+const Feed = () => {
   const { instance, accounts, inProgress } = useMsal();
   const [accessToken, setAccessToken] = useState(null);
   const [data, setData] = useState([]);
@@ -41,8 +41,8 @@ const Moodboosters = () => {
     setDeleteData(item)
     setDeleteModalVisible(true)
   }
-  const deleteMoodbooster = async (item) => {
-    await deleteActivityById(item.id, accessToken)
+  const deleteEvent = async (item) => {
+    await deleteNewsById(item.id, accessToken)
     setDeleteModalVisible(false)
     handleActivities();
   }
@@ -54,11 +54,11 @@ const Moodboosters = () => {
         onClose={handleCancel}
       >
         <CModalHeader>
-          <CModalTitle>Are you sure you want to delete this moodbooster?</CModalTitle>
+          <CModalTitle>Are you sure you want to delete this event?</CModalTitle>
         </CModalHeader>
         <CModalFooter>
           <CButton color="dark" variant="outline" onClick={() => handleCancel()}>Cancel</CButton>
-          <CButton color="warning" onClick={() => deleteMoodbooster(item)}>Delete</CButton >
+          <CButton color="warning" onClick={() => deleteEvent(item)}>Delete</CButton >
         </CModalFooter>
       </CModal>)
   }
@@ -67,11 +67,9 @@ const Moodboosters = () => {
     const postData = {
       title: textField1,
       description: textField2,
-      category: textField3,
-      points: textField4,
     };
     try {
-      var createMoodbooster = await createActivity(postData, accessToken);
+      var createEvent = await createNews(postData, accessToken);
       setIsOpen(false);
       handleActivities();
     } catch (error) {
@@ -113,15 +111,15 @@ const Moodboosters = () => {
   }
 
   const handleActivities = async () => {
-    var activities = await getAllActivities(accessToken);
-    setData(await activities);
-    console.log(activities)
+    var news = await getNews(accessToken);
+    setData(await news.data);
+    console.log(news.data)
   };
   return (
     <>
       <CModal visible={isOpen} onClose={handleCancel}>
         <CModalHeader closeButton>
-          <h5>New moodbooster</h5>
+          <h5>New event</h5>
         </CModalHeader>
         <CModalBody>
           <form>
@@ -129,10 +127,6 @@ const Moodboosters = () => {
             <CFormInput placeholder="" value={textField1} id="exampleFormControlTextarea1" onChange={(e) => setTextField1(e.target.value)} ></CFormInput>
             <CFormLabel htmlFor="exampleFormControlTextarea1">Description</CFormLabel>
             <CFormInput placeholder="" value={textField2} id="exampleFormControlTextarea1" onChange={(e) => setTextField2(e.target.value)} ></CFormInput>
-            <CFormLabel htmlFor="exampleFormControlTextarea1">Category</CFormLabel>
-            <CFormInput placeholder="" value={textField3} id="exampleFormControlTextarea1" onChange={(e) => setTextField3(e.target.value)} ></CFormInput>
-            <CFormLabel htmlFor="exampleFormControlTextarea1">Points</CFormLabel>
-            <CFormInput placeholder="" type="number" value={textField4} id="exampleFormControlTextarea1" onChange={(e) => setTextField4(e.target.value)} />
           </form>
         </CModalBody>
         <CModalFooter>
@@ -147,7 +141,7 @@ const Moodboosters = () => {
         ))}
       </CListGroup>
       <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <CButton color="dark" style={buttons} onClick={() => setIsOpen(true)}>New moodbooster</CButton>
+        <CButton color="dark" style={buttons} onClick={() => setIsOpen(true)}>New newsitem</CButton>
       </div>
     </>
   )
@@ -156,4 +150,4 @@ const buttons = {
   margin: "10px",
 };
 
-export default Moodboosters
+export default Feed
