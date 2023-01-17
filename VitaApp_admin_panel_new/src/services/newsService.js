@@ -17,7 +17,7 @@ export async function createNews(data, token) {
       id: null,
       title: data.title,
       description: data.description,
-      date: null,
+      date: Date.now(),
     },
     { headers: { Authorization: `Bearer ${token}` } }
   );

@@ -41,7 +41,7 @@ const Feed = () => {
     setDeleteData(item)
     setDeleteModalVisible(true)
   }
-  const deleteEvent = async (item) => {
+  const deleteItem = async (item) => {
     await deleteNewsById(item.id, accessToken)
     setDeleteModalVisible(false)
     handleActivities();
@@ -54,11 +54,11 @@ const Feed = () => {
         onClose={handleCancel}
       >
         <CModalHeader>
-          <CModalTitle>Are you sure you want to delete this event?</CModalTitle>
+          <CModalTitle>Are you sure you want to delete this item?</CModalTitle>
         </CModalHeader>
         <CModalFooter>
           <CButton color="dark" variant="outline" onClick={() => handleCancel()}>Cancel</CButton>
-          <CButton color="warning" onClick={() => deleteEvent(item)}>Delete</CButton >
+          <CButton color="warning" onClick={() => deleteItem(item)}>Delete</CButton >
         </CModalFooter>
       </CModal>)
   }
@@ -119,14 +119,14 @@ const Feed = () => {
     <>
       <CModal visible={isOpen} onClose={handleCancel}>
         <CModalHeader closeButton>
-          <h5>New event</h5>
+          <h5>New Item</h5>
         </CModalHeader>
         <CModalBody>
           <form>
             <CFormLabel htmlFor="exampleFormControlTextarea1">Title</CFormLabel>
             <CFormInput placeholder="" value={textField1} id="exampleFormControlTextarea1" onChange={(e) => setTextField1(e.target.value)} ></CFormInput>
             <CFormLabel htmlFor="exampleFormControlTextarea1">Description</CFormLabel>
-            <CFormInput placeholder="" value={textField2} id="exampleFormControlTextarea1" onChange={(e) => setTextField2(e.target.value)} ></CFormInput>
+            <CFormTextarea placeholder="" value={textField2} id="exampleFormControlTextarea1" onChange={(e) => setTextField2(e.target.value)} ></CFormTextarea>
           </form>
         </CModalBody>
         <CModalFooter>
@@ -141,7 +141,7 @@ const Feed = () => {
         ))}
       </CListGroup>
       <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <CButton color="dark" style={buttons} onClick={() => setIsOpen(true)}>New newsitem</CButton>
+        <CButton color="dark" style={buttons} onClick={() => setIsOpen(true)}>New item</CButton>
       </div>
     </>
   )
