@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import {
   getEvents, deleteEventById, createEvent
 } from "../../services/eventService";
+import {
+  getUserById
+} from "../../services/userService";
 import { CButton, CListGroup, CModalTitle, CListGroupItem, CModal, CModalHeader, CModalBody, CModalFooter, CFormTextarea, CInput, CInputGroup, CFormInput, CFormLabel } from '@coreui/react'
 import {
   useMsal,
 } from "@azure/msal-react";
 import { loginRequest } from "../../authConfig";
+
 
 const Feed = () => {
   const { instance, accounts, inProgress } = useMsal();
@@ -14,26 +18,30 @@ const Feed = () => {
   const [data, setData] = useState([]);
   const [deleteData, setDeleteData] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("");
   const [textField1, setTextField1] = useState("");
   const [textField2, setTextField2] = useState("");
   const [textField3, setTextField3] = useState("");
-  const [textField4, setTextField4] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const name = accounts[0] && accounts[0].name;
-
+  let newArray = new Array
   const ListItem = (item) => {
+
     return (
       <CListGroupItem>
-        <b>{item.item.title}</b>
-        <p>{item.item.description}</p>
+        <h4>{item.item.title}</h4>
+        <h6>{item.item.description}</h6>
+        <p>{item.item.url}</p>
         <div style={buttons} className="d-grid gap-2 d-md-flex justify-content-md-end">
+          {newArray.map((item, index) => (
+            <p key={index}>{item.name}</p>
+          ))}
           <CButton color="dark" variant="outline" className="float-right" onClick={() => onEdit(item)}>Edit</CButton>
           <CButton color="warning" className="float-right" onClick={() => onDelete(item)}>Delete</CButton>
         </div>
       </CListGroupItem>
     );
   }
+
   const onEdit = (item) => {
 
   }
@@ -67,16 +75,23 @@ const Feed = () => {
     const postData = {
       title: textField1,
       description: textField2,
+      url: textField3,
     };
     try {
       var events = await createEvent(postData, accessToken);
       setIsOpen(false);
+      setTextField1("");
+      setTextField2("");
+      setTextField3("");
       handleActivities();
     } catch (error) {
       console.error('Error:', error);
     }
   }
   const handleCancel = () => {
+    setTextField1("");
+    setTextField2("");
+    setTextField3("");
     setIsOpen(false)
     setDeleteModalVisible(false)
   }
@@ -113,10 +128,12 @@ const Feed = () => {
   const handleActivities = async () => {
     var events = await getEvents(accessToken);
     setData(await events.data);
-    console.log(events.data)
   };
   return (
     <>
+      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+        <CButton color="dark" style={buttons} onClick={() => setIsOpen(true)}>New event</CButton>
+      </div>
       <CModal visible={isOpen} onClose={handleCancel}>
         <CModalHeader closeButton>
           <h5>New event</h5>
@@ -126,7 +143,9 @@ const Feed = () => {
             <CFormLabel htmlFor="exampleFormControlTextarea1">Title</CFormLabel>
             <CFormInput placeholder="" value={textField1} id="exampleFormControlTextarea1" onChange={(e) => setTextField1(e.target.value)} ></CFormInput>
             <CFormLabel htmlFor="exampleFormControlTextarea1">Description</CFormLabel>
-            <CFormInput placeholder="" value={textField2} id="exampleFormControlTextarea1" onChange={(e) => setTextField2(e.target.value)} ></CFormInput>
+            <CFormTextarea placeholder="" value={textField2} id="exampleFormControlTextarea1" onChange={(e) => setTextField2(e.target.value)} ></CFormTextarea>
+            <CFormLabel htmlFor="exampleFormControlTextarea1">Link</CFormLabel>
+            <CFormInput placeholder="https://www.gac.nl/" value={textField3} id="exampleFormControlTextarea1" onChange={(e) => setTextField3(e.target.value)} ></CFormInput>
           </form>
         </CModalBody>
         <CModalFooter>
@@ -140,9 +159,6 @@ const Feed = () => {
           <ListItem key={index} item={item} />
         ))}
       </CListGroup>
-      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <CButton color="dark" style={buttons} onClick={() => setIsOpen(true)}>New event</CButton>
-      </div>
     </>
   )
 }

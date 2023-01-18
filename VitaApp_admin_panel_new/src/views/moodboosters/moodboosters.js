@@ -119,6 +119,9 @@ const Moodboosters = () => {
   };
   return (
     <>
+      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+        <CButton color="dark" style={buttons} onClick={() => setIsOpen(true)}>New moodbooster</CButton>
+      </div>
       <CModal visible={isOpen} onClose={handleCancel}>
         <CModalHeader closeButton>
           <h5>New moodbooster</h5>
@@ -146,9 +149,6 @@ const Moodboosters = () => {
           <ListItem key={index} item={item} />
         ))}
       </CListGroup>
-      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <CButton color="dark" style={buttons} onClick={() => setIsOpen(true)}>New moodbooster</CButton>
-      </div>
     </>
   )
 }

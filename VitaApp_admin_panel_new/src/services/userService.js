@@ -16,7 +16,12 @@ export async function getUser(token) {
   });
   return response.data;
 }
-
+export async function getUserById(token, id) {
+  var response = await axios.get(url + id, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
 
 export async function checkUser(token) {
 
@@ -25,15 +30,6 @@ export async function checkUser(token) {
   });
   return response.data;
 }
-
-// export async function updateUserMood(token, points) {
-//   console.log(url + "setmood/" + points)
-//   console.log(token)
-//   var response = await axios.post(url + "setmood/" + points, {
-//     headers: { Authorization: `Bearer ${token}` },
-//   });
-//   return response.data;
-// }
 
 export async function updateUserMood(token, points) {
   const res = await fetch(url + "setmood/" + points, {

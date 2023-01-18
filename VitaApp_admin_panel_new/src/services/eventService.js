@@ -4,7 +4,7 @@ import { protectedResources } from "../authConfig";
 const url = protectedResources.apiEvent.endpoint;
 
 export async function getEvents(token) {
-    console.log(token)
+    // console.log(token)
     var response = await axios.get(url + "all", {
         headers: { Authorization: `Bearer ${token}` },
     });
@@ -41,12 +41,13 @@ export async function deleteEventById(id, token) {
     return response.data;
   }
   export async function createEvent(data, token) {
-    console.log(data, token)
+    // console.log(data, token)
     var response = await axios.post(
       url + "/add",
       {
         id: null,
         title: data.title,
+        url: data.url,
         description: data.description,
         date: null,
         userIds: [

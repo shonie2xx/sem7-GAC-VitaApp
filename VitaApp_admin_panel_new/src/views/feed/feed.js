@@ -25,8 +25,9 @@ const Feed = () => {
   const ListItem = (item) => {
     return (
       <CListGroupItem>
-        <b>{item.item.title}</b>
-        <p>{item.item.description}</p>
+        <h4>{item.item.title}</h4>
+        <h6>{item.item.description}</h6>
+        <p>{item.item.url}</p>
         <div style={buttons} className="d-grid gap-2 d-md-flex justify-content-md-end">
           <CButton color="dark" variant="outline" className="float-right" onClick={() => onEdit(item)}>Edit</CButton>
           <CButton color="warning" className="float-right" onClick={() => onDelete(item)}>Delete</CButton>
@@ -67,16 +68,23 @@ const Feed = () => {
     const postData = {
       title: textField1,
       description: textField2,
+      link: textField3,
     };
     try {
       var createEvent = await createNews(postData, accessToken);
       setIsOpen(false);
+      setTextField1("");
+      setTextField2("");
+      setTextField3("");
       handleActivities();
     } catch (error) {
       console.error('Error:', error);
     }
   }
   const handleCancel = () => {
+    setTextField1("");
+    setTextField2("");
+    setTextField3("");
     setIsOpen(false)
     setDeleteModalVisible(false)
   }
@@ -117,6 +125,9 @@ const Feed = () => {
   };
   return (
     <>
+      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+        <CButton color="dark" style={buttons} onClick={() => setIsOpen(true)}>New item</CButton>
+      </div>
       <CModal visible={isOpen} onClose={handleCancel}>
         <CModalHeader closeButton>
           <h5>New Item</h5>
@@ -127,6 +138,8 @@ const Feed = () => {
             <CFormInput placeholder="" value={textField1} id="exampleFormControlTextarea1" onChange={(e) => setTextField1(e.target.value)} ></CFormInput>
             <CFormLabel htmlFor="exampleFormControlTextarea1">Description</CFormLabel>
             <CFormTextarea placeholder="" value={textField2} id="exampleFormControlTextarea1" onChange={(e) => setTextField2(e.target.value)} ></CFormTextarea>
+            <CFormLabel htmlFor="exampleFormControlTextarea1">Link</CFormLabel>
+            <CFormInput placeholder="https://www.gac.nl/" value={textField3} id="exampleFormControlTextarea1" onChange={(e) => setTextField3(e.target.value)} ></CFormInput>
           </form>
         </CModalBody>
         <CModalFooter>
@@ -140,9 +153,6 @@ const Feed = () => {
           <ListItem key={index} item={item} />
         ))}
       </CListGroup>
-      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <CButton color="dark" style={buttons} onClick={() => setIsOpen(true)}>New item</CButton>
-      </div>
     </>
   )
 }

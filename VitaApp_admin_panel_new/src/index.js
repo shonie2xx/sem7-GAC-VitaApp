@@ -22,7 +22,7 @@ ReactDOM.render(
     <MsalProvider instance={msalInstance}>
         <Provider store={store}>
           <App />
-        </Provider>,
+        </Provider>
     </MsalProvider >
   </React.StrictMode >,
   document.getElementById("root")

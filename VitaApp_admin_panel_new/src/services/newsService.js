@@ -16,6 +16,7 @@ export async function createNews(data, token) {
     {
       id: null,
       title: data.title,
+      url: data.link,
       description: data.description,
       date: Date.now(),
     },
