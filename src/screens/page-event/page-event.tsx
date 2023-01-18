@@ -126,6 +126,7 @@ const PageEvent = ({ navigation, props }) => {
                 <Text style={styles.date}>{parseDate(item.date)}</Text>
               </View>
               <Text style={styles.description}>{item.description}</Text>
+
             </TouchableOpacity>
 
             <View style={styles.wrapperBottom}>
