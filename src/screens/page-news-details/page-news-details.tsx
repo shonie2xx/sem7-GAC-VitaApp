@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import parseDate from "../../services/dataParser";
+import OpenURLButton from "../../components/OpenURLButton";
 
 const PageNewsDetails = ({ route }) => {
   const { item } = route.params;
@@ -22,6 +23,7 @@ const PageNewsDetails = ({ route }) => {
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.date}>{parseDate(item.date)}</Text>
         </View>
+        {item.url && <OpenURLButton url={item.url}>{item.url}</OpenURLButton>}
         <Text style={styles.description}>{item.description}</Text>
       </View>
     </ScrollView>

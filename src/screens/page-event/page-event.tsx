@@ -45,7 +45,7 @@ const PageEvent = ({ navigation, props }) => {
     const notjoined = events.filter( event => !event.userIds.includes(currentUser.id)) //filter 
     setNotJoinedEvents(notjoined);
     const joined = events.filter( event => event.userIds.includes(currentUser.id)) //filter 
-    setJoinedEvents(joined)
+    setJoinedEvents(joined) 
   }
   
 
