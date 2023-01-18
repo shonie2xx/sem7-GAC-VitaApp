@@ -39,21 +39,17 @@ const StartupMood = ({ changeMood }) => {
 
   async function IsModalVisable() {
     const test = await GetDate(accessToken)
-    console.log(test[1] + date.toDateString())
 
 
     if (test.toString() !== date.toDateString()) {
       await SetDate(accessToken, date.toDateString())
       SetModalVisable(accessToken, true);
       setModalVisible(true)
-      console.log(await GetDate(accessToken) + "1");
-      console.log(date.toDateString() + "2")
 
     }
 
     else {
       if(modalVisible === false){
-        console.log("Model Gone")
         SetModalVisable(accessToken, false);
         setModalVisible(false)
       }

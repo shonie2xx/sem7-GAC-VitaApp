@@ -19,7 +19,7 @@ const Stack = createNativeStackNavigator();
 const Home = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Boosters" component={PageHome}  options={({ navigation, route }) => ({
+            <Stack.Screen name="Home" component={PageHome}  options={({ navigation, route }) => ({
           headerRight: () => (
             <View style={{ marginRight: 10 }}>
               <TouchableOpacity onPress={() => navigation.navigate("Account")}>
