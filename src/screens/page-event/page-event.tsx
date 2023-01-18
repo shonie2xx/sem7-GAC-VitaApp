@@ -6,8 +6,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  ImageBackground,
-  Pressable,
 } from "react-native";
 
 import {
@@ -17,23 +15,16 @@ import {
 } from "@expo-google-fonts/poppins";
 import { getEvents, joinEvent, leaveEvent } from "../../services/eventService";
 import Bg from "../../../assets/wave.svg";
-import SecondaryBtn from "../../components/buttons/SecondaryBtn";
 import PrimaryBtn from "../../components/buttons/PrimaryBtn";
 import { AuthContext } from "../../context/AuthContext";
 import * as SecureStore from "expo-secure-store";
-// import { EventCards } from "../../components/NewsPage/EventCards";
-const wave = require("../../../assets/wave.png");
+
+import parseDate from "../../services/dataParser";
 
 const PageEvent = ({ navigation, props }) => {
-  const wave = require("../../../assets/wave.png");
   const { accessToken } = useContext(AuthContext);
-  const [isJoined, setIsJoined] = useState(false);
-
   const [notJoinedEvents, setNotJoinedEvents] = useState([]);
   const [joinedEvents, setJoinedEvents] = useState([]);
-
-  
-
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -57,29 +48,6 @@ const PageEvent = ({ navigation, props }) => {
     setJoinedEvents(joined)
   }
   
-
-  const parseDate = (dateString) => {
-    // Parse the date string using the Date constructor
-    const date = new Date(dateString);
-
-    // Use the getDate method to get the day
-    const day = date.getDate();
-
-    // Use the toLocaleString method to get the month and year
-    const month = date.toLocaleString("en-US", { month: "long" });
-    const year = date.toLocaleString("en-US", { year: "numeric" });
-
-    // Use the toLocaleString method to get the time
-    const time = date.toLocaleString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-    // Use string formatting to add the "th"
-    const formattedDate = `${day}${" "}${month.slice(0,3).toUpperCase()}${" "}${year} `;
-
-    return formattedDate;
-  };
 
   const handleOnPress = (item: any) => {
     navigation.navigate("Event Details", { item });
@@ -145,7 +113,7 @@ const PageEvent = ({ navigation, props }) => {
                 ></PrimaryBtn>
             </View>
           </View>
-        )) : <Text>Haven't signed up for events yet.</Text>}
+        )) : <Text style={styles.text}>Haven't signed up for events yet.</Text>}
     <Text style={styles.moodtitle}>Available</Text>
     {notJoinedEvents ? notJoinedEvents.map((item, index) => (
           <View key={index} style={styles.card}>
@@ -158,6 +126,7 @@ const PageEvent = ({ navigation, props }) => {
                 <Text style={styles.date}>{parseDate(item.date)}</Text>
               </View>
               <Text style={styles.description}>{item.description}</Text>
+
             </TouchableOpacity>
 
             <View style={styles.wrapperBottom}>
@@ -266,5 +235,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     margin: 8,
     color: "white",
+  },
+  text: {
+    fontFamily: "Poppins_500Medium",
+    margin: 0,
+    padding: 0,
+    fontSize: 12,
+    color: "#052D40",
+    paddingVertical: 4,
+    paddingLeft: 16
   },
 });

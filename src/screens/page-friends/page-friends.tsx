@@ -2,10 +2,7 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   ScrollView,
-  ImageBackground,
-  Pressable,
   SafeAreaView,
   RefreshControl,
   Image,
@@ -16,11 +13,8 @@ import {
   Poppins_400Regular,
 } from "@expo-google-fonts/poppins";
 import React, {
-  useEffect,
   useState,
   useContext,
-  useRef,
-  useCallback,
 } from "react";
 import {
   addFriend,
@@ -34,23 +28,16 @@ import { AuthContext } from "../../context/AuthContext";
 import { __handlePersistedRegistrationInfoAsync } from "expo-notifications/build/DevicePushTokenAutoRegistration.fx";
 import SecondaryBtn from "../../components/buttons/SecondaryBtn";
 import PrimaryBtn from "../../components/buttons/PrimaryBtn";
-import { Item } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
 import * as SecureStore from "expo-secure-store";
-import ProfilePic from "../../../assets/moodperson_neutral.svg";
 import Bg from "../../../assets/wave.svg";
 import {
-  Query,
   useMutation,
   useQuery,
   useQueryClient,
-  useQueryErrorResetBoundary,
 } from "react-query";
 import TertiaryBtn from "../../components/buttons/TertiaryBtn";
 var _ = require('lodash');
 
-const wait = (timeout) => {
-  return new Promise((resolve) => setTimeout(resolve, timeout));
-};
 
 const PageFriends = () => {
   const { accessToken } = useContext(AuthContext);
@@ -81,6 +68,8 @@ const PageFriends = () => {
     }
   );
 
+  // fetching the users from db and setting other people array onSuccess
+  // to set the array of other people we remove friends array and invites array from users.
   const users: any = useQuery("users", () => getAllUsers(accessToken), {
     enabled: !!currentUser && !!friends.data && !!invites.data,
     onSuccess: (users) => {
@@ -98,6 +87,7 @@ const PageFriends = () => {
     },
   });
 
+  // we use react query mutation to change values in front end
   const mutation = useMutation((id) => addFriend(accessToken, id));
   const mutationCancelInvites = useMutation((id) =>
     cancelFrRequest(accessToken, id)
@@ -130,12 +120,8 @@ const PageFriends = () => {
 
   const deleteFriend = async (friend) => {
     try {
-      //const res = await removeFriend(accessToken, id);
-
       const oldFriends = [...friends.data];
       const oldOtherPeople = [...otherPeople];
-
-      console.log(friend);
       const newOtherPeople = [...oldOtherPeople, users.data.find((user) => user.id === friend.userId)];
       const newFriends = oldFriends.filter( (user) => user.id !== friend.id);
       
@@ -204,7 +190,6 @@ const PageFriends = () => {
           />
         }
       >
-        {/* <Image style={styles.pfp} source={require("../../../assets/pfp.png")} /> */}
         <Bg style={styles.wave}/>
         <View>
           <Text style={styles.title}>Friends</Text>

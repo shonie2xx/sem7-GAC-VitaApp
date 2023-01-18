@@ -9,7 +9,6 @@ export async function setUserExpoPushToken(token) {
   var response = await axios.get(url + "/setexpo/" + {token}, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  // console.log(response.data)
   return response.data;
 
 }

@@ -44,7 +44,6 @@ const PageRequests = () => {
 
   const fetchRequests = async () => {
     const res = await fetchFrRequests();
-    console.log("Friend requests", requests);
 
     if (res.status === 200) {
       setRequests(await res.data);
@@ -77,9 +76,7 @@ const PageRequests = () => {
     try {
       const res = await acceptFrRequest(accessToken, id);
       if (res.status === 200) {
-        //setOtherPeople(otherPeople.filter(user => user.id !== id));
         setRequests(requests.filter((item) => item.id !== id));
-        console.log("accepted", res);
       }
     } catch (err) {
       console.log("request couldn't be accepted", err);

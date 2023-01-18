@@ -120,8 +120,9 @@ const PageHome = ({ navigation }) => {
                     style={styles.moodbg}
                     source={require("../../../assets/moodbg2.png")}
                   />
+                  <Text style={styles.moodnmbr}>{mood}</Text>
                 </TouchableOpacity>
-                <Text style={styles.moodnmbr}>{mood}</Text>
+
 
                 <Modal isVisible={isModalVisible} style={styles.modal}>
                   <View style={styles.changeMoodModal}>
@@ -201,6 +202,8 @@ const styles = StyleSheet.create({
     zIndex: 3,
     textAlign: "center",
     marginBottom: 20,
+    marginLeft: 15,
+    marginTop: 45,
   },
   moodnmbrModal: {
     fontSize: 32,
@@ -267,7 +270,7 @@ const styles = StyleSheet.create({
   modalIcons: {
     paddingLeft: 4,
   },
-  
+
 });
 
 export default PageHome;

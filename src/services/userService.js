@@ -6,7 +6,7 @@ import "react-native-url-polyfill/auto";
 const url = protectedResources.apiUser.endpoint;
 
 export async function getAllUsers(token) {
-  var response = await axios.get(url + "public/page/0", {
+  var response = await axios.get(url + "public/all", {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
@@ -88,20 +88,8 @@ export async function SetExpo(token, expoToken) {
       'Authorization': `Bearer ${ token }`,
     },
   });
-  console.log("RESPONSEE!!" + JSON.stringify(res))
 return await res.data;
-// return await res.json();
-
 }
-
-// export async function updateUserMood(token, points) {
-//   console.log(url + "setmood/" + points)
-//   console.log(token)
-//   var response = await axios.post(url + "setmood/" + points, {
-//     headers: { Authorization: `Bearer ${token}` },
-//   });
-//   return response.data;
-// }
 
 export async function updateUserMood(token, points) {
   const res = await fetch(url + "setmood/" + points, {

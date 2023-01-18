@@ -1,4 +1,7 @@
 import { View, Text, ImageBackground, StyleSheet, Image, ScrollView } from "react-native";
+import parseDate from "../../services/dataParser";
+import { Linking } from 'react-native';
+import OpenURLButton from "../../components/OpenURLButton";
 
 const PageEventDetails = ({ route, props }) => {
   const { item } = route.params;
@@ -11,15 +14,14 @@ const PageEventDetails = ({ route, props }) => {
       ></Image>
       <View style={styles.wrapper}>
         <View style={styles.wrapperTop}>
-            <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.date}>{item.date}</Text>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.date}>{parseDate(item.date)}</Text>
         </View>
+        {item.url && (
+      <OpenURLButton  url={item.url}>{(item.url)}</OpenURLButton>
+        )}
 
         <Text style={styles.description}>{item.description}</Text>
-        {/* <Image
-        source={require("../../../assets/header.png")}
-        style={styles.contentimage}
-      ></Image> */}
       </View>
     </ScrollView>
   );
