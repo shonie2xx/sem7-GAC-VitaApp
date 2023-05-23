@@ -1,9 +1,9 @@
 # Semester 7 - Mobile app
 
 ## Project description
-Group project developed from Stan, Aleksandar, Yannick and Vincent for GAC.
+Group project made in semester 7
 
-### Tech stack
+### Framework
 React Native Expo
  
 ## Structure
