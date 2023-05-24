@@ -22,3 +22,10 @@ index.js
 Install expo go.
 
 npm start
+
+* Demo
+
+
+https://github.com/shonie2xx/sem7-GAC-VitaApp/assets/56325705/3e2e7b25-fed4-4e8c-bfb2-e6c1fcd8e272
+
+
